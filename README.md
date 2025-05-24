@@ -1,3 +1,1 @@
-Advanced search for Google Web, Google Images, Google News, and YouTube. Also provides generic links to Gmail, Google Drive, and Gemini. Checkbox provided to switch text direction.
-
-Written with ChatGPT with suggestions by Gemini and Claude.
+Revised and simplified standalone HTML page for advanced Google Web and Google Images search. Includes links to each. This file has no dependencies at all.
