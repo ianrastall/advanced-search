@@ -3,14 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; form-action https://www.google.com;">
   <title>Google Advanced Search</title>
   <style>
+    :root {
+      --background-color: #121212;
+      --text-color: #e0e0e0;
+      --legend-link-color: tomato;
+      --fieldset-border-color: #444;
+      --input-bg-color: #333;
+      --input-border-color: #555;
+      --input-text-color: #e0e0e0;
+      --submit-bg-color: #1e88e5;
+      --submit-text-color: #fff;
+      --submit-hover-bg-color: #1565c0;
+      --small-text-color: #aaa;
+    }
+
     * {
       box-sizing: border-box;
     }
     body {
-      background-color: #121212;
-      color: #e0e0e0;
+      background-color: var(--background-color);
+      color: var(--text-color);
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -34,7 +49,7 @@
       min-width: 300px;
     }
     fieldset {
-      border: 1px solid #444;
+      border: 1px solid var(--fieldset-border-color);
       border-radius: 4px;
       padding: 20px;
       margin-bottom: 20px;
@@ -43,9 +58,8 @@
       font-size: 1.5em;
       padding: 0 10px;
     }
-    /* Style links in legends to be tomato color */
     legend a {
-      color: tomato;
+      color: var(--legend-link-color);
       text-decoration: none;
     }
     .form-grid {
@@ -61,12 +75,16 @@
       margin-bottom: 5px;
     }
     .form-group input[type="text"],
-    .form-group select {
+    .form-group select,
+    .range-group input[type="text"] {
       padding: 8px;
-      border: 1px solid #555;
+      border: 1px solid var(--input-border-color);
       border-radius: 4px;
-      background-color: #333;
-      color: #e0e0e0;
+      background-color: var(--input-bg-color);
+      color: var(--input-text-color);
+    }
+    .range-group input[type="text"] { /* Specific style for range inputs if different, e.g. flex */
+      flex: 1;
     }
     .full-width {
       grid-column: 1 / -1;
@@ -74,14 +92,6 @@
     .range-group {
       display: flex;
       align-items: center;
-    }
-    .range-group input[type="text"] {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #555;
-      border-radius: 4px;
-      background-color: #333;
-      color: #e0e0e0;
     }
     .range-group span {
       margin: 0 10px;
@@ -91,18 +101,18 @@
       margin-top: 20px;
     }
     input[type="submit"] {
-      background-color: #1e88e5;
-      color: #fff;
+      background-color: var(--submit-bg-color);
+      color: var(--submit-text-color);
       border: none;
       padding: 10px 20px;
       border-radius: 4px;
       cursor: pointer;
     }
     input[type="submit"]:hover {
-      background-color: #1565c0;
+      background-color: var(--submit-hover-bg-color);
     }
     small {
-      color: #aaa;
+      color: var(--small-text-color);
       font-size: 0.85em;
       margin-top: 5px;
       display: block;
@@ -121,12 +131,11 @@
   <div class="container">
     <h1>Google Advanced Search</h1>
     <div class="forms-container">
-      <!-- Web Search Form -->
       <div class="form-wrapper">
-        <form id="webForm" action="https://www.google.com/search" method="GET" target="_blank">
+        <form id="webForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
           <fieldset>
             <legend>
-              <a href="https://www.google.com" target="_blank">Google Web</a>
+              <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google Web</a>
             </legend>
             <div class="form-grid">
               <div class="form-group">
@@ -218,13 +227,12 @@
         </form>
       </div>
 
-      <!-- Image Search Form -->
       <div class="form-wrapper">
-        <form id="imageForm" action="https://www.google.com/search" method="GET" target="_blank">
+        <form id="imageForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
           <input type="hidden" name="tbm" value="isch">
           <fieldset>
             <legend>
-              <a href="https://www.google.com/imghp" target="_blank">Google Images</a>
+              <a href="https://www.google.com/imghp" target="_blank" rel="noopener noreferrer">Google Images</a>
             </legend>
             <div class="form-grid">
               <div class="form-group">
