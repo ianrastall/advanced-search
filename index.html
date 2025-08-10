@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; form-action https://www.google.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; form-action https://www.google.com https://www.google.com/search;">
+  <meta name="referrer" content="no-referrer-when-downgrade">
   <title>Google Advanced Search</title>
+  
+  <!-- Preconnect to Google for better performance -->
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="dns-prefetch" href="https://www.google.com">
+  
   <style>
     :root {
       --background-color: #121212;
@@ -17,145 +23,323 @@
       --submit-bg-color: #1e88e5;
       --submit-text-color: #fff;
       --submit-hover-bg-color: #1565c0;
-      --small-text-color: #aaa;
+      --small-text-color: #bbb; /* Improved contrast from #aaa */
+      --focus-color: #1e88e5;
+      --reset-bg-color: #666;
+      --reset-hover-bg-color: #777;
     }
 
     * {
       box-sizing: border-box;
     }
+    
     body {
       background-color: var(--background-color);
       color: var(--text-color);
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      line-height: 1.6;
     }
+    
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--submit-bg-color);
+      color: var(--submit-text-color);
+      padding: 8px;
+      text-decoration: none;
+      z-index: 100;
+    }
+    
+    .skip-link:focus {
+      top: 0;
+    }
+    
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+    
     .container {
       width: 100%;
+      max-width: 1400px;
       margin: 20px auto;
       padding: 20px;
     }
-    h1 {
+    
+    header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
-    .forms-container {
+    
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    
+    main {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
     }
-    .form-wrapper {
+    
+    .form-section {
       flex: 1;
       min-width: 300px;
     }
+    
     fieldset {
       border: 1px solid var(--fieldset-border-color);
       border-radius: 4px;
       padding: 20px;
-      margin-bottom: 20px;
+      margin: 0;
     }
+    
     legend {
       font-size: 1.5em;
       padding: 0 10px;
+      font-weight: bold;
     }
-    legend a {
+    
+    .legend-link {
+      display: block;
+      font-size: 0.7em;
       color: var(--legend-link-color);
       text-decoration: none;
+      margin-top: 5px;
+      font-weight: normal;
     }
+    
+    .legend-link:hover {
+      text-decoration: underline;
+    }
+    
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
+      margin-top: 20px;
     }
+    
     .form-group {
       display: flex;
       flex-direction: column;
     }
+    
     .form-group label {
       margin-bottom: 5px;
+      font-weight: 500;
     }
+    
     .form-group input[type="text"],
-    .form-group select,
-    .range-group input[type="text"] {
-      padding: 8px;
+    .form-group input[type="number"],
+    .form-group select {
+      padding: 10px;
       border: 1px solid var(--input-border-color);
       border-radius: 4px;
       background-color: var(--input-bg-color);
       color: var(--input-text-color);
+      font-size: 16px; /* Prevents zoom on mobile */
+      min-height: 44px; /* Better touch targets */
+      width: 100%;
     }
-    .range-group input[type="text"] { /* Specific style for range inputs if different, e.g. flex */
-      flex: 1;
+    
+    /* Focus styles for better accessibility */
+    input:focus,
+    select:focus,
+    button:focus {
+      outline: 2px solid var(--focus-color);
+      outline-offset: 2px;
     }
+    
     .full-width {
       grid-column: 1 / -1;
     }
+    
     .range-group {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
-    .range-group span {
-      margin: 0 10px;
+    
+    .range-group input {
+      flex: 1;
     }
+    
+    .range-separator {
+      flex-shrink: 0;
+      padding: 0 5px;
+    }
+    
     .submit-container {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 25px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
     }
-    input[type="submit"] {
+    
+    button[type="submit"],
+    button[type="reset"] {
       background-color: var(--submit-bg-color);
       color: var(--submit-text-color);
       border: none;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
+      min-height: 44px;
+      font-weight: 500;
+      transition: background-color 0.2s;
     }
-    input[type="submit"]:hover {
+    
+    button[type="submit"]:hover {
       background-color: var(--submit-hover-bg-color);
     }
+    
+    button[type="reset"] {
+      background-color: var(--reset-bg-color);
+    }
+    
+    button[type="reset"]:hover {
+      background-color: var(--reset-hover-bg-color);
+    }
+    
     small {
       color: var(--small-text-color);
       font-size: 0.85em;
       margin-top: 5px;
       display: block;
     }
-    @media (max-width: 650px) {
-      .forms-container {
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      main {
         flex-direction: column;
       }
-      .form-wrapper {
+      
+      .form-section {
         width: 100%;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Landscape mobile optimization */
+    @media (max-width: 900px) and (orientation: landscape) {
+      .container {
+        padding: 10px;
+      }
+      
+      header {
+        margin-bottom: 20px;
+      }
+      
+      h1 {
+        font-size: 1.5em;
+      }
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      
+      .container {
+        padding: 0;
+      }
+      
+      fieldset {
+        border: 1px solid black;
+      }
+      
+      button[type="reset"],
+      .skip-link,
+      .legend-link {
+        display: none;
+      }
+    }
+    
+    /* Smooth transitions for theme changes */
+    @media (prefers-reduced-motion: no-preference) {
+      body {
+        transition: background-color 0.3s, color 0.3s;
       }
     }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
   <div class="container">
-    <h1>Google Advanced Search</h1>
-    <div class="forms-container">
-      <div class="form-wrapper">
-        <form id="webForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
+    <header>
+      <h1>Google Advanced Search</h1>
+    </header>
+    
+    <main id="main-content">
+      <!-- Web Search Section -->
+      <section class="form-section" aria-labelledby="web-search-heading">
+        <form id="webForm" 
+              action="https://www.google.com/search" 
+              method="GET" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              referrerpolicy="no-referrer">
           <fieldset>
-            <legend>
-              <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google Web</a>
+            <legend id="web-search-heading">
+              Google Web Search
+              <a href="https://www.google.com" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="legend-link">Go to Google Search</a>
             </legend>
+            
             <div class="form-grid">
               <div class="form-group">
                 <label for="web-as_q">All these words:</label>
-                <input type="text" id="web-as_q" name="as_q" placeholder="Type the important words: tricolor rat terrier">
+                <input type="text" 
+                       id="web-as_q" 
+                       name="as_q" 
+                       autocomplete="off"
+                       placeholder="Type the important words: tricolor rat terrier">
               </div>
+              
               <div class="form-group">
                 <label for="web-lr">Language:</label>
                 <select id="web-lr" name="lr">
-                  <option value="">Any</option>
+                  <option value="">Any Language</option>
                   <option value="lang_en">English</option>
                   <option value="lang_es">Spanish</option>
                   <option value="lang_fr">French</option>
                   <option value="lang_de">German</option>
+                  <option value="lang_zh-CN">Chinese (Simplified)</option>
+                  <option value="lang_ja">Japanese</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_epq">This exact word or phrase:</label>
-                <input type="text" id="web-as_epq" name="as_epq" placeholder='Put exact words in quotes: "rat terrier"'>
+                <input type="text" 
+                       id="web-as_epq" 
+                       name="as_epq" 
+                       autocomplete="off"
+                       placeholder='Put exact words in quotes: "rat terrier"'>
               </div>
+              
               <div class="form-group">
                 <label for="web-cr">Region:</label>
                 <select id="web-cr" name="cr">
@@ -164,12 +348,20 @@
                   <option value="countryGB">United Kingdom</option>
                   <option value="countryCA">Canada</option>
                   <option value="countryAU">Australia</option>
+                  <option value="countryIN">India</option>
+                  <option value="countryJP">Japan</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_oq">Any of these words:</label>
-                <input type="text" id="web-as_oq" name="as_oq" placeholder="Type OR between all the words you want: miniature OR standard">
+                <input type="text" 
+                       id="web-as_oq" 
+                       name="as_oq" 
+                       autocomplete="off"
+                       placeholder="Type OR between all the words: miniature OR standard">
               </div>
+              
               <div class="form-group">
                 <label for="web-as_qdr">Last update:</label>
                 <select id="web-as_qdr" name="as_qdr">
@@ -177,80 +369,151 @@
                   <option value="d">Past 24 hours</option>
                   <option value="w">Past week</option>
                   <option value="m">Past month</option>
+                  <option value="m3">Past 3 months</option>
                   <option value="y">Past year</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_eq">None of these words:</label>
-                <input type="text" id="web-as_eq" name="as_eq" placeholder='Put a minus sign just before words you don’t want: -rodent, -"Jack Russell"'>
+                <input type="text" 
+                       id="web-as_eq" 
+                       name="as_eq" 
+                       autocomplete="off"
+                       placeholder='Put a minus sign before words: -rodent, -"Jack Russell"'>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_sitesearch">Site or domain:</label>
-                <input type="text" id="web-as_sitesearch" name="as_sitesearch" placeholder="e.g. wikipedia.org">
+                <input type="text" 
+                       id="web-as_sitesearch" 
+                       name="as_sitesearch" 
+                       autocomplete="off"
+                       pattern="([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z]{2,6}"
+                       title="Enter a valid domain (e.g., wikipedia.org)"
+                       placeholder="e.g., wikipedia.org">
               </div>
+              
               <div class="form-group full-width">
-                <label>Numbers ranging from:</label>
-                <div class="range-group">
-                  <input type="text" name="as_nlo" placeholder="e.g. 10">
-                  <span>to</span>
-                  <input type="text" name="as_nhi" placeholder="e.g. 35 lb">
+                <label id="web-range-label">Numbers ranging from:</label>
+                <div class="range-group" role="group" aria-labelledby="web-range-label">
+                  <input type="number" 
+                         name="as_nlo" 
+                         inputmode="numeric"
+                         placeholder="Min (e.g., 10)"
+                         aria-label="Minimum value">
+                  <span class="range-separator">to</span>
+                  <input type="number" 
+                         name="as_nhi" 
+                         inputmode="numeric"
+                         placeholder="Max (e.g., 35)"
+                         aria-label="Maximum value">
                 </div>
-                <small>Put 2 periods between the numbers and add a unit of measure: 10..35 lb, $300..$500, 2010..2011</small>
+                <small id="web-range-help">Enter numbers directly (no special syntax needed). Add units in your search terms if needed.</small>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_occt">Terms appearing:</label>
                 <select id="web-as_occt" name="as_occt">
                   <option value="any">Anywhere in the page</option>
-                  <option value="title">In the title of the page</option>
-                  <option value="body">In the text of the page</option>
-                  <option value="url">In the URL of the page</option>
+                  <option value="title">In the title</option>
+                  <option value="body">In the text</option>
+                  <option value="url">In the URL</option>
+                  <option value="links">In links to the page</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_filetype">File type:</label>
-                <input type="text" id="web-as_filetype" name="as_filetype" placeholder="e.g. pdf">
+                <select id="web-as_filetype" name="as_filetype">
+                  <option value="">Any format</option>
+                  <option value="pdf">PDF (.pdf)</option>
+                  <option value="doc">Word (.doc)</option>
+                  <option value="docx">Word (.docx)</option>
+                  <option value="xls">Excel (.xls)</option>
+                  <option value="xlsx">Excel (.xlsx)</option>
+                  <option value="ppt">PowerPoint (.ppt)</option>
+                  <option value="pptx">PowerPoint (.pptx)</option>
+                </select>
               </div>
+              
               <div class="form-group">
                 <label for="web-as_rights">Usage rights:</label>
                 <select id="web-as_rights" name="as_rights">
                   <option value="">Any usage rights</option>
                   <option value="cc_publicdomain">Public domain</option>
-                  <option value="cc_license">Creative Commons licenses</option>
-                  <option value="cc_commercial">Commercial &amp; other licenses</option>
+                  <option value="cc_attribute">Free to use or share</option>
+                  <option value="cc_sharealike">Free to use, share or modify</option>
+                  <option value="cc_noncommercial">Free to use or modify</option>
+                  <option value="cc_nonderived">Free to use</option>
                 </select>
               </div>
             </div>
+            
             <div class="submit-container">
-              <input type="submit" value="Search">
+              <button type="reset">Reset Form</button>
+              <button type="submit">Search Web</button>
             </div>
           </fieldset>
         </form>
-      </div>
+      </section>
 
-      <div class="form-wrapper">
-        <form id="imageForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
+      <!-- Image Search Section -->
+      <section class="form-section" aria-labelledby="image-search-heading">
+        <form id="imageForm" 
+              action="https://www.google.com/search" 
+              method="GET" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              referrerpolicy="no-referrer">
           <input type="hidden" name="tbm" value="isch">
+          
           <fieldset>
-            <legend>
-              <a href="https://www.google.com/imghp" target="_blank" rel="noopener noreferrer">Google Images</a>
+            <legend id="image-search-heading">
+              Google Image Search
+              <a href="https://www.google.com/imghp" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="legend-link">Go to Google Images</a>
             </legend>
+            
             <div class="form-grid">
               <div class="form-group">
                 <label for="image-as_q">All these words:</label>
-                <input type="text" id="image-as_q" name="as_q" placeholder="Type the important words: winter hoarfrost">
+                <input type="text" 
+                       id="image-as_q" 
+                       name="as_q" 
+                       autocomplete="off"
+                       placeholder="Type the important words: winter hoarfrost">
               </div>
+              
               <div class="form-group">
                 <label for="image-as_epq">This exact word or phrase:</label>
-                <input type="text" id="image-as_epq" name="as_epq" placeholder='Put exact words in quotes: "frost flower"'>
+                <input type="text" 
+                       id="image-as_epq" 
+                       name="as_epq" 
+                       autocomplete="off"
+                       placeholder='Put exact words in quotes: "frost flower"'>
               </div>
+              
               <div class="form-group">
                 <label for="image-as_oq">Any of these words:</label>
-                <input type="text" id="image-as_oq" name="as_oq" placeholder="Type OR between all the words you want: trees OR weeds OR grasses">
+                <input type="text" 
+                       id="image-as_oq" 
+                       name="as_oq" 
+                       autocomplete="off"
+                       placeholder="Type OR between words: trees OR weeds OR grasses">
               </div>
+              
               <div class="form-group">
                 <label for="image-as_eq">None of these words:</label>
-                <input type="text" id="image-as_eq" name="as_eq" placeholder='Put a minus sign just before words you don’t want: -windows'>
+                <input type="text" 
+                       id="image-as_eq" 
+                       name="as_eq" 
+                       autocomplete="off"
+                       placeholder='Put a minus sign before words: -windows'>
               </div>
+              
               <div class="form-group">
                 <label for="image-imgsz">Image size:</label>
                 <select id="image-imgsz" name="imgsz">
@@ -260,18 +523,22 @@
                   <option value="medium">Medium</option>
                   <option value="large">Large</option>
                   <option value="xlarge">Extra Large</option>
-                  <option value="xxlarge">Huge</option>
+                  <option value="xxlarge">2MP+</option>
+                  <option value="huge">4MP+</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-iar">Aspect ratio:</label>
                 <select id="image-iar" name="iar">
-                  <option value="">Any</option>
+                  <option value="">Any aspect ratio</option>
                   <option value="square">Square</option>
                   <option value="wide">Wide</option>
                   <option value="tall">Tall</option>
+                  <option value="panoramic">Panoramic</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-imgcolor">Colors in image:</label>
                 <select id="image-imgcolor" name="imgcolor">
@@ -279,8 +546,20 @@
                   <option value="color">Full color</option>
                   <option value="gray">Black and white</option>
                   <option value="trans">Transparent</option>
+                  <option value="red">Red</option>
+                  <option value="orange">Orange</option>
+                  <option value="yellow">Yellow</option>
+                  <option value="green">Green</option>
+                  <option value="teal">Teal</option>
+                  <option value="blue">Blue</option>
+                  <option value="purple">Purple</option>
+                  <option value="pink">Pink</option>
+                  <option value="white">White</option>
+                  <option value="black">Black</option>
+                  <option value="brown">Brown</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-imgtype">Type of image:</label>
                 <select id="image-imgtype" name="imgtype">
@@ -292,6 +571,7 @@
                   <option value="animated">Animated</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-cr">Region:</label>
                 <select id="image-cr" name="cr">
@@ -300,33 +580,57 @@
                   <option value="countryGB">United Kingdom</option>
                   <option value="countryCA">Canada</option>
                   <option value="countryAU">Australia</option>
+                  <option value="countryIN">India</option>
+                  <option value="countryJP">Japan</option>
                 </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-as_sitesearch">Site or domain:</label>
-                <input type="text" id="image-as_sitesearch" name="as_sitesearch" placeholder="e.g. sfmoma.org">
+                <input type="text" 
+                       id="image-as_sitesearch" 
+                       name="as_sitesearch" 
+                       autocomplete="off"
+                       pattern="([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z]{2,6}"
+                       title="Enter a valid domain (e.g., sfmoma.org)"
+                       placeholder="e.g., sfmoma.org">
               </div>
+              
               <div class="form-group">
-                <label for="image-as_filetype">File type:</label>
-                <input type="text" id="image-as_filetype" name="as_filetype" placeholder="e.g. jpg, png">
+                <label for="image-filetype">File format:</label>
+                <select id="image-filetype" name="filetype">
+                  <option value="">Any format</option>
+                  <option value="jpg">JPG</option>
+                  <option value="gif">GIF</option>
+                  <option value="png">PNG</option>
+                  <option value="bmp">BMP</option>
+                  <option value="svg">SVG</option>
+                  <option value="webp">WEBP</option>
+                  <option value="ico">ICO</option>
+                </select>
               </div>
+              
               <div class="form-group">
                 <label for="image-as_rights">Usage rights:</label>
                 <select id="image-as_rights" name="as_rights">
                   <option value="">Any usage rights</option>
                   <option value="cc_publicdomain">Public domain</option>
-                  <option value="cc_license">Creative Commons licenses</option>
-                  <option value="cc_commercial">Commercial &amp; other licenses</option>
+                  <option value="cc_attribute">Free to use or share</option>
+                  <option value="cc_sharealike">Free to use, share or modify</option>
+                  <option value="cc_noncommercial">Free to use or modify</option>
+                  <option value="cc_nonderived">Free to use</option>
                 </select>
               </div>
             </div>
+            
             <div class="submit-container">
-              <input type="submit" value="Search Images">
+              <button type="reset">Reset Form</button>
+              <button type="submit">Search Images</button>
             </div>
           </fieldset>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
 </body>
 </html>
