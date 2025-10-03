@@ -3,330 +3,1928 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; form-action https://www.google.com;">
-  <title>Google Advanced Search</title>
+  <title>Advanced Search Hub</title>
   <style>
     :root {
-      --background-color: #121212;
-      --text-color: #e0e0e0;
-      --legend-link-color: tomato;
-      --fieldset-border-color: #444;
-      --input-bg-color: #333;
-      --input-border-color: #555;
-      --input-text-color: #e0e0e0;
-      --submit-bg-color: #1e88e5;
-      --submit-text-color: #fff;
-      --submit-hover-bg-color: #1565c0;
-      --small-text-color: #aaa;
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-card: #2a2a2a;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --border-color: #404040;
+      --accent-color: #1e88e5;
+      --accent-hover: #1565c0;
+      --input-bg: #333;
+      --input-border: #555;
     }
 
     * {
       box-sizing: border-box;
-    }
-    body {
-      background-color: var(--background-color);
-      color: var(--text-color);
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
     }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 20px;
+	  font-size: 120%;
+    }
+
     .container {
-      width: 100%;
-      margin: 20px auto;
-      padding: 20px;
+      max-width: 1280px;
+      margin: 0 auto;
     }
-    h1 {
+
+    header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
-    .forms-container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: var(--text-primary);
     }
-    .form-wrapper {
-      flex: 1;
-      min-width: 300px;
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 0.95em;
     }
-    fieldset {
-      border: 1px solid var(--fieldset-border-color);
-      border-radius: 4px;
+
+    .provider-selector {
+      background: var(--bg-card);
       padding: 20px;
-      margin-bottom: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
     }
-    legend {
-      font-size: 1.5em;
-      padding: 0 10px;
+
+    .provider-selector label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 1.1em;
     }
-    legend a {
-      color: var(--legend-link-color);
-      text-decoration: none;
+
+    select, input[type="text"], input[type="number"], input[type="date"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      color: var(--text-primary);
+      font-size: 14px;
+      min-height: 44px;
     }
+
+    select:focus, input:focus, textarea:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .search-form {
+      display: none;
+      background: var(--bg-card);
+      padding: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .search-form.active {
+      display: block;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .form-section h3 {
+      color: var(--accent-color);
+      margin-bottom: 15px;
+      font-size: 1.2em;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
+
     .form-group {
       display: flex;
       flex-direction: column;
     }
+
     .form-group label {
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.9em;
     }
-    .form-group input[type="text"],
-    .form-group select,
-    .range-group input[type="text"] {
-      padding: 8px;
-      border: 1px solid var(--input-border-color);
+
+    .form-group small {
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 0.85em;
+    }
+
+    .inline-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .inline-options label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9em;
+      color: var(--text-secondary);
+    }
+
+    .inline-options input[type="checkbox"],
+    .inline-options input[type="radio"] {
+      width: auto;
+      min-height: auto;
+      accent-color: var(--accent-color);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
       border-radius: 4px;
-      background-color: var(--input-bg-color);
-      color: var(--input-text-color);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+      transition: background-color 0.2s;
     }
-    .range-group input[type="text"] { /* Specific style for range inputs if different, e.g. flex */
-      flex: 1;
+
+    button[type="submit"] {
+      background: var(--accent-color);
+      color: white;
     }
+
+    button[type="submit"]:hover {
+      background: var(--accent-hover);
+    }
+
+    button[type="button"] {
+      background: #555;
+      color: white;
+    }
+
+    button[type="button"]:hover {
+      background: #666;
+    }
+
+    button:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
     .full-width {
       grid-column: 1 / -1;
     }
-    .range-group {
-      display: flex;
-      align-items: center;
-    }
-    .range-group span {
-      margin: 0 10px;
-    }
-    .submit-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    input[type="submit"] {
-      background-color: var(--submit-bg-color);
-      color: var(--submit-text-color);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    input[type="submit"]:hover {
-      background-color: var(--submit-hover-bg-color);
-    }
-    small {
-      color: var(--small-text-color);
-      font-size: 0.85em;
-      margin-top: 5px;
-      display: block;
-    }
-    @media (max-width: 650px) {
-      .forms-container {
-        flex-direction: column;
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
       }
-      .form-wrapper {
-        width: 100%;
+
+      body {
+        padding: 10px;
+      }
+
+      .search-form {
+        padding: 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Google Advanced Search</h1>
-    <div class="forms-container">
-      <div class="form-wrapper">
-        <form id="webForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
-          <fieldset>
-            <legend>
-              <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google Web</a>
-            </legend>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="web-as_q">All these words:</label>
-                <input type="text" id="web-as_q" name="as_q" placeholder="Type the important words: tricolor rat terrier">
-              </div>
-              <div class="form-group">
-                <label for="web-lr">Language:</label>
-                <select id="web-lr" name="lr">
-                  <option value="">Any</option>
-                  <option value="lang_en">English</option>
-                  <option value="lang_es">Spanish</option>
-                  <option value="lang_fr">French</option>
-                  <option value="lang_de">German</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="web-as_epq">This exact word or phrase:</label>
-                <input type="text" id="web-as_epq" name="as_epq" placeholder='Put exact words in quotes: "rat terrier"'>
-              </div>
-              <div class="form-group">
-                <label for="web-cr">Region:</label>
-                <select id="web-cr" name="cr">
-                  <option value="">Any Region</option>
-                  <option value="countryUS">United States</option>
-                  <option value="countryGB">United Kingdom</option>
-                  <option value="countryCA">Canada</option>
-                  <option value="countryAU">Australia</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="web-as_oq">Any of these words:</label>
-                <input type="text" id="web-as_oq" name="as_oq" placeholder="Type OR between all the words you want: miniature OR standard">
-              </div>
-              <div class="form-group">
-                <label for="web-as_qdr">Last update:</label>
-                <select id="web-as_qdr" name="as_qdr">
-                  <option value="">Any time</option>
-                  <option value="d">Past 24 hours</option>
-                  <option value="w">Past week</option>
-                  <option value="m">Past month</option>
-                  <option value="y">Past year</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="web-as_eq">None of these words:</label>
-                <input type="text" id="web-as_eq" name="as_eq" placeholder='Put a minus sign just before words you don’t want: -rodent, -"Jack Russell"'>
-              </div>
-              <div class="form-group">
-                <label for="web-as_sitesearch">Site or domain:</label>
-                <input type="text" id="web-as_sitesearch" name="as_sitesearch" placeholder="e.g. wikipedia.org">
-              </div>
-              <div class="form-group full-width">
-                <label>Numbers ranging from:</label>
-                <div class="range-group">
-                  <input type="text" name="as_nlo" placeholder="e.g. 10">
-                  <span>to</span>
-                  <input type="text" name="as_nhi" placeholder="e.g. 35 lb">
-                </div>
-                <small>Put 2 periods between the numbers and add a unit of measure: 10..35 lb, $300..$500, 2010..2011</small>
-              </div>
-              <div class="form-group">
-                <label for="web-as_occt">Terms appearing:</label>
-                <select id="web-as_occt" name="as_occt">
-                  <option value="any">Anywhere in the page</option>
-                  <option value="title">In the title of the page</option>
-                  <option value="body">In the text of the page</option>
-                  <option value="url">In the URL of the page</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="web-as_filetype">File type:</label>
-                <input type="text" id="web-as_filetype" name="as_filetype" placeholder="e.g. pdf">
-              </div>
-              <div class="form-group">
-                <label for="web-as_rights">Usage rights:</label>
-                <select id="web-as_rights" name="as_rights">
-                  <option value="">Any usage rights</option>
-                  <option value="cc_publicdomain">Public domain</option>
-                  <option value="cc_license">Creative Commons licenses</option>
-                  <option value="cc_commercial">Commercial &amp; other licenses</option>
-                </select>
-              </div>
-            </div>
-            <div class="submit-container">
-              <input type="submit" value="Search">
-            </div>
-          </fieldset>
-        </form>
+    <header>
+      <h1>Advanced Search Hub</h1>
+    </header>
+
+    <div class="provider-selector">
+      <label for="providerSelect">Choose Search Provider:</label>
+      <select id="providerSelect">
+        <option value="google-web">Google Web Search</option>
+        <option value="google-images">Google Images</option>
+        <option value="google-news">Google News</option>
+        <option value="google-scholar">Google Scholar</option>
+        <option value="github">GitHub</option>
+        <option value="reddit">Reddit</option>
+        <option value="youtube">YouTube</option>
+        <option value="stackoverflow">Stack Overflow</option>
+        <option value="archive">Internet Archive</option>
+      </select>
+    </div>
+
+    <!-- Google Web Search -->
+    <form id="google-web" class="search-form active" target="_blank" action="https://www.google.com/search" method="get">
+      <input type="hidden" name="tbs" id="google-web-tbs">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" name="as_q" id="google-web-all" placeholder="e.g., climate change mitigation">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" name="as_epq" id="google-web-exact" placeholder='e.g., "carbon capture"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" name="as_oq" id="google-web-any" placeholder="e.g., sequestration CCS">
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" name="as_eq" id="google-web-none" placeholder="e.g., -geoengineering">
+          </div>
+        </div>
       </div>
 
-      <div class="form-wrapper">
-        <form id="imageForm" action="https://www.google.com/search" method="GET" target="_blank" rel="noopener noreferrer">
-          <input type="hidden" name="tbm" value="isch">
-          <fieldset>
-            <legend>
-              <a href="https://www.google.com/imghp" target="_blank" rel="noopener noreferrer">Google Images</a>
-            </legend>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="image-as_q">All these words:</label>
-                <input type="text" id="image-as_q" name="as_q" placeholder="Type the important words: winter hoarfrost">
-              </div>
-              <div class="form-group">
-                <label for="image-as_epq">This exact word or phrase:</label>
-                <input type="text" id="image-as_epq" name="as_epq" placeholder='Put exact words in quotes: "frost flower"'>
-              </div>
-              <div class="form-group">
-                <label for="image-as_oq">Any of these words:</label>
-                <input type="text" id="image-as_oq" name="as_oq" placeholder="Type OR between all the words you want: trees OR weeds OR grasses">
-              </div>
-              <div class="form-group">
-                <label for="image-as_eq">None of these words:</label>
-                <input type="text" id="image-as_eq" name="as_eq" placeholder='Put a minus sign just before words you don’t want: -windows'>
-              </div>
-              <div class="form-group">
-                <label for="image-imgsz">Image size:</label>
-                <select id="image-imgsz" name="imgsz">
-                  <option value="">Any size</option>
-                  <option value="icon">Icon</option>
-                  <option value="small">Small</option>
-                  <option value="medium">Medium</option>
-                  <option value="large">Large</option>
-                  <option value="xlarge">Extra Large</option>
-                  <option value="xxlarge">Huge</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="image-iar">Aspect ratio:</label>
-                <select id="image-iar" name="iar">
-                  <option value="">Any</option>
-                  <option value="square">Square</option>
-                  <option value="wide">Wide</option>
-                  <option value="tall">Tall</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="image-imgcolor">Colors in image:</label>
-                <select id="image-imgcolor" name="imgcolor">
-                  <option value="">Any color</option>
-                  <option value="color">Full color</option>
-                  <option value="gray">Black and white</option>
-                  <option value="trans">Transparent</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="image-imgtype">Type of image:</label>
-                <select id="image-imgtype" name="imgtype">
-                  <option value="">Any type</option>
-                  <option value="face">Face</option>
-                  <option value="photo">Photo</option>
-                  <option value="clipart">Clipart</option>
-                  <option value="lineart">Line drawing</option>
-                  <option value="animated">Animated</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="image-cr">Region:</label>
-                <select id="image-cr" name="cr">
-                  <option value="">Any Region</option>
-                  <option value="countryUS">United States</option>
-                  <option value="countryGB">United Kingdom</option>
-                  <option value="countryCA">Canada</option>
-                  <option value="countryAU">Australia</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="image-as_sitesearch">Site or domain:</label>
-                <input type="text" id="image-as_sitesearch" name="as_sitesearch" placeholder="e.g. sfmoma.org">
-              </div>
-              <div class="form-group">
-                <label for="image-as_filetype">File type:</label>
-                <input type="text" id="image-as_filetype" name="as_filetype" placeholder="e.g. jpg, png">
-              </div>
-              <div class="form-group">
-                <label for="image-as_rights">Usage rights:</label>
-                <select id="image-as_rights" name="as_rights">
-                  <option value="">Any usage rights</option>
-                  <option value="cc_publicdomain">Public domain</option>
-                  <option value="cc_license">Creative Commons licenses</option>
-                  <option value="cc_commercial">Commercial &amp; other licenses</option>
-                </select>
-              </div>
-            </div>
-            <div class="submit-container">
-              <input type="submit" value="Search Images">
-            </div>
-          </fieldset>
-        </form>
+      <div class="form-section">
+        <h3>Scope & Site</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Where the words must appear</label>
+            <select name="as_occt" id="google-web-occurrence">
+              <option value="">Anywhere</option>
+              <option value="title">Page title</option>
+              <option value="url">URL</option>
+              <option value="body">Page text</option>
+              <option value="links">Links pointing to page</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Site or domain</label>
+            <input type="text" name="as_sitesearch" id="google-web-site" placeholder="e.g., nytimes.com">
+            <small>Combine with include/exclude toggle.</small>
+          </div>
+          <div class="form-group">
+            <label>Site scope</label>
+            <select name="as_dt" id="google-web-site-scope">
+              <option value="">Include and exclude by query</option>
+              <option value="i">Only results from this site</option>
+              <option value="e">Exclude this site</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>File type</label>
+            <select name="as_filetype" id="google-web-filetype">
+              <option value="">Any format</option>
+              <option value="pdf">PDF</option>
+              <option value="doc">DOC</option>
+              <option value="docx">DOCX</option>
+              <option value="ppt">PPT</option>
+              <option value="pptx">PPTX</option>
+              <option value="xls">XLS</option>
+              <option value="xlsx">XLSX</option>
+              <option value="rtf">RTF</option>
+              <option value="txt">Plain text</option>
+              <option value="svg">SVG</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Usage rights</label>
+            <select name="as_rights" id="google-web-rights">
+              <option value="">Any license</option>
+              <option value="cc_publicdomain">Creative Commons - Public Domain</option>
+              <option value="cc_attribute">Creative Commons - Attribution</option>
+              <option value="cc_sharealike">Creative Commons - ShareAlike</option>
+              <option value="cc_noncommercial">Creative Commons - Noncommercial</option>
+              <option value="cc_nonderived">Creative Commons - No derivatives</option>
+              <option value="cc_noncommercial,cc_sharealike">Noncommercial + ShareAlike</option>
+              <option value="cc_noncommercial,cc_nonderived">Noncommercial + No derivatives</option>
+            </select>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+
+      <div class="form-section">
+        <h3>Language & Geography</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Interface language (hl)</label>
+            <select name="hl" id="google-web-interface-language">
+              <option value="">Auto</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">Deutsch</option>
+              <option value="it">Italiano</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+              <option value="pt-BR">Portuguese (Brazil)</option>
+              <option value="zh-CN">Chinese (Simplified)</option>
+              <option value="zh-TW">Chinese (Traditional)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Language of results (lr)</label>
+            <select name="lr" id="google-web-language">
+              <option value="">All languages</option>
+              <option value="lang_en">English</option>
+              <option value="lang_es">Spanish</option>
+              <option value="lang_fr">French</option>
+              <option value="lang_de">German</option>
+              <option value="lang_it">Italian</option>
+              <option value="lang_pt">Portuguese</option>
+              <option value="lang_ja">Japanese</option>
+              <option value="lang_ko">Korean</option>
+              <option value="lang_zh-CN">Chinese (Simplified)</option>
+              <option value="lang_zh-TW">Chinese (Traditional)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Region where page is published (cr)</label>
+            <select name="cr" id="google-web-region">
+              <option value="">Any region</option>
+              <option value="countryUS">United States</option>
+              <option value="countryGB">United Kingdom</option>
+              <option value="countryCA">Canada</option>
+              <option value="countryAU">Australia</option>
+              <option value="countryIN">India</option>
+              <option value="countryDE">Germany</option>
+              <option value="countryFR">France</option>
+              <option value="countryJP">Japan</option>
+              <option value="countryBR">Brazil</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Force results from country (gl)</label>
+            <input type="text" name="gl" id="google-web-gl" placeholder="e.g., US or GB" maxlength="4">
+            <small>Two-letter country code.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Date & Result Tuning</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Quick time range</label>
+            <select name="as_qdr" id="google-web-time">
+              <option value="">Any time</option>
+              <option value="h">Past hour</option>
+              <option value="d">Past day</option>
+              <option value="w">Past week</option>
+              <option value="m">Past month</option>
+              <option value="y">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="google-web-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="google-web-date-end">
+          </div>
+          <div class="form-group">
+            <label>Reading level</label>
+            <select id="google-web-reading">
+              <option value="">Any</option>
+              <option value="rlm:1">Basic</option>
+              <option value="rlm:2">Intermediate</option>
+              <option value="rlm:3">Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>SafeSearch</label>
+            <select name="safe" id="google-web-safe">
+              <option value="">Default</option>
+              <option value="active">Active</option>
+              <option value="off">Off</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <input type="number" name="num" id="google-web-num" min="10" max="100" step="10" placeholder="10-100">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="google-web-verbatim"> Verbatim (no synonyms)</label>
+          <label><input type="checkbox" name="filter" value="0"> Include similar results</label>
+          <label><input type="checkbox" name="pws" value="0"> Disable personalization</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); resetGoogleWeb();">Reset</button>
+        <button type="submit">Search Google</button>
+      </div>
+    </form>
+    <!-- Google Images -->
+    <form id="google-images" class="search-form" target="_blank" action="https://www.google.com/search" method="get">
+      <input type="hidden" name="tbm" value="isch">
+      <input type="hidden" name="udm" value="2">
+      <input type="hidden" name="tbs" id="google-images-tbs">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" name="as_q" id="google-images-all" placeholder="e.g., aurora borealis">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" name="as_epq" id="google-images-exact" placeholder='e.g., "northern lights"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" name="as_oq" id="google-images-any" placeholder="e.g., panorama landscape">
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" name="as_eq" id="google-images-none" placeholder="e.g., wallpaper">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Image Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Size</label>
+            <select name="isz" id="google-images-size">
+              <option value="">Any</option>
+              <option value="l">Large</option>
+              <option value="m">Medium</option>
+              <option value="i">Icon</option>
+              <option value="ex">Exactly...</option>
+            </select>
+            <small>Use exact width & height when choosing "Exactly".</small>
+          </div>
+          <div class="form-group">
+            <label>Exact width (px)</label>
+            <input type="number" name="iszw" id="google-images-width" min="1" placeholder="e.g., 1920">
+          </div>
+          <div class="form-group">
+            <label>Exact height (px)</label>
+            <input type="number" name="iszh" id="google-images-height" min="1" placeholder="e.g., 1080">
+          </div>
+          <div class="form-group">
+            <label>Aspect ratio</label>
+            <select name="iar" id="google-images-aspect">
+              <option value="">Any</option>
+              <option value="w">Wide</option>
+              <option value="t">Tall</option>
+              <option value="s">Square</option>
+              <option value="p">Panoramic</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Color</label>
+            <select name="ic" id="google-images-color">
+              <option value="">All colors</option>
+              <option value="color">Full color</option>
+              <option value="gray">Black &amp; white</option>
+              <option value="trans">Transparent</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="teal">Teal</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="pink">Pink</option>
+              <option value="white">White</option>
+              <option value="black">Black</option>
+              <option value="brown">Brown</option>
+              <option value="grey">Grey</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Image type / style</label>
+            <select name="itp" id="google-images-type">
+              <option value="">Any</option>
+              <option value="photo">Photo</option>
+              <option value="clipart">Clipart</option>
+              <option value="lineart">Line drawing</option>
+              <option value="face">Face</option>
+              <option value="animated">Animated</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Usage & Time</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Usage rights</label>
+            <select id="google-images-license">
+              <option value="">Any</option>
+              <option value="sur:f">Labeled for reuse</option>
+              <option value="sur:fm">Labeled for noncommercial reuse</option>
+              <option value="sur:fc">Labeled for reuse with modification</option>
+              <option value="sur:fmc">Noncommercial reuse with modification</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>File type</label>
+            <select id="google-images-filetype">
+              <option value="">Any</option>
+              <option value="ift:jpg">JPG</option>
+              <option value="ift:png">PNG</option>
+              <option value="ift:gif">GIF</option>
+              <option value="ift:webp">WEBP</option>
+              <option value="ift:svg">SVG</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Time range</label>
+            <select id="google-images-time">
+              <option value="">Any time</option>
+              <option value="qdr:h">Past hour</option>
+              <option value="qdr:d">Past day</option>
+              <option value="qdr:w">Past week</option>
+              <option value="qdr:m">Past month</option>
+              <option value="qdr:y">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="google-images-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="google-images-date-end">
+          </div>
+          <div class="form-group">
+            <label>SafeSearch</label>
+            <select name="safe" id="google-images-safe">
+              <option value="">Default</option>
+              <option value="active">Active</option>
+              <option value="off">Off</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Region</label>
+            <select name="cr" id="google-images-region">
+              <option value="">Any region</option>
+              <option value="countryUS">United States</option>
+              <option value="countryGB">United Kingdom</option>
+              <option value="countryCA">Canada</option>
+              <option value="countryDE">Germany</option>
+              <option value="countryFR">France</option>
+              <option value="countryJP">Japan</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Site or domain</label>
+            <input type="text" name="as_sitesearch" id="google-images-site" placeholder="e.g., unsplash.com">
+          </div>
+          <div class="form-group">
+            <label>Site scope</label>
+            <select name="as_dt" id="google-images-site-scope">
+              <option value="">Include and exclude by query</option>
+              <option value="i">Only this site</option>
+              <option value="e">Exclude this site</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Interface language</label>
+            <select name="hl" id="google-images-hl">
+              <option value="">Auto</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">Deutsch</option>
+              <option value="ja">Japanese</option>
+              <option value="zh-CN">Chinese (Simplified)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); resetGoogleImages();">Reset</button>
+        <button type="submit">Search Images</button>
+      </div>
+    </form>
+    <!-- Google News -->
+    <form id="google-news" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="news-q-all" placeholder="e.g., renewable energy">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="news-q-exact" placeholder='e.g., "solar power supply chain"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="news-q-any" placeholder="e.g., wind geothermal hydro">
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="news-q-none" placeholder="e.g., -advertorial">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Content Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="news-intitle" placeholder="e.g., breakthrough">
+          </div>
+          <div class="form-group">
+            <label>URL contains</label>
+            <input type="text" id="news-inurl" placeholder="e.g., /analysis/">
+          </div>
+          <div class="form-group">
+            <label>Site / domain</label>
+            <input type="text" id="news-site" placeholder="e.g., reuters.com">
+          </div>
+          <div class="form-group">
+            <label>Location filter</label>
+            <input type="text" id="news-location" placeholder="e.g., London">
+            <small>Matches Google's GeoID resolver.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Edition & Language</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Edition preset</label>
+            <select id="news-edition">
+              <option value="">Default edition</option>
+              <option value="en-US|US|US:en">United States (English)</option>
+              <option value="en-GB|GB|GB:en">United Kingdom</option>
+              <option value="en-CA|CA|CA:en">Canada</option>
+              <option value="en-AU|AU|AU:en">Australia</option>
+              <option value="en-IN|IN|IN:en">India</option>
+              <option value="fr-FR|FR|FR:fr">France (French)</option>
+              <option value="de-DE|DE|DE:de">Germany (Deutsch)</option>
+              <option value="ja-JP|JP|JP:ja">Japan (Japanese)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Interface language (hl)</label>
+            <input type="text" id="news-language" placeholder="e.g., en, fr">
+          </div>
+          <div class="form-group">
+            <label>Country code (gl)</label>
+            <input type="text" id="news-country" placeholder="e.g., US, GB">
+          </div>
+          <div class="form-group">
+            <label>CEID override</label>
+            <input type="text" id="news-ceid" placeholder="e.g., US:en">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Time & Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Time / sort preset</label>
+            <select id="news-time-sort">
+              <option value="">Relevance (default)</option>
+              <option value="sbd:1">Sort by date (newest)</option>
+              <option value="qdr:h">Past hour</option>
+              <option value="qdr:d">Past 24 hours</option>
+              <option value="qdr:w">Past week</option>
+              <option value="qdr:m">Past month</option>
+              <option value="qdr:y">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="news-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="news-date-end">
+          </div>
+          <div class="form-group">
+            <label>Results per page (num)</label>
+            <input type="number" id="news-num" min="10" max="100" step="10" placeholder="10-100">
+          </div>
+          <div class="form-group">
+            <label>SafeSearch</label>
+            <select id="news-safe">
+              <option value="">Default</option>
+              <option value="active">Active</option>
+              <option value="off">Off</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Topic vertical</label>
+            <select id="news-topic">
+              <option value="">All topics</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtVnVHZ0pWVXlnQVAB">Top stories</option>
+              <option value="CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB">World</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB">Business</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0Y1RjU0FtVnVHZ0pWVXlnQVAB">Technology</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNREpxYW5RU0FtVnVHZ0pWVXlnQVAB">Sports</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0YkRjU0FtVnVHZ0pWVXlnQVAB">Entertainment</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0Y0hJU0FtVnVHZ0pWVXlnQVAB">Health</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB">Science</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="news-hide-duplicates"> Hide duplicate stories</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchGoogleNews()">Search Google News</button>
+      </div>
+    </form>
+    <!-- Google Scholar -->
+    <form id="google-scholar" class="search-form" target="_blank" action="https://scholar.google.com/scholar" method="get">
+      <input type="hidden" name="hl" value="en">
+      <input type="hidden" name="tbs" id="scholar-tbs">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords / operators</label>
+            <input type="text" name="q" id="scholar-q" placeholder='e.g., "graph neural network"'>
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" name="as_sauthors" id="scholar-author" placeholder='e.g., "LeCun Y"'>
+          </div>
+          <div class="form-group">
+            <label>Journal / publication</label>
+            <input type="text" name="as_publication" id="scholar-publication" placeholder="e.g., Nature">
+          </div>
+          <div class="form-group">
+            <label>Search scope</label>
+            <select name="as_occt" id="scholar-scope">
+              <option value="any">Anywhere in article</option>
+              <option value="title">In the title</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Dates & Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>From year</label>
+            <input type="number" name="as_ylo" id="scholar-year-low" min="1900" max="2100" placeholder="e.g., 2018">
+          </div>
+          <div class="form-group">
+            <label>To year</label>
+            <input type="number" name="as_yhi" id="scholar-year-high" min="1900" max="2100" placeholder="e.g., 2024">
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="scholar-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="scholar-date-end">
+          </div>
+          <div class="form-group">
+            <label>Sort by</label>
+            <select name="scisbd" id="scholar-sort">
+              <option value="">Relevance</option>
+              <option value="1">Newest first</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <input type="number" name="num" id="scholar-num" min="10" max="20" step="10" placeholder="10 or 20">
+          </div>
+          <div class="form-group">
+            <label>Start index</label>
+            <input type="number" name="start" id="scholar-start" min="0" step="10" placeholder="0, 10, 20...">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" name="as_vis" value="1"> Exclude patents</label>
+          <label><input type="checkbox" name="as_sdt" value="1"> Exclude citations</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Language & Output</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Language restriction (lr)</label>
+            <select name="lr" id="scholar-language">
+              <option value="">Any</option>
+              <option value="lang_en">English</option>
+              <option value="lang_de">Deutsch</option>
+              <option value="lang_es">Spanish</option>
+              <option value="lang_fr">French</option>
+              <option value="lang_ja">Japanese</option>
+              <option value="lang_pt">Portuguese</option>
+              <option value="lang_ru">Russian</option>
+              <option value="lang_zh-CN">Chinese (Simplified)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Output format</label>
+            <select name="output" id="scholar-output">
+              <option value="">HTML</option>
+              <option value="feed">RSS</option>
+              <option value="ris">RIS</option>
+              <option value="cit">Citations text</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); resetScholar();">Reset</button>
+        <button type="submit">Search Google Scholar</button>
+      </div>
+    </form>
+    <!-- GitHub -->
+    <form id="github" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Scope & Keywords</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="github-q" placeholder="e.g., cache invalidation">
+          </div>
+          <div class="form-group">
+            <label>Search scope</label>
+            <select id="github-scope">
+              <option value="repositories">Repositories</option>
+              <option value="code">Code</option>
+              <option value="issues">Issues</option>
+              <option value="prs">Pull requests</option>
+              <option value="discussions">Discussions</option>
+              <option value="wikis">Wikis</option>
+              <option value="users">Users</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Repository</label>
+            <input type="text" id="github-repo" placeholder="owner/name">
+          </div>
+          <div class="form-group">
+            <label>User</label>
+            <input type="text" id="github-user" placeholder="e.g., torvalds">
+          </div>
+          <div class="form-group">
+            <label>Organization</label>
+            <input type="text" id="github-org" placeholder="e.g., microsoft">
+          </div>
+          <div class="form-group">
+            <label>Topics</label>
+            <input type="text" id="github-topics" placeholder="comma separated, e.g., graphql,api">
+            <small>Uses topic: qualifier.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Qualifiers</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Language</label>
+            <input type="text" id="github-lang" placeholder="e.g., javascript">
+          </div>
+          <div class="form-group">
+            <label>License</label>
+            <input type="text" id="github-license" placeholder="e.g., mit, apache-2.0">
+          </div>
+          <div class="form-group">
+            <label>Stars</label>
+            <input type="text" id="github-stars" placeholder="e.g., >5000 or 100..500">
+          </div>
+          <div class="form-group">
+            <label>Forks</label>
+            <input type="text" id="github-forks" placeholder="e.g., <50">
+          </div>
+          <div class="form-group">
+            <label>Fork filter</label>
+            <select id="github-fork-option">
+              <option value="">Default</option>
+              <option value="true">Include forks</option>
+              <option value="only">Only forks</option>
+              <option value="false">Exclude forks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Size (KB)</label>
+            <input type="text" id="github-size" placeholder="e.g., 100..500">
+          </div>
+          <div class="form-group">
+            <label>Good first issues</label>
+            <input type="text" id="github-good-first" placeholder="e.g., >5">
+          </div>
+          <div class="form-group">
+            <label>Help wanted issues</label>
+            <input type="text" id="github-help-wanted" placeholder="e.g., >3">
+          </div>
+          <div class="form-group">
+            <label>Followers (users scope)</label>
+            <input type="text" id="github-followers" placeholder="e.g., >1000">
+          </div>
+          <div class="form-group">
+            <label>Issue label</label>
+            <input type="text" id="github-label" placeholder="e.g., bug">
+          </div>
+          <div class="form-group">
+            <label>Issue / PR state</label>
+            <select id="github-issue-state">
+              <option value="">Any</option>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+              <option value="merged">Merged PRs</option>
+              <option value="draft">Draft PRs</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Archived</label>
+            <select id="github-archived">
+              <option value="">Either</option>
+              <option value="true">Archived</option>
+              <option value="false">Not archived</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Activity</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Pushed after</label>
+            <input type="date" id="github-pushed-after">
+          </div>
+          <div class="form-group">
+            <label>Pushed before</label>
+            <input type="date" id="github-pushed-before">
+          </div>
+          <div class="form-group">
+            <label>Created after</label>
+            <input type="date" id="github-created-after">
+          </div>
+          <div class="form-group">
+            <label>Created before</label>
+            <input type="date" id="github-created-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Sort by</label>
+            <select id="github-sort">
+              <option value="">Best match</option>
+              <option value="stars-desc">Stars (desc)</option>
+              <option value="stars-asc">Stars (asc)</option>
+              <option value="forks-desc">Forks (desc)</option>
+              <option value="forks-asc">Forks (asc)</option>
+              <option value="updated-desc">Recently updated</option>
+              <option value="updated-asc">Least recently updated</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchGitHub()">Search GitHub</button>
+      </div>
+    </form>
+    <!-- Reddit -->
+    <form id="reddit" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Search</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="reddit-q" placeholder="Keywords or inline filters">
+          </div>
+          <div class="form-group">
+            <label>Subreddit</label>
+            <input type="text" id="reddit-sub" placeholder="e.g., programming">
+          </div>
+          <div class="form-group">
+            <label>Restrict to subreddit</label>
+            <select id="reddit-restrict">
+              <option value="">Auto</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" id="reddit-author" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label>Flair</label>
+            <input type="text" id="reddit-flair" placeholder='e.g., "Discussion"'>
+          </div>
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="reddit-title" placeholder='e.g., "show hn"'>
+          </div>
+          <div class="form-group">
+            <label>Self-text contains</label>
+            <input type="text" id="reddit-selftext" placeholder="Body search">
+          </div>
+          <div class="form-group">
+            <label>Site / domain</label>
+            <input type="text" id="reddit-site" placeholder="e.g., nytimes.com">
+          </div>
+          <div class="form-group">
+            <label>Post type</label>
+            <select id="reddit-self">
+              <option value="">Any</option>
+              <option value="true">Text posts</option>
+              <option value="false">Link posts</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>NSFW filter</label>
+            <select id="reddit-nsfw">
+              <option value="">Follow Reddit settings</option>
+              <option value="yes">Only NSFW</option>
+              <option value="no">Exclude NSFW</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Result Options</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Result type</label>
+            <select id="reddit-type">
+              <option value="link">Posts</option>
+              <option value="comment">Comments</option>
+              <option value="sr">Subreddits</option>
+              <option value="user">Users</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sort by</label>
+            <select id="reddit-sort">
+              <option value="relevance">Relevance</option>
+              <option value="hot">Hot</option>
+              <option value="top">Top</option>
+              <option value="new">New</option>
+              <option value="comments">Most comments</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Time range</label>
+            <select id="reddit-time">
+              <option value="all">All time</option>
+              <option value="hour">Past hour</option>
+              <option value="day">Past day</option>
+              <option value="week">Past week</option>
+              <option value="month">Past month</option>
+              <option value="year">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Max results (limit)</label>
+            <input type="number" id="reddit-limit" min="0" max="100" placeholder="1-100">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="reddit-include-over-18" value="true"> Include over 18 results</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchReddit()">Search Reddit</button>
+      </div>
+    </form>
+    <!-- YouTube -->
+    <form id="youtube" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Search terms</label>
+            <input type="text" id="yt-q" placeholder="Video keywords">
+          </div>
+          <div class="form-group">
+            <label>Channel</label>
+            <input type="text" id="yt-channel" placeholder="e.g., LinusTechTips">
+            <small>Adds channel: qualifier.</small>
+          </div>
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="yt-title" placeholder='e.g., "deep dive"'>
+            <small>Adds intitle: qualifier.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Duration</label>
+            <select id="yt-duration">
+              <option value="">Any</option>
+              <option value="short">Short (&lt;4 min)</option>
+              <option value="medium">Medium (4-20 min)</option>
+              <option value="long">Long (&gt;20 min)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Features</label>
+            <div class="inline-options">
+              <label><input type="checkbox" id="yt-hd"> HD</label>
+              <label><input type="checkbox" id="yt-4k"> 4K</label>
+              <label><input type="checkbox" id="yt-subtitles"> Subtitles</label>
+              <label><input type="checkbox" id="yt-cc"> Creative Commons</label>
+              <label><input type="checkbox" id="yt-live"> Live</label>
+              <label><input type="checkbox" id="yt-3d"> 3D</label>
+              <label><input type="checkbox" id="yt-360"> 360-degree</label>
+              <label><input type="checkbox" id="yt-hdr"> HDR</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Playlist filter</label>
+            <select id="yt-playlist">
+              <option value="">Any</option>
+              <option value="playlist">Search playlists</option>
+              <option value="movie">Movies</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Dates</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Published after</label>
+            <input type="date" id="yt-after">
+          </div>
+          <div class="form-group">
+            <label>Published before</label>
+            <input type="date" id="yt-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchYouTube()">Search YouTube</button>
+      </div>
+    </form>
+    <!-- Stack Overflow -->
+    <form id="stackoverflow" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Search</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="so-q" placeholder="Search terms">
+          </div>
+          <div class="form-group">
+            <label>Must have tags</label>
+            <input type="text" id="so-tags" placeholder="e.g., javascript, react">
+            <small>Comma or space separated.</small>
+          </div>
+          <div class="form-group">
+            <label>Exclude tags</label>
+            <input type="text" id="so-exclude-tags" placeholder="e.g., php, jquery">
+          </div>
+          <div class="form-group">
+            <label>Account (user:)</label>
+            <input type="text" id="so-user" placeholder="ID or me">
+          </div>
+          <div class="form-group">
+            <label>Score filter</label>
+            <input type="text" id="so-score" placeholder="e.g., >5 or 5..20">
+          </div>
+          <div class="form-group">
+            <label>Views filter</label>
+            <input type="text" id="so-views" placeholder="e.g., >1000">
+          </div>
+          <div class="form-group">
+            <label>Answers filter</label>
+            <input type="text" id="so-answers" placeholder="e.g., >2 or 0">
+          </div>
+          <div class="form-group">
+            <label>Created after</label>
+            <input type="date" id="so-created-after">
+          </div>
+          <div class="form-group">
+            <label>Created before</label>
+            <input type="date" id="so-created-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Result Qualifiers</h3>
+        <div class="inline-options">
+          <label><input type="checkbox" id="so-is-question"> is:question</label>
+          <label><input type="checkbox" id="so-is-answer"> is:answer</label>
+          <label><input type="checkbox" id="so-is-article"> is:article</label>
+          <label><input type="checkbox" id="so-hasaccepted"> hasaccepted:yes</label>
+          <label><input type="checkbox" id="so-isaccepted"> isaccepted:yes</label>
+          <label><input type="checkbox" id="so-duplicate"> duplicate:yes</label>
+          <label><input type="checkbox" id="so-closed"> closed:yes</label>
+          <label><input type="checkbox" id="so-wiki"> wiki:yes</label>
+          <label><input type="checkbox" id="so-hascode"> hascode:yes</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchStackOverflow()">Search Stack Overflow</button>
+      </div>
+    </form>
+    <!-- Internet Archive -->
+    <form id="archive" class="search-form" target="_blank">
+      <div class="form-section">
+        <h3>Query Builder</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords / Lucene query</label>
+            <input type="text" id="archive-q" placeholder='e.g., "oral history"'>
+            <small>Keywords combine with other filters using AND.</small>
+          </div>
+          <div class="form-group">
+            <label>Collection</label>
+            <input type="text" id="archive-collection" placeholder="e.g., nasa, prelinger">
+          </div>
+          <div class="form-group">
+            <label>Media type</label>
+            <select id="archive-mediatype">
+              <option value="">Any</option>
+              <option value="texts">Texts</option>
+              <option value="audio">Audio</option>
+              <option value="etree">Live audio (ETREE)</option>
+              <option value="movies">Movies / video</option>
+              <option value="image">Images</option>
+              <option value="software">Software</option>
+              <option value="data">Datasets</option>
+              <option value="collection">Collections</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Creator</label>
+            <input type="text" id="archive-creator" placeholder="e.g., Smithsonian">
+          </div>
+          <div class="form-group">
+            <label>Year from</label>
+            <input type="number" id="archive-year-from" min="1000" max="2100" placeholder="e.g., 1990">
+          </div>
+          <div class="form-group">
+            <label>Year to</label>
+            <input type="number" id="archive-year-to" min="1000" max="2100" placeholder="e.g., 2000">
+          </div>
+          <div class="form-group">
+            <label>License filter</label>
+            <select id="archive-license">
+              <option value="">Any</option>
+              <option value="licenseurl:http*publicdomain*">Public Domain</option>
+              <option value="licenseurl:http*by*">CC Attribution</option>
+              <option value="licenseurl:http*by-sa*">CC BY-SA</option>
+              <option value="licenseurl:http*by-nd*">CC BY-ND</option>
+              <option value="licenseurl:http*by-nc*">CC BY-NC</option>
+              <option value="licenseurl:http*by-nc-sa*">CC BY-NC-SA</option>
+              <option value="licenseurl:http*by-nc-nd*">CC BY-NC-ND</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Output</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Return fields (fl[])</label>
+            <input type="text" id="archive-fields" placeholder="e.g., identifier,title,creator">
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="archive-sort">
+              <option value="">Default</option>
+              <option value="downloads desc">Downloads (desc)</option>
+              <option value="downloads asc">Downloads (asc)</option>
+              <option value="date desc">Date (desc)</option>
+              <option value="date asc">Date (asc)</option>
+              <option value="addeddate desc">Added date (desc)</option>
+              <option value="addeddate asc">Added date (asc)</option>
+              <option value="titleSorter asc">Title (A-Z)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Rows per page</label>
+            <input type="number" id="archive-rows" min="1" max="1000" placeholder="e.g., 100">
+          </div>
+          <div class="form-group">
+            <label>Page</label>
+            <input type="number" id="archive-page" min="1" placeholder="e.g., 1">
+          </div>
+          <div class="form-group">
+            <label>Output format</label>
+            <select id="archive-output">
+              <option value="html">HTML</option>
+              <option value="json">JSON</option>
+              <option value="xml">XML</option>
+              <option value="csv">CSV</option>
+              <option value="rss">RSS</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="archive-total-only"> Return total count only</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchArchive()">Search Internet Archive</button>
+      </div>
+    </form>
+  <script>
+    const providerSelect = document.getElementById('providerSelect');
+    providerSelect.addEventListener('change', (event) => {
+      document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
+      const target = document.getElementById(event.target.value);
+      if (target) {
+        target.classList.add('active');
+      }
+    });
+
+    function formatDateForGoogle(value) {
+      if (!value) return '';
+      const parts = value.split('-');
+      if (parts.length !== 3) return '';
+      return `${parts[1]}/${parts[2]}/${parts[0]}`;
+    }
+
+    function resetGoogleWeb() {
+      document.getElementById('google-web-tbs').value = '';
+    }
+
+    function resetGoogleImages() {
+      document.getElementById('google-images-tbs').value = '';
+    }
+
+    function resetScholar() {
+      document.getElementById('scholar-tbs').value = '';
+    }
+
+    const googleWebForm = document.getElementById('google-web');
+    googleWebForm.addEventListener('submit', () => {
+      const tbsParts = [];
+      const reading = document.getElementById('google-web-reading').value;
+      if (reading) {
+        tbsParts.push(reading);
+      }
+      const start = formatDateForGoogle(document.getElementById('google-web-date-start').value);
+      const end = formatDateForGoogle(document.getElementById('google-web-date-end').value);
+      if (start || end) {
+        const cdrSegments = ['cdr:1'];
+        if (start) cdrSegments.push(`cd_min:${start}`);
+        if (end) cdrSegments.push(`cd_max:${end}`);
+        tbsParts.push(cdrSegments.join(','));
+      }
+      if (document.getElementById('google-web-verbatim').checked) {
+        tbsParts.push('li:1');
+      }
+      document.getElementById('google-web-tbs').value = tbsParts.join(',');
+    });
+
+    const googleImagesForm = document.getElementById('google-images');
+    googleImagesForm.addEventListener('submit', () => {
+      const tbsParts = [];
+      const license = document.getElementById('google-images-license').value;
+      if (license) tbsParts.push(license);
+      const fileType = document.getElementById('google-images-filetype').value;
+      if (fileType) tbsParts.push(fileType);
+      const time = document.getElementById('google-images-time').value;
+      if (time) tbsParts.push(time);
+      const start = formatDateForGoogle(document.getElementById('google-images-date-start').value);
+      const end = formatDateForGoogle(document.getElementById('google-images-date-end').value);
+      if (start || end) {
+        const cdrSegments = ['cdr:1'];
+        if (start) cdrSegments.push(`cd_min:${start}`);
+        if (end) cdrSegments.push(`cd_max:${end}`);
+        tbsParts.push(cdrSegments.join(','));
+      }
+      document.getElementById('google-images-tbs').value = tbsParts.join(',');
+    });
+
+    const scholarForm = document.getElementById('google-scholar');
+    scholarForm.addEventListener('submit', () => {
+      const tbsParts = [];
+      const start = formatDateForGoogle(document.getElementById('scholar-date-start').value);
+      const end = formatDateForGoogle(document.getElementById('scholar-date-end').value);
+      if (start || end) {
+        const cdrSegments = ['cdr:1'];
+        if (start) cdrSegments.push(`cd_min:${start}`);
+        if (end) cdrSegments.push(`cd_max:${end}`);
+        tbsParts.push(cdrSegments.join(','));
+      }
+      document.getElementById('scholar-tbs').value = tbsParts.join(',');
+    });
+
+    function searchGoogleNews() {
+      const topic = document.getElementById('news-topic').value;
+      let baseUrl = 'https://news.google.com/search';
+      if (topic) {
+        baseUrl = `https://news.google.com/topics/${topic}`;
+      }
+
+      const queryParts = [];
+      const allWords = document.getElementById('news-q-all').value.trim();
+      if (allWords) queryParts.push(allWords);
+
+      const exact = document.getElementById('news-q-exact').value.trim();
+      if (exact) queryParts.push(`"${exact}"`);
+
+      const anyWords = document.getElementById('news-q-any').value.trim();
+      if (anyWords) {
+        const any = anyWords.split(/\s+/).filter(Boolean).join(' OR ');
+        if (any) queryParts.push(`(${any})`);
+      }
+
+      const noneWords = document.getElementById('news-q-none').value.trim();
+      if (noneWords) {
+        const none = noneWords.split(/\s+/).filter(Boolean).map(word => `-${word}`).join(' ');
+        if (none) queryParts.push(none);
+      }
+
+      const intitle = document.getElementById('news-intitle').value.trim();
+      if (intitle) queryParts.push(`intitle:${intitle}`);
+
+      const inurl = document.getElementById('news-inurl').value.trim();
+      if (inurl) queryParts.push(`inurl:${inurl}`);
+
+      const site = document.getElementById('news-site').value.trim();
+      if (site) queryParts.push(`site:${site}`);
+
+      const location = document.getElementById('news-location').value.trim();
+      if (location) queryParts.push(`location:"${location}"`);
+
+      const params = new URLSearchParams();
+      const queryString = queryParts.join(' ').trim();
+      if (queryString) params.set('for', queryString);
+
+      const tbsParts = [];
+      const timeSort = document.getElementById('news-time-sort').value;
+      if (timeSort) tbsParts.push(timeSort);
+
+      const start = formatDateForGoogle(document.getElementById('news-date-start').value);
+      const end = formatDateForGoogle(document.getElementById('news-date-end').value);
+      if (start || end) {
+        const cdrSegments = ['cdr:1'];
+        if (start) cdrSegments.push(`cd_min:${start}`);
+        if (end) cdrSegments.push(`cd_max:${end}`);
+        tbsParts.push(cdrSegments.join(','));
+      }
+
+      if (document.getElementById('news-hide-duplicates').checked) {
+        tbsParts.push('nsnd:1');
+      }
+
+      if (tbsParts.length) {
+        params.set('tbs', tbsParts.join(','));
+      }
+
+      const edition = document.getElementById('news-edition').value;
+      if (edition) {
+        const [hlPreset, glPreset, ceidPreset] = edition.split('|');
+        if (hlPreset) params.set('hl', hlPreset);
+        if (glPreset) params.set('gl', glPreset);
+        if (ceidPreset) params.set('ceid', ceidPreset);
+      }
+
+      const language = document.getElementById('news-language').value.trim();
+      if (language) params.set('hl', language);
+
+      const country = document.getElementById('news-country').value.trim();
+      if (country) params.set('gl', country);
+
+      const ceid = document.getElementById('news-ceid').value.trim();
+      if (ceid) params.set('ceid', ceid);
+
+      const num = document.getElementById('news-num').value;
+      if (num) params.set('num', num);
+
+      const safe = document.getElementById('news-safe').value;
+      if (safe) params.set('safe', safe);
+
+      if (!params.has('for') && !params.has('tbs') && !topic) {
+        alert('Please enter search terms or choose a topic for Google News.');
+        return;
+      }
+
+      const urlParams = params.toString();
+      window.open(urlParams ? `${baseUrl}?${urlParams}` : baseUrl, '_blank');
+    }
+    function buildGitHubDateRange(afterValue, beforeValue, key) {
+      const after = afterValue ? afterValue : '';
+      const before = beforeValue ? beforeValue : '';
+      if (after && before) return `${key}:${after}..${before}`;
+      if (after) return `${key}:>${after}`;
+      if (before) return `${key}:<${before}`;
+      return '';
+    }
+
+    function searchGitHub() {
+      const queryParts = [];
+      const keywords = document.getElementById('github-q').value.trim();
+      if (keywords) queryParts.push(keywords);
+
+      const repo = document.getElementById('github-repo').value.trim();
+      if (repo) queryParts.push(`repo:${repo}`);
+
+      const user = document.getElementById('github-user').value.trim();
+      if (user) queryParts.push(`user:${user}`);
+
+      const org = document.getElementById('github-org').value.trim();
+      if (org) queryParts.push(`org:${org}`);
+
+      const topicsRaw = document.getElementById('github-topics').value;
+      if (topicsRaw) {
+        topicsRaw.split(/[,;]+/).map(topic => topic.trim()).filter(Boolean).forEach(topic => {
+          queryParts.push(`topic:${topic}`);
+        });
+      }
+
+      const language = document.getElementById('github-lang').value.trim();
+      if (language) queryParts.push(`language:${language}`);
+
+      const license = document.getElementById('github-license').value.trim();
+      if (license) queryParts.push(`license:${license}`);
+
+      const stars = document.getElementById('github-stars').value.trim();
+      if (stars) queryParts.push(`stars:${stars}`);
+
+      const forks = document.getElementById('github-forks').value.trim();
+      if (forks) queryParts.push(`forks:${forks}`);
+
+      const forkOption = document.getElementById('github-fork-option').value;
+      if (forkOption) queryParts.push(`fork:${forkOption}`);
+
+      const size = document.getElementById('github-size').value.trim();
+      if (size) queryParts.push(`size:${size}`);
+
+      const goodFirst = document.getElementById('github-good-first').value.trim();
+      if (goodFirst) queryParts.push(`good-first-issues:${goodFirst}`);
+
+      const helpWanted = document.getElementById('github-help-wanted').value.trim();
+      if (helpWanted) queryParts.push(`help-wanted-issues:${helpWanted}`);
+
+      const followers = document.getElementById('github-followers').value.trim();
+      if (followers) queryParts.push(`followers:${followers}`);
+
+      const label = document.getElementById('github-label').value.trim();
+      if (label) queryParts.push(`label:${label}`);
+
+      const issueState = document.getElementById('github-issue-state').value;
+      if (issueState === 'open' || issueState === 'closed') {
+        queryParts.push(`state:${issueState}`);
+      } else if (issueState === 'merged') {
+        queryParts.push('is:pr');
+        queryParts.push('is:merged');
+      } else if (issueState === 'draft') {
+        queryParts.push('draft:true');
+      }
+
+      const archived = document.getElementById('github-archived').value;
+      if (archived) queryParts.push(`archived:${archived}`);
+
+      const pushedQualifier = buildGitHubDateRange(
+        document.getElementById('github-pushed-after').value,
+        document.getElementById('github-pushed-before').value,
+        'pushed'
+      );
+      if (pushedQualifier) queryParts.push(pushedQualifier);
+
+      const createdQualifier = buildGitHubDateRange(
+        document.getElementById('github-created-after').value,
+        document.getElementById('github-created-before').value,
+        'created'
+      );
+      if (createdQualifier) queryParts.push(createdQualifier);
+
+      const scope = document.getElementById('github-scope').value;
+      const enforcedScopeQualifiers = [];
+      let typeParam = 'repositories';
+
+      switch (scope) {
+        case 'code':
+          typeParam = 'code';
+          break;
+        case 'issues':
+          typeParam = 'issues';
+          break;
+        case 'prs':
+          typeParam = 'issues';
+          enforcedScopeQualifiers.push('type:pr');
+          break;
+        case 'discussions':
+          typeParam = 'discussions';
+          enforcedScopeQualifiers.push('type:discussion');
+          break;
+        case 'wikis':
+          typeParam = 'wikis';
+          enforcedScopeQualifiers.push('type:wiki');
+          break;
+        case 'users':
+          typeParam = 'users';
+          enforcedScopeQualifiers.push('type:user');
+          break;
+        default:
+          typeParam = 'repositories';
+      }
+
+      enforcedScopeQualifiers.forEach(q => queryParts.push(q));
+
+      const finalQuery = queryParts.join(' ').trim();
+      if (!finalQuery) {
+        alert('Please enter keywords or qualifiers for the GitHub search.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set('q', finalQuery);
+      params.set('type', typeParam);
+
+      const sortSelection = document.getElementById('github-sort').value;
+      if (sortSelection) {
+        const [sortKey, sortOrder] = sortSelection.split('-');
+        params.set('s', sortKey);
+        params.set('o', sortOrder);
+      }
+
+      window.open(`https://github.com/search?${params.toString()}`, '_blank');
+    }
+
+    function searchReddit() {
+      const params = new URLSearchParams();
+      const queryParts = [];
+      const keywords = document.getElementById('reddit-q').value.trim();
+      if (keywords) queryParts.push(keywords);
+
+      const subreddit = document.getElementById('reddit-sub').value.trim();
+      if (subreddit) queryParts.push(`subreddit:${subreddit}`);
+
+      const author = document.getElementById('reddit-author').value.trim();
+      if (author) queryParts.push(`author:${author}`);
+
+      const flair = document.getElementById('reddit-flair').value.trim();
+      if (flair) queryParts.push(`flair:"${flair}"`);
+
+      const title = document.getElementById('reddit-title').value.trim();
+      if (title) queryParts.push(`title:"${title}"`);
+
+      const selftext = document.getElementById('reddit-selftext').value.trim();
+      if (selftext) queryParts.push(`selftext:${selftext}`);
+
+      const site = document.getElementById('reddit-site').value.trim();
+      if (site) queryParts.push(`site:${site}`);
+
+      const selfToggle = document.getElementById('reddit-self').value;
+      if (selfToggle) queryParts.push(`self:${selfToggle}`);
+
+      const nsfw = document.getElementById('reddit-nsfw').value;
+      if (nsfw) queryParts.push(`nsfw:${nsfw}`);
+
+      const queryString = queryParts.join(' ').trim();
+      if (!queryString) {
+        alert('Please enter keywords or filters for Reddit search.');
+        return;
+      }
+
+      params.set('q', queryString);
+
+      const resultType = document.getElementById('reddit-type').value;
+      if (resultType) params.set('type', resultType);
+
+      params.set('sort', document.getElementById('reddit-sort').value);
+      params.set('t', document.getElementById('reddit-time').value);
+
+      const limit = document.getElementById('reddit-limit').value;
+      if (limit) params.set('limit', limit);
+
+      if (document.getElementById('reddit-include-over-18').checked) {
+        params.set('include_over_18', 'true');
+      }
+
+      const restrictValue = document.getElementById('reddit-restrict').value;
+      if (restrictValue) {
+        params.set('restrict_sr', restrictValue);
+      } else if (subreddit) {
+        params.set('restrict_sr', '1');
+      }
+
+      let baseUrl = 'https://www.reddit.com/search';
+      if (subreddit) {
+        baseUrl = `https://www.reddit.com/r/${subreddit}/search`;
+      }
+
+      window.open(`${baseUrl}?${params.toString()}`, '_blank');
+    }
+
+    function searchYouTube() {
+      let query = document.getElementById('yt-q').value.trim();
+      const channel = document.getElementById('yt-channel').value.trim();
+      if (channel) query += ` channel:${channel}`;
+      const title = document.getElementById('yt-title').value.trim();
+      if (title) query += ` intitle:${title}`;
+
+      const duration = document.getElementById('yt-duration').value;
+      if (duration) query += ` ${duration}`;
+
+      const playlistFilter = document.getElementById('yt-playlist').value;
+      if (playlistFilter) query += ` ${playlistFilter}`;
+
+      const after = document.getElementById('yt-after').value;
+      if (after) query += ` after:${after}`;
+
+      const before = document.getElementById('yt-before').value;
+      if (before) query += ` before:${before}`;
+
+      if (document.getElementById('yt-hd').checked) query += ' hd';
+      if (document.getElementById('yt-4k').checked) query += ' 4k';
+      if (document.getElementById('yt-subtitles').checked) query += ' subtitles';
+      if (document.getElementById('yt-cc').checked) query += ' creativecommons';
+      if (document.getElementById('yt-live').checked) query += ' live';
+      if (document.getElementById('yt-3d').checked) query += ' 3d';
+      if (document.getElementById('yt-360').checked) query += ' 360';
+      if (document.getElementById('yt-hdr').checked) query += ' hdr';
+
+      query = query.trim();
+      if (!query) {
+        alert('Please enter search keywords for YouTube.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set('search_query', query);
+
+      window.open(`https://www.youtube.com/results?${params.toString()}`, '_blank');
+    }
+
+    function searchStackOverflow() {
+      let query = document.getElementById('so-q').value.trim();
+
+      const tags = document.getElementById('so-tags').value;
+      if (tags) {
+        tags.split(/[,\s]+/).filter(Boolean).forEach(tag => {
+          query += ` [${tag.trim()}]`;
+        });
+      }
+
+      const excludeTags = document.getElementById('so-exclude-tags').value;
+      if (excludeTags) {
+        excludeTags.split(/[,\s]+/).filter(Boolean).forEach(tag => {
+          query += ` -[${tag.trim()}]`;
+        });
+      }
+
+      const user = document.getElementById('so-user').value.trim();
+      if (user) query += ` user:${user}`;
+
+      const score = document.getElementById('so-score').value.trim();
+      if (score) query += ` score:${score}`;
+
+      const views = document.getElementById('so-views').value.trim();
+      if (views) query += ` views:${views}`;
+
+      const answers = document.getElementById('so-answers').value.trim();
+      if (answers) query += ` answers:${answers}`;
+
+      const createdAfter = document.getElementById('so-created-after').value;
+      const createdBefore = document.getElementById('so-created-before').value;
+      if (createdAfter && createdBefore) {
+        query += ` created:${createdAfter}..${createdBefore}`;
+      } else if (createdAfter) {
+        query += ` created:>${createdAfter}`;
+      } else if (createdBefore) {
+        query += ` created:<${createdBefore}`;
+      }
+
+      if (document.getElementById('so-is-question').checked) query += ' is:question';
+      if (document.getElementById('so-is-answer').checked) query += ' is:answer';
+      if (document.getElementById('so-is-article').checked) query += ' is:article';
+      if (document.getElementById('so-hasaccepted').checked) query += ' hasaccepted:yes';
+      if (document.getElementById('so-isaccepted').checked) query += ' isaccepted:yes';
+      if (document.getElementById('so-duplicate').checked) query += ' duplicate:yes';
+      if (document.getElementById('so-closed').checked) query += ' closed:yes';
+      if (document.getElementById('so-wiki').checked) query += ' wiki:yes';
+      if (document.getElementById('so-hascode').checked) query += ' hascode:yes';
+
+      query = query.trim();
+      if (!query) {
+        alert('Please enter keywords or qualifiers for Stack Overflow.');
+        return;
+      }
+
+      window.open(`https://stackoverflow.com/search?q=${encodeURIComponent(query)}`, '_blank');
+    }
+
+    function searchArchive() {
+      const params = new URLSearchParams();
+      const queryParts = [];
+      const keywords = document.getElementById('archive-q').value.trim();
+      if (keywords) queryParts.push(`(${keywords})`);
+
+      const collection = document.getElementById('archive-collection').value.trim();
+      if (collection) queryParts.push(`collection:${collection}`);
+
+      const mediatype = document.getElementById('archive-mediatype').value;
+      if (mediatype) queryParts.push(`mediatype:${mediatype}`);
+
+      const creator = document.getElementById('archive-creator').value.trim();
+      if (creator) queryParts.push(`creator:"${creator}"`);
+
+      const yearFrom = document.getElementById('archive-year-from').value;
+      const yearTo = document.getElementById('archive-year-to').value;
+      if (yearFrom && yearTo) {
+        queryParts.push(`year:[${yearFrom} TO ${yearTo}]`);
+      } else if (yearFrom) {
+        queryParts.push(`year:[${yearFrom} TO *]`);
+      } else if (yearTo) {
+        queryParts.push(`year:[* TO ${yearTo}]`);
+      }
+
+      const license = document.getElementById('archive-license').value;
+      if (license) queryParts.push(license);
+
+      if (!queryParts.length) {
+        alert('Please enter keywords or filters for the Internet Archive search.');
+        return;
+      }
+
+      params.set('q', queryParts.join(' AND '));
+
+      const fields = document.getElementById('archive-fields').value;
+      if (fields) {
+        fields.split(/[,;]+/).map(field => field.trim()).filter(Boolean).forEach(field => {
+          params.append('fl[]', field);
+        });
+      }
+
+      const sortValue = document.getElementById('archive-sort').value;
+      if (sortValue) params.append('sort[]', sortValue);
+
+      const rows = document.getElementById('archive-rows').value;
+      if (rows) params.set('rows', rows);
+
+      const page = document.getElementById('archive-page').value;
+      if (page) params.set('page', page);
+
+      params.set('output', document.getElementById('archive-output').value || 'html');
+
+      if (document.getElementById('archive-total-only').checked) {
+        params.set('total_only', 'true');
+      }
+
+      window.open(`https://archive.org/advancedsearch.php?${params.toString()}`, '_blank');
+    }
+  </script>
 </body>
 </html>
