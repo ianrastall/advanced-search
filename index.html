@@ -248,6 +248,7 @@
         <select id="providerSelectMediaWiki" class="provider-select">
           <option value="">Choose a MediaWiki search...</option>
           <option value="wikimedia-commons">Wikimedia Commons</option>
+          <option value="wikibooks">Wikibooks</option>
           <option value="wikisource">Wikisource</option>
           <option value="wikipedia">Wikipedia</option>
         </select>
@@ -1584,6 +1585,99 @@
       </div>
     </form>
 
+    <!-- Wikibooks -->
+    <form id="wikibooks" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="wikibooks-all" placeholder="e.g., general chemistry lab">
+            <small>Matches words anywhere in the selected namespaces.</small>
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="wikibooks-exact" placeholder='e.g., "open-source textbooks"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="wikibooks-any" placeholder="e.g., algebra calculus geometry">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="wikibooks-none" placeholder="e.g., teacher edition solutions">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Title &amp; Structure</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Title contains words (intitle:)</label>
+            <input type="text" id="wikibooks-intitle" placeholder="e.g., recipes, workbook">
+            <small>Comma separated values become individual intitle filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Within subpages of (subpageof:)</label>
+            <input type="text" id="wikibooks-subpageof" placeholder="e.g., Cookbook:Salads">
+            <small>Finds chapters or sections under a parent page.</small>
+          </div>
+          <div class="form-group">
+            <label>Page prefix (prefix:)</label>
+            <input type="text" id="wikibooks-prefix" placeholder="e.g., Wikijunior:Solar System">
+            <small>Spaces convert to underscores automatically.</small>
+          </div>
+          <div class="form-group">
+            <label>Similar to page (morelike:)</label>
+            <input type="text" id="wikibooks-morelike" placeholder="e.g., Subject:Mathematics">
+            <small>Suggests pages similar to the provided title.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Categories &amp; Templates</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Must be in categories (incategory:)</label>
+            <input type="text" id="wikibooks-incategory" placeholder="e.g., Mathematics books">
+            <small>Use commas or new lines for multiple categories.</small>
+          </div>
+          <div class="form-group">
+            <label>Include subcategories (deepcat:)</label>
+            <input type="text" id="wikibooks-deepcat" placeholder="e.g., Programming">
+          </div>
+          <div class="form-group">
+            <label>Require templates (hastemplate:)</label>
+            <input type="text" id="wikibooks-hastemplate" placeholder="e.g., Cookbook recipe">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Namespaces</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="wikibooks-namespace" value="0" id="wikibooks-ns-main" checked> Main (Books)</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="102" id="wikibooks-ns-cookbook" checked> Cookbook</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="110" id="wikibooks-ns-wikijunior" checked> Wikijunior</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="112" id="wikibooks-ns-subject" checked> Subject</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="4" id="wikibooks-ns-project"> Wikibooks project</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="12" id="wikibooks-ns-help"> Help</label>
+              <label><input type="checkbox" name="wikibooks-namespace" value="14" id="wikibooks-ns-category"> Category</label>
+            </div>
+            <small>Defaults mirror the content namespaces highlighted in the Wikibooks help.</small>
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); ['wikibooks-ns-main', 'wikibooks-ns-cookbook', 'wikibooks-ns-wikijunior', 'wikibooks-ns-subject'].forEach(id => document.getElementById(id).checked = true);">Reset</button>
+        <button type="button" onclick="searchWikibooks()">Search Wikibooks</button>
+      </div>
+    </form>
+
     <!-- Wikisource -->
     <form id="wikisource" class="search-form" target="_blank" autocomplete="off">
       <div class="form-section">
@@ -2265,7 +2359,7 @@
 
     function tokenizeList(value) {
       if (!value) return [];
-      return value.split(/[,;]+/).map(part => part.trim()).filter(Boolean);
+      return value.split(/(?:\r?\n|[,;])+/).map(part => part.trim()).filter(Boolean);
     }
 
     function wrapForQuery(term) {
@@ -2382,6 +2476,75 @@
     }
 
 
+
+
+    function searchWikibooks() {
+      const queryParts = [];
+      const allWords = document.getElementById('wikibooks-all').value.trim();
+      if (allWords) queryParts.push(allWords);
+
+      const exactPhrase = document.getElementById('wikibooks-exact').value.trim();
+      if (exactPhrase) queryParts.push(`"${exactPhrase}"`);
+
+      const anyWords = document.getElementById('wikibooks-any').value.trim();
+      if (anyWords) {
+        const tokens = anyWords.split(/\s+/).filter(Boolean);
+        if (tokens.length) {
+          queryParts.push(`(${tokens.join(' OR ')})`);
+        }
+      }
+
+      const noneWords = document.getElementById('wikibooks-none').value.trim();
+      if (noneWords) {
+        noneWords.split(/\s+/).filter(Boolean).forEach(word => {
+          const wrapped = /\s/.test(word) ? `"${word}"` : word;
+          queryParts.push(`-${wrapped}`);
+        });
+      }
+
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikibooks-intitle').value), 'intitle');
+
+      const subpage = document.getElementById('wikibooks-subpageof').value.trim();
+      if (subpage) {
+        const normalized = subpage.replace(/\s+/g, '_');
+        queryParts.push(`subpageof:${normalized}`);
+      }
+
+      const prefixValue = document.getElementById('wikibooks-prefix').value.trim();
+      if (prefixValue) {
+        queryParts.push(`prefix:${prefixValue.replace(/\s+/g, '_')}`);
+      }
+
+      const morelike = document.getElementById('wikibooks-morelike').value.trim();
+      if (morelike) {
+        queryParts.push(`morelike:${wrapForQuery(morelike)}`);
+      }
+
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikibooks-incategory').value), 'incategory');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikibooks-deepcat').value), 'deepcat');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikibooks-hastemplate').value), 'hastemplate');
+
+      const query = queryParts.join(' ').trim();
+      if (!query) {
+        alert('Please enter keywords or filters for the Wikibooks search.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set('title', 'Special:Search');
+      params.set('profile', 'advanced');
+      params.set('fulltext', '1');
+      params.set('search', query);
+
+      const namespaceBoxes = Array.from(document.querySelectorAll('#wikibooks input[name="wikibooks-namespace"]:checked'));
+      if (namespaceBoxes.length) {
+        namespaceBoxes.forEach(box => params.set(`ns${box.value}`, '1'));
+      } else {
+        ['0', '102', '110', '112'].forEach(ns => params.set(`ns${ns}`, '1'));
+      }
+
+      window.open(`https://en.wikibooks.org/w/index.php?${params.toString()}`, '_blank');
+    }
 
     function searchWikisource() {
       const queryParts = [];
