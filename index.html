@@ -111,6 +111,16 @@
       display: block;
     }
 
+    .load-error {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.95em;
+      margin-bottom: 20px;
+    }
+
     .form-section {
       margin-bottom: 30px;
     }
@@ -315,68 +325,88 @@
     <!-- Internet Archive -->
     <div class="site-include" data-site="archive" data-src="sites/archive.html"></div>
   <script>
-    const providerSelects = Array.from(document.querySelectorAll('.provider-select'));
-    const siteIncludeContainers = Array.from(document.querySelectorAll('.site-include'));
+    document.addEventListener('DOMContentLoaded', () => {
+      const providerSelects = Array.from(document.querySelectorAll('.provider-select'));
+      const siteIncludeContainers = Array.from(document.querySelectorAll('.site-include'));
+      const basePath = new URL('./', window.location.href);
 
-    function loadSiteIncludes() {
-      const loaders = siteIncludeContainers.map(container => {
-        const src = container.dataset.src;
-        if (!src) {
-          return Promise.resolve();
-        }
-        return fetch(src)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`Failed to fetch ${src}: ${response.status}`);
-            }
-            return response.text();
-          })
-          .then(html => {
-            container.innerHTML = html;
-          })
-          .catch(error => {
-            console.error(error);
-            container.innerHTML = '<div class="load-error">Unable to load this search form.</div>';
-          });
-      });
-
-      return Promise.all(loaders);
-    }
-
-
-    function activateForm(formId) {
-      document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
-      const target = document.getElementById(formId);
-      if (target) {
-        target.classList.add('active');
+      if (typeof fetch !== 'function') {
+        siteIncludeContainers.forEach(container => {
+          container.innerHTML = '<div class="load-error">Your browser does not support the required features to load this form.</div>';
+        });
+        return;
       }
-    }
 
-    providerSelects.forEach(select => {
-      select.addEventListener('change', (event) => {
-        const value = event.target.value;
-        if (!value) {
+      function loadSiteIncludes() {
+        const loaders = siteIncludeContainers.map(container => {
+          const src = container.dataset.src;
+          if (!src) {
+            return Promise.resolve();
+          }
+          const url = new URL(src, basePath);
+          return fetch(url.href, { credentials: 'same-origin' })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`Failed to fetch ${url.href}: ${response.status}`);
+              }
+              return response.text();
+            })
+            .then(html => {
+              container.innerHTML = html;
+            })
+            .catch(error => {
+              console.error(error);
+              container.innerHTML = '<div class="load-error">Unable to load this search form.</div>';
+            });
+        });
+
+        if (Promise.allSettled) {
+          return Promise.allSettled(loaders);
+        }
+        return Promise.all(loaders);
+      }
+
+      function activateForm(formId) {
+        document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
+        const target = document.getElementById(formId);
+        if (target) {
+          target.classList.add('active');
           return;
         }
-        providerSelects.forEach(other => {
-          if (other !== event.target) {
-            other.value = '';
-          }
-        });
-        activateForm(value);
-      });
-    });
+        const fallback = document.querySelector('.search-form');
+        if (fallback) {
+          fallback.classList.add('active');
+        }
+      }
 
-    loadSiteIncludes().then(() => {
-      initializeForms();
-      const defaultSelect = document.getElementById('providerSelectGoogle');
-      let defaultValue = defaultSelect ? defaultSelect.value : null;
-      if (!defaultValue && siteIncludeContainers.length) {
-        defaultValue = siteIncludeContainers[0].dataset.site;
-      }
-      if (defaultValue) {
+      providerSelects.forEach(select => {
+        select.addEventListener('change', (event) => {
+          const value = event.target.value;
+          if (!value) {
+            return;
+          }
+          providerSelects.forEach(other => {
+            if (other !== event.target) {
+              other.value = '';
+            }
+          });
+          activateForm(value);
+        });
+      });
+
+      loadSiteIncludes().then(() => {
+        initializeForms();
+        let defaultValue = 'google-web';
+        const defaultSelect = document.getElementById('providerSelectGoogle');
+        if (defaultSelect) {
+          if (defaultSelect.value) {
+            defaultValue = defaultSelect.value;
+          } else {
+            defaultSelect.value = defaultValue;
+          }
+        }
         activateForm(defaultValue);
-      }
+      });
     });
 
     function formatDateForGoogle(value) {
