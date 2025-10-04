@@ -61,6 +61,9 @@
       border-radius: 8px;
       margin-bottom: 30px;
       border: 1px solid var(--border-color);
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
 
     .provider-selector label {
@@ -68,6 +71,11 @@
       margin-bottom: 10px;
       font-weight: 600;
       font-size: 1.1em;
+    }
+    .provider-selector .select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     select, input[type="text"], input[type="number"], input[type="date"], textarea {
@@ -225,19 +233,35 @@
 <body>
   <div class="container">
     <div class="provider-selector">
-      <label for="providerSelect">Choose Search Provider:</label>
-      <select id="providerSelect">
-        <option value="google-web">Google Web Search</option>
-        <option value="google-images">Google Images</option>
-        <option value="google-news">Google News</option>
-        <option value="google-scholar">Google Scholar</option>
-        <option value="github">GitHub</option>
-        <option value="reddit">Reddit</option>
-        <option value="youtube">YouTube</option>
-        <option value="stackoverflow">Stack Overflow</option>
-        <option value="wikipedia">Wikipedia</option>
-        <option value="archive">Internet Archive</option>
-      </select>
+      <div class="select-group">
+        <label for="providerSelectGoogle">Google Searches</label>
+        <select id="providerSelectGoogle" class="provider-select">
+          <option value="">Choose a Google search...</option>
+          <option value="google-images">Google Images</option>
+          <option value="google-news">Google News</option>
+          <option value="google-scholar">Google Scholar</option>
+          <option value="google-web" selected>Google Web Search</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label for="providerSelectMediaWiki">MediaWiki Searches</label>
+        <select id="providerSelectMediaWiki" class="provider-select">
+          <option value="">Choose a MediaWiki search...</option>
+          <option value="wikimedia-commons">Wikimedia Commons</option>
+          <option value="wikipedia">Wikipedia</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label for="providerSelectMisc">Miscellaneous Searches</label>
+        <select id="providerSelectMisc" class="provider-select">
+          <option value="">Choose a misc search...</option>
+          <option value="github">GitHub</option>
+          <option value="archive">Internet Archive</option>
+          <option value="reddit">Reddit</option>
+          <option value="stackoverflow">Stack Overflow</option>
+          <option value="youtube">YouTube</option>
+        </select>
+      </div>
     </div>
 
     <!-- Google Web Search -->
@@ -1276,7 +1300,7 @@
         <button type="button" onclick="searchStackOverflow()">Search Stack Overflow</button>
       </div>
     </form>
-    <!-- Internet Archive -->
+    <!-- Wikipedia -->
 
     <form id="wikipedia" class="search-form" target="_blank" autocomplete="off">
       <div class="form-section">
@@ -1410,7 +1434,156 @@
         <button type="button" onclick="searchWikipedia()">Search Wikipedia</button>
       </div>
     </form>
+    <!-- Wikimedia Commons -->
+    <form id="wikimedia-commons" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="commons-all" placeholder="e.g., aurora borealis">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="commons-exact" placeholder="e.g., "Milky Way"">
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="commons-any" placeholder="e.g., timelapse panorama night">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="commons-none" placeholder="e.g., illustration clipart">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>File Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>File type (filetype:)</label>
+            <select id="commons-filetype">
+              <option value="">Any file type</option>
+              <option value="bitmap">Bitmap</option>
+              <option value="drawing">Drawing</option>
+              <option value="audio">Audio</option>
+              <option value="video">Video</option>
+              <option value="multimedia">Multimedia</option>
+              <option value="office">Office</option>
+              <option value="text">Text</option>
+              <option value="executable">Executable</option>
+              <option value="archive">Archive</option>
+              <option value="3d">3D</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>MIME type (filemime:)</label>
+            <input type="text" id="commons-mime" placeholder="e.g., image/png">
+            <small>Use full MIME type for exact matches.</small>
+          </div>
+          <div class="form-group">
+            <label>Minimum width (px)</label>
+            <input type="number" id="commons-width-min" min="0" placeholder="e.g., 800">
+          </div>
+          <div class="form-group">
+            <label>Maximum width (px)</label>
+            <input type="number" id="commons-width-max" min="0" placeholder="e.g., 4000">
+          </div>
+          <div class="form-group">
+            <label>Minimum height (px)</label>
+            <input type="number" id="commons-height-min" min="0" placeholder="e.g., 600">
+          </div>
+          <div class="form-group">
+            <label>Maximum height (px)</label>
+            <input type="number" id="commons-height-max" min="0" placeholder="e.g., 3000">
+          </div>
+          <div class="form-group">
+            <label>Minimum file size (KB)</label>
+            <input type="number" id="commons-size-min" min="0" placeholder="e.g., 20">
+          </div>
+          <div class="form-group">
+            <label>Maximum file size (KB)</label>
+            <input type="number" id="commons-size-max" min="0" placeholder="e.g., 1024">
+          </div>
+          <div class="form-group">
+            <label>Bit depth (filebits:)</label>
+            <input type="number" id="commons-bits" min="1" placeholder="e.g., 16">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Metadata Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Words in title (intitle:)</label>
+            <input type="text" id="commons-intitle" placeholder="e.g., sunset, panorama">
+            <small>Separate with commas for multiple intitle filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Description contains (insource:)</label>
+            <input type="text" id="commons-insource" placeholder="e.g., Creative Commons">
+          </div>
+          <div class="form-group">
+            <label>Page prefix (prefix:)</label>
+            <input type="text" id="commons-prefix" placeholder="e.g., Category:Featured pictures of">
+          </div>
+          <div class="form-group">
+            <label>Must be in categories (incategory:)</label>
+            <input type="text" id="commons-incategory" placeholder="e.g., Landscapes of Iceland">
+            <small>Use commas or new lines for multiple categories.</small>
+          </div>
+          <div class="form-group">
+            <label>Include subcategories (deepcat:)</label>
+            <input type="text" id="commons-deepcat" placeholder="e.g., National parks">
+          </div>
+          <div class="form-group">
+            <label>Require templates (hastemplate:)</label>
+            <input type="text" id="commons-hastemplate" placeholder="e.g., Featured picture">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Namespaces & Options</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="commons-namespace" value="6" checked> File</label>
+              <label><input type="checkbox" name="commons-namespace" value="0"> Gallery</label>
+              <label><input type="checkbox" name="commons-namespace" value="14"> Category</label>
+              <label><input type="checkbox" name="commons-namespace" value="2"> User</label>
+              <label><input type="checkbox" name="commons-namespace" value="4"> Commons project</label>
+            </div>
+            <small>File namespace is selected by default.</small>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="commons-sort">
+              <option value="">Relevance (default)</option>
+              <option value="last_edit_desc">Most recently edited</option>
+              <option value="last_edit_asc">Least recently edited</option>
+              <option value="create_timestamp_desc">Most recently created</option>
+              <option value="create_timestamp_asc">Oldest pages</option>
+              <option value="incoming_links_desc">Most incoming links</option>
+              <option value="incoming_links_asc">Fewest incoming links</option>
+              <option value="random">Random order</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results limit</label>
+            <input type="number" id="commons-limit" min="1" max="500" placeholder="e.g., 100">
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchCommons()">Search Wikimedia Commons</button>
+      </div>
+    </form>
 
+    <!-- Internet Archive -->
     <form id="archive" class="search-form" target="_blank" autocomplete="off">
       <div class="form-section">
         <h3>Query Builder</h3>
@@ -1516,13 +1689,29 @@
       </div>
     </form>
   <script>
-    const providerSelect = document.getElementById('providerSelect');
-    providerSelect.addEventListener('change', (event) => {
+    const providerSelects = Array.from(document.querySelectorAll('.provider-select'));
+
+    function activateForm(formId) {
       document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
-      const target = document.getElementById(event.target.value);
+      const target = document.getElementById(formId);
       if (target) {
         target.classList.add('active');
       }
+    }
+
+    providerSelects.forEach(select => {
+      select.addEventListener('change', (event) => {
+        const value = event.target.value;
+        if (!value) {
+          return;
+        }
+        providerSelects.forEach(other => {
+          if (other !== event.target) {
+            other.value = '';
+          }
+        });
+        activateForm(value);
+      });
     });
 
     function formatDateForGoogle(value) {
@@ -2012,6 +2201,27 @@
       values.forEach(value => parts.push(`${operator}:${wrapForQuery(value)}`));
     }
 
+    function buildRangeQuery(minValue, maxValue, keyword) {
+      const min = minValue ? parseInt(minValue, 10) : NaN;
+      const max = maxValue ? parseInt(maxValue, 10) : NaN;
+
+      if (!Number.isNaN(min) && !Number.isNaN(max)) {
+        const low = Math.min(min, max);
+        const high = Math.max(min, max);
+        return `${keyword}:${low},${high}`;
+      }
+
+      if (!Number.isNaN(min)) {
+        return `${keyword}:>${min}`;
+      }
+
+      if (!Number.isNaN(max)) {
+        return `${keyword}:<${max}`;
+      }
+
+      return '';
+    }
+
     function searchWikipedia() {
       const queryParts = [];
       const allWords = document.getElementById('wikipedia-all').value.trim();
@@ -2095,6 +2305,100 @@
       window.open(`https://en.wikipedia.org/w/index.php?${params.toString()}`, '_blank');
     }
 
+
+    function searchCommons() {
+      const queryParts = [];
+      const allWords = document.getElementById('commons-all').value.trim();
+      if (allWords) queryParts.push(allWords);
+
+      const exactPhrase = document.getElementById('commons-exact').value.trim();
+      if (exactPhrase) queryParts.push(`"${exactPhrase}"`);
+
+      const anyWords = document.getElementById('commons-any').value.trim();
+      if (anyWords) {
+        const tokens = anyWords.split(/[\s]+/).filter(Boolean);
+        if (tokens.length) {
+          queryParts.push(`(${tokens.join(' OR ')})`);
+        }
+      }
+
+      const noneWords = document.getElementById('commons-none').value.trim();
+      if (noneWords) {
+        noneWords.split(/[\s]+/).filter(Boolean).forEach(word => {
+          const wrapped = /\s/.test(word) ? `"${word}"` : word;
+          queryParts.push(`-${wrapped}`);
+        });
+      }
+
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('commons-intitle').value), 'intitle');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('commons-insource').value), 'insource');
+
+      const prefix = document.getElementById('commons-prefix').value.trim();
+      if (prefix) {
+        queryParts.push(`prefix:${prefix.replace(/[\s]+/g, '_')}`);
+      }
+
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('commons-incategory').value), 'incategory');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('commons-deepcat').value), 'deepcat');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('commons-hastemplate').value), 'hastemplate');
+
+      const fileType = document.getElementById('commons-filetype').value;
+      if (fileType) queryParts.push(`filetype:${fileType}`);
+
+      const mime = document.getElementById('commons-mime').value.trim();
+      if (mime) {
+        const needsQuotes = /[^\w.+\-\/]/.test(mime);
+        queryParts.push(`filemime:${needsQuotes ? `"${mime}"` : mime}`);
+      }
+
+      const widthFilter = buildRangeQuery(document.getElementById('commons-width-min').value.trim(), document.getElementById('commons-width-max').value.trim(), 'filew');
+      if (widthFilter) queryParts.push(widthFilter);
+
+      const heightFilter = buildRangeQuery(document.getElementById('commons-height-min').value.trim(), document.getElementById('commons-height-max').value.trim(), 'fileh');
+      if (heightFilter) queryParts.push(heightFilter);
+
+      const sizeFilter = buildRangeQuery(document.getElementById('commons-size-min').value.trim(), document.getElementById('commons-size-max').value.trim(), 'filesize');
+      if (sizeFilter) queryParts.push(sizeFilter);
+
+      const bitsValue = document.getElementById('commons-bits').value.trim();
+      if (bitsValue) {
+        const parsedBits = parseInt(bitsValue, 10);
+        if (!Number.isNaN(parsedBits)) {
+          queryParts.push(`filebits:${parsedBits}`);
+        }
+      }
+
+      const query = queryParts.join(' ').trim();
+      if (!query) {
+        alert('Please enter keywords or filters for the Wikimedia Commons search.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set('title', 'Special:Search');
+      params.set('profile', 'advanced');
+      params.set('fulltext', '1');
+      params.set('search', query);
+
+      const namespaceBoxes = Array.from(document.querySelectorAll('#wikimedia-commons input[name="commons-namespace"]:checked'));
+      if (namespaceBoxes.length) {
+        namespaceBoxes.forEach(box => params.set(`ns${box.value}`, '1'));
+      } else {
+        params.set('ns6', '1');
+      }
+
+      const sort = document.getElementById('commons-sort').value;
+      if (sort) {
+        params.set('sort', sort);
+      }
+
+      const limit = document.getElementById('commons-limit').value;
+      if (limit) {
+        params.set('limit', limit);
+      }
+
+      window.open(`https://commons.wikimedia.org/w/index.php?${params.toString()}`, '_blank');
+    }
 
     function searchArchive() {
       const params = new URLSearchParams();
