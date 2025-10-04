@@ -259,6 +259,7 @@
           <option value="">Choose an A-M search...</option>
           <option value="archive">Internet Archive</option>
           <option value="github">GitHub</option>
+          <option value="imdb">IMDb</option>
           <option value="mdn">MDN Web Docs</option>
         </select>
       </div>
@@ -449,9 +450,9 @@
           <div class="form-group">
             <label>SafeSearch</label>
             <select name="safe" id="google-web-safe">
+              <option value="off" selected>Off</option>
               <option value="">Default</option>
               <option value="active">Active</option>
-              <option value="off">Off</option>
             </select>
           </div>
           <div class="form-group">
@@ -611,9 +612,9 @@
           <div class="form-group">
             <label>SafeSearch</label>
             <select name="safe" id="google-images-safe">
+              <option value="off" selected>Off</option>
               <option value="">Default</option>
               <option value="active">Active</option>
-              <option value="off">Off</option>
             </select>
           </div>
           <div class="form-group">
@@ -1846,6 +1847,166 @@
       </div>
     </form>
 
+    <!-- IMDb -->
+    <form id="imdb" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="imdb-title" placeholder="e.g., Star Wars">
+          </div>
+          <div class="form-group">
+            <label>Plot looks for</label>
+            <input type="text" id="imdb-plot" placeholder="e.g., time travel">
+          </div>
+          <div class="form-group">
+            <label>IMDb keywords</label>
+            <input type="text" id="imdb-keywords" placeholder="Comma separated, e.g., superhero,space">
+            <small>Matches official keyword tags.</small>
+          </div>
+          <div class="form-group">
+            <label>Exclude keywords</label>
+            <input type="text" id="imdb-keywords-exclude" placeholder="e.g., horror,zombie">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Title Types &amp; Genres</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Title types</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="imdb-title-type" value="feature" checked> Feature film</label>
+              <label><input type="checkbox" name="imdb-title-type" value="tv_series"> TV series</label>
+              <label><input type="checkbox" name="imdb-title-type" value="tv_movie"> TV movie</label>
+              <label><input type="checkbox" name="imdb-title-type" value="tv_episode"> TV episode</label>
+              <label><input type="checkbox" name="imdb-title-type" value="tv_miniseries"> TV miniseries</label>
+              <label><input type="checkbox" name="imdb-title-type" value="documentary"> Documentary</label>
+              <label><input type="checkbox" name="imdb-title-type" value="short"> Short</label>
+              <label><input type="checkbox" name="imdb-title-type" value="video"> Video</label>
+              <label><input type="checkbox" name="imdb-title-type" value="video_game"> Video game</label>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>Genres</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="imdb-genre" value="action"> Action</label>
+              <label><input type="checkbox" name="imdb-genre" value="adventure"> Adventure</label>
+              <label><input type="checkbox" name="imdb-genre" value="animation"> Animation</label>
+              <label><input type="checkbox" name="imdb-genre" value="comedy"> Comedy</label>
+              <label><input type="checkbox" name="imdb-genre" value="crime"> Crime</label>
+              <label><input type="checkbox" name="imdb-genre" value="drama"> Drama</label>
+              <label><input type="checkbox" name="imdb-genre" value="family"> Family</label>
+              <label><input type="checkbox" name="imdb-genre" value="fantasy"> Fantasy</label>
+              <label><input type="checkbox" name="imdb-genre" value="history"> History</label>
+              <label><input type="checkbox" name="imdb-genre" value="horror"> Horror</label>
+              <label><input type="checkbox" name="imdb-genre" value="music"> Music</label>
+              <label><input type="checkbox" name="imdb-genre" value="mystery"> Mystery</label>
+              <label><input type="checkbox" name="imdb-genre" value="romance"> Romance</label>
+              <label><input type="checkbox" name="imdb-genre" value="sci-fi"> Sci-Fi</label>
+              <label><input type="checkbox" name="imdb-genre" value="thriller"> Thriller</label>
+              <label><input type="checkbox" name="imdb-genre" value="war"> War</label>
+              <label><input type="checkbox" name="imdb-genre" value="western"> Western</label>
+            </div>
+            <small>IMDb accepts comma separated genre codes; selections above are added automatically.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Release &amp; Ratings</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Release start</label>
+            <input type="date" id="imdb-release-start">
+          </div>
+          <div class="form-group">
+            <label>Release end</label>
+            <input type="date" id="imdb-release-end">
+          </div>
+          <div class="form-group">
+            <label>User rating min (0-10)</label>
+            <input type="number" id="imdb-rating-min" min="0" max="10" step="0.1" placeholder="e.g., 7">
+          </div>
+          <div class="form-group">
+            <label>User rating max (0-10)</label>
+            <input type="number" id="imdb-rating-max" min="0" max="10" step="0.1" placeholder="e.g., 10">
+          </div>
+          <div class="form-group">
+            <label>Votes min</label>
+            <input type="number" id="imdb-votes-min" min="0" placeholder="e.g., 1000">
+          </div>
+          <div class="form-group">
+            <label>Votes max</label>
+            <input type="number" id="imdb-votes-max" min="0" placeholder="Optional">
+          </div>
+          <div class="form-group">
+            <label>Runtime min (minutes)</label>
+            <input type="number" id="imdb-runtime-min" min="0" placeholder="e.g., 80">
+          </div>
+          <div class="form-group">
+            <label>Runtime max (minutes)</label>
+            <input type="number" id="imdb-runtime-max" min="0" placeholder="e.g., 180">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Additional Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Countries</label>
+            <input type="text" id="imdb-countries" placeholder="Country codes, e.g., us,gb">
+            <small>Use ISO country codes separated by comma or newline.</small>
+          </div>
+          <div class="form-group">
+            <label>Languages</label>
+            <input type="text" id="imdb-languages" placeholder="Language codes, e.g., en,es">
+          </div>
+          <div class="form-group">
+            <label>Adult titles</label>
+            <div class="inline-options">
+              <label><input type="radio" name="imdb-adult" value="exclude" checked> Exclude</label>
+              <label><input type="radio" name="imdb-adult" value="include"> Include</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Sort &amp; Output</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="imdb-sort">
+              <option value="moviemeter,asc" selected>Popularity</option>
+              <option value="alpha,asc">Alphabetical</option>
+              <option value="release_date,desc">Newest releases</option>
+              <option value="user_rating,desc">Top user rating</option>
+              <option value="num_votes,desc">Most votes</option>
+              <option value="runtime,desc">Longest runtime</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <select id="imdb-count">
+              <option value="50" selected>50</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Page number</label>
+            <input type="number" id="imdb-page" min="1" placeholder="Optional page">
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchIMDb()">Search IMDb</button>
+      </div>
+    </form>
+
     <!-- PubMed -->
     <form id="pubmed" class="search-form" target="_blank" autocomplete="off">
       <div class="form-section">
@@ -2999,6 +3160,91 @@
 
       const queryString = params.toString();
       const targetUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+      window.open(targetUrl, '_blank');
+    }
+
+    function searchIMDb() {
+      const params = new URLSearchParams();
+      const title = document.getElementById('imdb-title').value.trim();
+      if (title) params.set('title', title);
+
+      const plot = document.getElementById('imdb-plot').value.trim();
+      if (plot) params.set('plot', plot);
+
+      const includeKeywords = tokenizeList(document.getElementById('imdb-keywords').value);
+      const excludeKeywords = tokenizeList(document.getElementById('imdb-keywords-exclude').value);
+      if (includeKeywords.length || excludeKeywords.length) {
+        const keywordParts = includeKeywords.slice();
+        excludeKeywords.forEach(keyword => {
+          if (keyword) {
+            const cleaned = keyword.replace(/^!+/, '');
+            keywordParts.push(`!${cleaned}`);
+          }
+        });
+        if (keywordParts.length) {
+          params.set('keywords', keywordParts.join(','));
+        }
+      }
+
+      const titleTypes = Array.from(document.querySelectorAll('input[name="imdb-title-type"]:checked'));
+      if (titleTypes.length) {
+        params.set('title_type', titleTypes.map(node => node.value).join(','));
+      }
+
+      const genres = Array.from(document.querySelectorAll('input[name="imdb-genre"]:checked'));
+      if (genres.length) {
+        params.set('genres', genres.map(node => node.value).join(','));
+      }
+
+      const releaseStart = document.getElementById('imdb-release-start').value;
+      const releaseEnd = document.getElementById('imdb-release-end').value;
+      if (releaseStart || releaseEnd) {
+        params.set('release_date', `${releaseStart || ''},${releaseEnd || ''}`);
+      }
+
+      const ratingMin = document.getElementById('imdb-rating-min').value.trim();
+      const ratingMax = document.getElementById('imdb-rating-max').value.trim();
+      if (ratingMin || ratingMax) {
+        params.set('user_rating', `${ratingMin || ''},${ratingMax || ''}`);
+      }
+
+      const votesMin = document.getElementById('imdb-votes-min').value.trim();
+      const votesMax = document.getElementById('imdb-votes-max').value.trim();
+      if (votesMin || votesMax) {
+        params.set('num_votes', `${votesMin || ''},${votesMax || ''}`);
+      }
+
+      const runtimeMin = document.getElementById('imdb-runtime-min').value.trim();
+      const runtimeMax = document.getElementById('imdb-runtime-max').value.trim();
+      if (runtimeMin || runtimeMax) {
+        params.set('runtime', `${runtimeMin || ''},${runtimeMax || ''}`);
+      }
+
+      const countries = tokenizeList(document.getElementById('imdb-countries').value);
+      if (countries.length) {
+        params.set('countries', countries.join(','));
+      }
+
+      const languages = tokenizeList(document.getElementById('imdb-languages').value);
+      if (languages.length) {
+        params.set('languages', languages.join(','));
+      }
+
+      const adultSelection = document.querySelector('input[name="imdb-adult"]:checked');
+      if (adultSelection && adultSelection.value === 'include') {
+        params.set('adult', 'include');
+      }
+
+      const sort = document.getElementById('imdb-sort').value;
+      if (sort) params.set('sort', sort);
+
+      const count = document.getElementById('imdb-count').value;
+      if (count) params.set('count', count);
+
+      const page = document.getElementById('imdb-page').value.trim();
+      if (page) params.set('page', page);
+
+      const targetUrl = `https://www.imdb.com/search/title/?${params.toString()}`;
       window.open(targetUrl, '_blank');
     }
 
