@@ -3346,13 +3346,25 @@
     }
 
     function searchArchive() {
-      const params = new URLSearchParams();
       const queryParts = [];
       const keywords = document.getElementById('archive-q').value.trim();
       if (keywords) queryParts.push(`(${keywords})`);
 
-      const collection = document.getElementById('archive-collection').value.trim();
-      if (collection) queryParts.push(`collection:${collection}`);
+      const collectionInput = document.getElementById('archive-collection').value.trim();
+      if (collectionInput) {
+        const collectionVariants = new Set();
+        collectionVariants.add(collectionInput);
+        const collapsed = collectionInput.replace(/\s+/g, '');
+        if (collapsed && collapsed !== collectionInput) collectionVariants.add(collapsed);
+        const underscored = collectionInput.replace(/\s+/g, '_');
+        if (underscored && underscored !== collectionInput && underscored !== collapsed) collectionVariants.add(underscored);
+        const clauses = Array.from(collectionVariants)
+          .filter(Boolean)
+          .map(value => `collection:${wrapForQuery(value)}`);
+        if (clauses.length) {
+          queryParts.push(clauses.length > 1 ? `(${clauses.join(' OR ')})` : clauses[0]);
+        }
+      }
 
       const mediatype = document.getElementById('archive-mediatype').value;
       if (mediatype) queryParts.push(`mediatype:${mediatype}`);
@@ -3378,29 +3390,37 @@
         return;
       }
 
-      params.set('q', queryParts.join(' AND '));
+      const queryString = queryParts.join(' AND ');
 
-      const fields = document.getElementById('archive-fields').value;
-      if (fields) {
-        fields.split(/[,;]+/).map(field => field.trim()).filter(Boolean).forEach(field => {
-          params.append('fl[]', field);
-        });
-      }
+      const fieldsValue = document.getElementById('archive-fields').value;
+      const fields = fieldsValue
+        ? fieldsValue.split(/[,;]+/).map(field => field.trim()).filter(Boolean)
+        : [];
 
       const sortValue = document.getElementById('archive-sort').value;
-      if (sortValue) params.append('sort[]', sortValue);
+      const rows = document.getElementById('archive-rows').value.trim();
+      const page = document.getElementById('archive-page').value.trim();
+      const outputFormat = document.getElementById('archive-output').value || 'json';
+      const totalOnly = document.getElementById('archive-total-only').checked;
 
-      const rows = document.getElementById('archive-rows').value;
-      if (rows) params.set('rows', rows);
-
-      const page = document.getElementById('archive-page').value;
-      if (page) params.set('page', page);
-
-      params.set('output', document.getElementById('archive-output').value || 'html');
-
-      if (document.getElementById('archive-total-only').checked) {
-        params.set('total_only', 'true');
+      if (outputFormat === 'html') {
+        const htmlParams = new URLSearchParams();
+        htmlParams.set('query', queryString);
+        if (sortValue) htmlParams.set('sort', sortValue.replace(/\s+/g, '+'));
+        if (rows) htmlParams.set('rows', rows);
+        if (page) htmlParams.set('page', page);
+        window.open(`https://archive.org/search.php?${htmlParams.toString()}`, '_blank');
+        return;
       }
+
+      const params = new URLSearchParams();
+      params.set('q', queryString);
+      fields.forEach(field => params.append('fl[]', field));
+      if (sortValue) params.append('sort[]', sortValue);
+      if (rows) params.set('rows', rows);
+      if (page) params.set('page', page);
+      params.set('output', outputFormat);
+      if (totalOnly) params.set('total_only', 'true');
 
       window.open(`https://archive.org/advancedsearch.php?${params.toString()}`, '_blank');
     }
