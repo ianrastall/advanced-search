@@ -1,0 +1,83 @@
+<form id="mdn" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Parameters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Query (q)</label>
+            <input type="text" id="mdn-q" placeholder="e.g., WebSocket API">
+          </div>
+          <div class="form-group">
+            <label>Locale</label>
+            <input type="text" id="mdn-locale" value="en-US" placeholder="e.g., en-US or *">
+            <small>Use * to search every locale.</small>
+          </div>
+          <div class="form-group">
+            <label>Page</label>
+            <input type="number" id="mdn-page" min="1" placeholder="Optional page">
+          </div>
+          <div class="form-group">
+            <label>Highlight matches</label>
+            <select id="mdn-highlight">
+              <option value="true" selected>Include highlighted snippets</option>
+              <option value="false">Plain excerpts</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Output format</label>
+            <div class="inline-options">
+              <label><input type="radio" name="mdn-format" value="html" checked> HTML results page</label>
+              <label><input type="radio" name="mdn-format" value="json"> JSON API response</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Tag Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Topics</label>
+            <input type="text" id="mdn-topics" placeholder="Comma or newline separated tags">
+            <small>Matches MDN topic tags (e.g., css, api, javascript).</small>
+          </div>
+          <div class="form-group">
+            <label>Skill level</label>
+            <div class="inline-options">
+              <label><input type="checkbox" value="beginner" name="mdn-skill"> Beginner</label>
+              <label><input type="checkbox" value="intermediate" name="mdn-skill"> Intermediate</label>
+              <label><input type="checkbox" value="advanced" name="mdn-skill"> Advanced</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Document types</label>
+            <div class="inline-options">
+              <label><input type="checkbox" value="guide" name="mdn-type"> Guide</label>
+              <label><input type="checkbox" value="example" name="mdn-type"> Example</label>
+              <label><input type="checkbox" value="tool" name="mdn-type"> Tool</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Source Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>CSS classes (css_classnames)</label>
+            <input type="text" id="mdn-css-classes" placeholder="e.g., smaller, seo-summary">
+          </div>
+          <div class="form-group">
+            <label>HTML attributes (html_attributes)</label>
+            <input type="text" id="mdn-html-attributes" placeholder="e.g., href=&quot;https://developer.mozilla.org&quot;">
+            <small>Please URL-encode reserved characters such as = or /.</small>
+          </div>
+          <div class="form-group">
+            <label>KumaScript macros</label>
+            <input type="text" id="mdn-kumascript" placeholder="e.g., unimplemented_header, cssref">
+            <small>Comma or newline separated macro names.</small>
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchMDN()">Search MDN</button>
+      </div>
+    </form>

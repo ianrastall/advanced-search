@@ -1,0 +1,154 @@
+<form id="github" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Scope & Keywords</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="github-q" placeholder="e.g., cache invalidation">
+          </div>
+          <div class="form-group">
+            <label>Search scope</label>
+            <select id="github-scope">
+              <option value="repositories">Repositories</option>
+              <option value="code">Code</option>
+              <option value="issues">Issues</option>
+              <option value="prs">Pull requests</option>
+              <option value="discussions">Discussions</option>
+              <option value="wikis">Wikis</option>
+              <option value="users">Users</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Repository</label>
+            <input type="text" id="github-repo" placeholder="owner/name">
+          </div>
+          <div class="form-group">
+            <label>User</label>
+            <input type="text" id="github-user" placeholder="e.g., torvalds">
+          </div>
+          <div class="form-group">
+            <label>Organization</label>
+            <input type="text" id="github-org" placeholder="e.g., microsoft">
+          </div>
+          <div class="form-group">
+            <label>Topics</label>
+            <input type="text" id="github-topics" placeholder="comma separated, e.g., graphql,api">
+            <small>Uses topic: qualifier.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Qualifiers</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Language</label>
+            <input type="text" id="github-lang" placeholder="e.g., javascript">
+          </div>
+          <div class="form-group">
+            <label>License</label>
+            <input type="text" id="github-license" placeholder="e.g., mit, apache-2.0">
+          </div>
+          <div class="form-group">
+            <label>Stars</label>
+            <input type="text" id="github-stars" placeholder="e.g., >5000 or 100..500">
+          </div>
+          <div class="form-group">
+            <label>Forks</label>
+            <input type="text" id="github-forks" placeholder="e.g., <50">
+          </div>
+          <div class="form-group">
+            <label>Fork filter</label>
+            <select id="github-fork-option">
+              <option value="">Default</option>
+              <option value="true">Include forks</option>
+              <option value="only">Only forks</option>
+              <option value="false">Exclude forks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Size (KB)</label>
+            <input type="text" id="github-size" placeholder="e.g., 100..500">
+          </div>
+          <div class="form-group">
+            <label>Good first issues</label>
+            <input type="text" id="github-good-first" placeholder="e.g., >5">
+          </div>
+          <div class="form-group">
+            <label>Help wanted issues</label>
+            <input type="text" id="github-help-wanted" placeholder="e.g., >3">
+          </div>
+          <div class="form-group">
+            <label>Followers (users scope)</label>
+            <input type="text" id="github-followers" placeholder="e.g., >1000">
+          </div>
+          <div class="form-group">
+            <label>Issue label</label>
+            <input type="text" id="github-label" placeholder="e.g., bug">
+          </div>
+          <div class="form-group">
+            <label>Issue / PR state</label>
+            <select id="github-issue-state">
+              <option value="">Any</option>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+              <option value="merged">Merged PRs</option>
+              <option value="draft">Draft PRs</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Archived</label>
+            <select id="github-archived">
+              <option value="">Either</option>
+              <option value="true">Archived</option>
+              <option value="false">Not archived</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Activity</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Pushed after</label>
+            <input type="date" id="github-pushed-after">
+          </div>
+          <div class="form-group">
+            <label>Pushed before</label>
+            <input type="date" id="github-pushed-before">
+          </div>
+          <div class="form-group">
+            <label>Created after</label>
+            <input type="date" id="github-created-after">
+          </div>
+          <div class="form-group">
+            <label>Created before</label>
+            <input type="date" id="github-created-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Sort by</label>
+            <select id="github-sort">
+              <option value="">Best match</option>
+              <option value="stars-desc">Stars (desc)</option>
+              <option value="stars-asc">Stars (asc)</option>
+              <option value="forks-desc">Forks (desc)</option>
+              <option value="forks-asc">Forks (asc)</option>
+              <option value="updated-desc">Recently updated</option>
+              <option value="updated-asc">Least recently updated</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchGitHub()">Search GitHub</button>
+      </div>
+    </form>

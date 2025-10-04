@@ -1,0 +1,147 @@
+<form id="wikimedia-commons" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="commons-all" placeholder="e.g., aurora borealis">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="commons-exact" placeholder="e.g., "Milky Way"">
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="commons-any" placeholder="e.g., timelapse panorama night">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="commons-none" placeholder="e.g., illustration clipart">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>File Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>File type (filetype:)</label>
+            <select id="commons-filetype">
+              <option value="">Any file type</option>
+              <option value="bitmap">Bitmap</option>
+              <option value="drawing">Drawing</option>
+              <option value="audio">Audio</option>
+              <option value="video">Video</option>
+              <option value="multimedia">Multimedia</option>
+              <option value="office">Office</option>
+              <option value="text">Text</option>
+              <option value="executable">Executable</option>
+              <option value="archive">Archive</option>
+              <option value="3d">3D</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>MIME type (filemime:)</label>
+            <input type="text" id="commons-mime" placeholder="e.g., image/png">
+            <small>Use full MIME type for exact matches.</small>
+          </div>
+          <div class="form-group">
+            <label>Minimum width (px)</label>
+            <input type="number" id="commons-width-min" min="0" placeholder="e.g., 800">
+          </div>
+          <div class="form-group">
+            <label>Maximum width (px)</label>
+            <input type="number" id="commons-width-max" min="0" placeholder="e.g., 4000">
+          </div>
+          <div class="form-group">
+            <label>Minimum height (px)</label>
+            <input type="number" id="commons-height-min" min="0" placeholder="e.g., 600">
+          </div>
+          <div class="form-group">
+            <label>Maximum height (px)</label>
+            <input type="number" id="commons-height-max" min="0" placeholder="e.g., 3000">
+          </div>
+          <div class="form-group">
+            <label>Minimum file size (KB)</label>
+            <input type="number" id="commons-size-min" min="0" placeholder="e.g., 20">
+          </div>
+          <div class="form-group">
+            <label>Maximum file size (KB)</label>
+            <input type="number" id="commons-size-max" min="0" placeholder="e.g., 1024">
+          </div>
+          <div class="form-group">
+            <label>Bit depth (filebits:)</label>
+            <input type="number" id="commons-bits" min="1" placeholder="e.g., 16">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Metadata Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Words in title (intitle:)</label>
+            <input type="text" id="commons-intitle" placeholder="e.g., sunset, panorama">
+            <small>Separate with commas for multiple intitle filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Description contains (insource:)</label>
+            <input type="text" id="commons-insource" placeholder="e.g., Creative Commons">
+          </div>
+          <div class="form-group">
+            <label>Page prefix (prefix:)</label>
+            <input type="text" id="commons-prefix" placeholder="e.g., Category:Featured pictures of">
+          </div>
+          <div class="form-group">
+            <label>Must be in categories (incategory:)</label>
+            <input type="text" id="commons-incategory" placeholder="e.g., Landscapes of Iceland">
+            <small>Use commas or new lines for multiple categories.</small>
+          </div>
+          <div class="form-group">
+            <label>Include subcategories (deepcat:)</label>
+            <input type="text" id="commons-deepcat" placeholder="e.g., National parks">
+          </div>
+          <div class="form-group">
+            <label>Require templates (hastemplate:)</label>
+            <input type="text" id="commons-hastemplate" placeholder="e.g., Featured picture">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Namespaces & Options</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="commons-namespace" value="6" checked> File</label>
+              <label><input type="checkbox" name="commons-namespace" value="0"> Gallery</label>
+              <label><input type="checkbox" name="commons-namespace" value="14"> Category</label>
+              <label><input type="checkbox" name="commons-namespace" value="2"> User</label>
+              <label><input type="checkbox" name="commons-namespace" value="4"> Commons project</label>
+            </div>
+            <small>File namespace is selected by default.</small>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="commons-sort">
+              <option value="">Relevance (default)</option>
+              <option value="last_edit_desc">Most recently edited</option>
+              <option value="last_edit_asc">Least recently edited</option>
+              <option value="create_timestamp_desc">Most recently created</option>
+              <option value="create_timestamp_asc">Oldest pages</option>
+              <option value="incoming_links_desc">Most incoming links</option>
+              <option value="incoming_links_asc">Fewest incoming links</option>
+              <option value="random">Random order</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results limit</label>
+            <input type="number" id="commons-limit" min="1" max="500" placeholder="e.g., 100">
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchCommons()">Search Wikimedia Commons</button>
+      </div>
+    </form>

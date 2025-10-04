@@ -1,0 +1,196 @@
+<form id="google-web" class="search-form active" target="_blank" action="https://www.google.com/search" method="get" autocomplete="off">
+      <input type="hidden" name="tbs" id="google-web-tbs">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" name="as_q" id="google-web-all" placeholder="e.g., climate change mitigation">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" name="as_epq" id="google-web-exact" placeholder='e.g., "carbon capture"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" name="as_oq" id="google-web-any" placeholder="e.g., sequestration CCS">
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" name="as_eq" id="google-web-none" placeholder="e.g., -geoengineering">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Scope & Site</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Where the words must appear</label>
+            <select name="as_occt" id="google-web-occurrence">
+              <option value="">Anywhere</option>
+              <option value="title">Page title</option>
+              <option value="url">URL</option>
+              <option value="body">Page text</option>
+              <option value="links">Links pointing to page</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Site or domain</label>
+            <input type="text" name="as_sitesearch" id="google-web-site" placeholder="e.g., nytimes.com">
+            <small>Combine with include/exclude toggle.</small>
+          </div>
+          <div class="form-group">
+            <label>Site scope</label>
+            <select name="as_dt" id="google-web-site-scope">
+              <option value="">Include and exclude by query</option>
+              <option value="i">Only results from this site</option>
+              <option value="e">Exclude this site</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>File type</label>
+            <select name="as_filetype" id="google-web-filetype">
+              <option value="">Any format</option>
+              <option value="pdf">PDF</option>
+              <option value="doc">DOC</option>
+              <option value="docx">DOCX</option>
+              <option value="ppt">PPT</option>
+              <option value="pptx">PPTX</option>
+              <option value="xls">XLS</option>
+              <option value="xlsx">XLSX</option>
+              <option value="rtf">RTF</option>
+              <option value="txt">Plain text</option>
+              <option value="svg">SVG</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Usage rights</label>
+            <select name="as_rights" id="google-web-rights">
+              <option value="">Any license</option>
+              <option value="cc_publicdomain">Creative Commons - Public Domain</option>
+              <option value="cc_attribute">Creative Commons - Attribution</option>
+              <option value="cc_sharealike">Creative Commons - ShareAlike</option>
+              <option value="cc_noncommercial">Creative Commons - Noncommercial</option>
+              <option value="cc_nonderived">Creative Commons - No derivatives</option>
+              <option value="cc_noncommercial,cc_sharealike">Noncommercial + ShareAlike</option>
+              <option value="cc_noncommercial,cc_nonderived">Noncommercial + No derivatives</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Language & Geography</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Interface language (hl)</label>
+            <select name="hl" id="google-web-interface-language">
+              <option value="">Auto</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">Deutsch</option>
+              <option value="it">Italiano</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+              <option value="pt-BR">Portuguese (Brazil)</option>
+              <option value="zh-CN">Chinese (Simplified)</option>
+              <option value="zh-TW">Chinese (Traditional)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Language of results (lr)</label>
+            <select name="lr" id="google-web-language">
+              <option value="">All languages</option>
+              <option value="lang_en">English</option>
+              <option value="lang_es">Spanish</option>
+              <option value="lang_fr">French</option>
+              <option value="lang_de">German</option>
+              <option value="lang_it">Italian</option>
+              <option value="lang_pt">Portuguese</option>
+              <option value="lang_ja">Japanese</option>
+              <option value="lang_ko">Korean</option>
+              <option value="lang_zh-CN">Chinese (Simplified)</option>
+              <option value="lang_zh-TW">Chinese (Traditional)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Region where page is published (cr)</label>
+            <select name="cr" id="google-web-region">
+              <option value="">Any region</option>
+              <option value="countryUS">United States</option>
+              <option value="countryGB">United Kingdom</option>
+              <option value="countryCA">Canada</option>
+              <option value="countryAU">Australia</option>
+              <option value="countryIN">India</option>
+              <option value="countryDE">Germany</option>
+              <option value="countryFR">France</option>
+              <option value="countryJP">Japan</option>
+              <option value="countryBR">Brazil</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Force results from country (gl)</label>
+            <input type="text" name="gl" id="google-web-gl" placeholder="e.g., US or GB" maxlength="4">
+            <small>Two-letter country code.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Date & Result Tuning</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Quick time range</label>
+            <select name="as_qdr" id="google-web-time">
+              <option value="">Any time</option>
+              <option value="h">Past hour</option>
+              <option value="d">Past day</option>
+              <option value="w">Past week</option>
+              <option value="m">Past month</option>
+              <option value="y">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="google-web-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="google-web-date-end">
+          </div>
+          <div class="form-group">
+            <label>Reading level</label>
+            <select id="google-web-reading">
+              <option value="">Any</option>
+              <option value="rlm:1">Basic</option>
+              <option value="rlm:2">Intermediate</option>
+              <option value="rlm:3">Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>SafeSearch</label>
+            <select name="safe" id="google-web-safe">
+              <option value="off" selected>Off</option>
+              <option value="">Default</option>
+              <option value="active">Active</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <input type="number" name="num" id="google-web-num" min="10" max="100" step="10" placeholder="10-100">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="google-web-verbatim"> Verbatim (no synonyms)</label>
+          <label><input type="checkbox" name="filter" value="0"> Include similar results</label>
+          <label><input type="checkbox" name="pws" value="0"> Disable personalization</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); resetGoogleWeb();">Reset</button>
+        <button type="submit">Search Google</button>
+      </div>
+    </form>

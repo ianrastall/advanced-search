@@ -1,0 +1,64 @@
+<form id="stackoverflow" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="so-q" placeholder="Search terms">
+          </div>
+          <div class="form-group">
+            <label>Must have tags</label>
+            <input type="text" id="so-tags" placeholder="e.g., javascript, react">
+            <small>Comma or space separated.</small>
+          </div>
+          <div class="form-group">
+            <label>Exclude tags</label>
+            <input type="text" id="so-exclude-tags" placeholder="e.g., php, jquery">
+          </div>
+          <div class="form-group">
+            <label>Account (user:)</label>
+            <input type="text" id="so-user" placeholder="ID or me">
+          </div>
+          <div class="form-group">
+            <label>Score filter</label>
+            <input type="text" id="so-score" placeholder="e.g., >5 or 5..20">
+          </div>
+          <div class="form-group">
+            <label>Views filter</label>
+            <input type="text" id="so-views" placeholder="e.g., >1000">
+          </div>
+          <div class="form-group">
+            <label>Answers filter</label>
+            <input type="text" id="so-answers" placeholder="e.g., >2 or 0">
+          </div>
+          <div class="form-group">
+            <label>Created after</label>
+            <input type="date" id="so-created-after">
+          </div>
+          <div class="form-group">
+            <label>Created before</label>
+            <input type="date" id="so-created-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Result Qualifiers</h3>
+        <div class="inline-options">
+          <label><input type="checkbox" id="so-is-question"> is:question</label>
+          <label><input type="checkbox" id="so-is-answer"> is:answer</label>
+          <label><input type="checkbox" id="so-is-article"> is:article</label>
+          <label><input type="checkbox" id="so-hasaccepted"> hasaccepted:yes</label>
+          <label><input type="checkbox" id="so-isaccepted"> isaccepted:yes</label>
+          <label><input type="checkbox" id="so-duplicate"> duplicate:yes</label>
+          <label><input type="checkbox" id="so-closed"> closed:yes</label>
+          <label><input type="checkbox" id="so-wiki"> wiki:yes</label>
+          <label><input type="checkbox" id="so-hascode"> hascode:yes</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchStackOverflow()">Search Stack Overflow</button>
+      </div>
+    </form>

@@ -1,0 +1,107 @@
+<form id="reddit" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords</label>
+            <input type="text" id="reddit-q" placeholder="Keywords or inline filters">
+          </div>
+          <div class="form-group">
+            <label>Subreddit</label>
+            <input type="text" id="reddit-sub" placeholder="e.g., programming">
+          </div>
+          <div class="form-group">
+            <label>Restrict to subreddit</label>
+            <select id="reddit-restrict">
+              <option value="">Auto</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" id="reddit-author" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label>Flair</label>
+            <input type="text" id="reddit-flair" placeholder='e.g., "Discussion"'>
+          </div>
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="reddit-title" placeholder='e.g., "show hn"'>
+          </div>
+          <div class="form-group">
+            <label>Self-text contains</label>
+            <input type="text" id="reddit-selftext" placeholder="Body search">
+          </div>
+          <div class="form-group">
+            <label>Site / domain</label>
+            <input type="text" id="reddit-site" placeholder="e.g., nytimes.com">
+          </div>
+          <div class="form-group">
+            <label>Post type</label>
+            <select id="reddit-self">
+              <option value="">Any</option>
+              <option value="true">Text posts</option>
+              <option value="false">Link posts</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>NSFW filter</label>
+            <select id="reddit-nsfw">
+              <option value="">Follow Reddit settings</option>
+              <option value="yes">Only NSFW</option>
+              <option value="no">Exclude NSFW</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Result Options</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Result type</label>
+            <select id="reddit-type">
+              <option value="link">Posts</option>
+              <option value="comment">Comments</option>
+              <option value="sr">Subreddits</option>
+              <option value="user">Users</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sort by</label>
+            <select id="reddit-sort">
+              <option value="relevance">Relevance</option>
+              <option value="hot">Hot</option>
+              <option value="top">Top</option>
+              <option value="new">New</option>
+              <option value="comments">Most comments</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Time range</label>
+            <select id="reddit-time">
+              <option value="all">All time</option>
+              <option value="hour">Past hour</option>
+              <option value="day">Past day</option>
+              <option value="week">Past week</option>
+              <option value="month">Past month</option>
+              <option value="year">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Max results (limit)</label>
+            <input type="number" id="reddit-limit" min="0" max="100" placeholder="1-100">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="reddit-include-over-18" value="true"> Include over 18 results</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchReddit()">Search Reddit</button>
+      </div>
+    </form>

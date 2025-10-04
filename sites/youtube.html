@@ -1,0 +1,76 @@
+<form id="youtube" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Search terms</label>
+            <input type="text" id="yt-q" placeholder="Video keywords">
+          </div>
+          <div class="form-group">
+            <label>Channel</label>
+            <input type="text" id="yt-channel" placeholder="e.g., LinusTechTips">
+            <small>Adds channel: qualifier.</small>
+          </div>
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="yt-title" placeholder='e.g., "deep dive"'>
+            <small>Adds intitle: qualifier.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Duration</label>
+            <select id="yt-duration">
+              <option value="">Any</option>
+              <option value="short">Short (&lt;4 min)</option>
+              <option value="medium">Medium (4-20 min)</option>
+              <option value="long">Long (&gt;20 min)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Features</label>
+            <div class="inline-options">
+              <label><input type="checkbox" id="yt-hd"> HD</label>
+              <label><input type="checkbox" id="yt-4k"> 4K</label>
+              <label><input type="checkbox" id="yt-subtitles"> Subtitles</label>
+              <label><input type="checkbox" id="yt-cc"> Creative Commons</label>
+              <label><input type="checkbox" id="yt-live"> Live</label>
+              <label><input type="checkbox" id="yt-3d"> 3D</label>
+              <label><input type="checkbox" id="yt-360"> 360-degree</label>
+              <label><input type="checkbox" id="yt-hdr"> HDR</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Playlist filter</label>
+            <select id="yt-playlist">
+              <option value="">Any</option>
+              <option value="playlist">Search playlists</option>
+              <option value="movie">Movies</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Dates</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Published after</label>
+            <input type="date" id="yt-after">
+          </div>
+          <div class="form-group">
+            <label>Published before</label>
+            <input type="date" id="yt-before">
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchYouTube()">Search YouTube</button>
+      </div>
+    </form>

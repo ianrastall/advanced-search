@@ -1,0 +1,104 @@
+<form id="archive" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Query Builder</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords / Lucene query</label>
+            <input type="text" id="archive-q" placeholder='e.g., "oral history"'>
+            <small>Keywords combine with other filters using AND.</small>
+          </div>
+          <div class="form-group">
+            <label>Collection</label>
+            <input type="text" id="archive-collection" placeholder="e.g., nasa, prelinger">
+          </div>
+          <div class="form-group">
+            <label>Media type</label>
+            <select id="archive-mediatype">
+              <option value="">Any</option>
+              <option value="texts">Texts</option>
+              <option value="audio">Audio</option>
+              <option value="etree">Live audio (ETREE)</option>
+              <option value="movies">Movies / video</option>
+              <option value="image">Images</option>
+              <option value="software">Software</option>
+              <option value="data">Datasets</option>
+              <option value="collection">Collections</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Creator</label>
+            <input type="text" id="archive-creator" placeholder="e.g., Smithsonian">
+          </div>
+          <div class="form-group">
+            <label>Year from</label>
+            <input type="number" id="archive-year-from" min="1000" max="2100" placeholder="e.g., 1990">
+          </div>
+          <div class="form-group">
+            <label>Year to</label>
+            <input type="number" id="archive-year-to" min="1000" max="2100" placeholder="e.g., 2000">
+          </div>
+          <div class="form-group">
+            <label>License filter</label>
+            <select id="archive-license">
+              <option value="">Any</option>
+              <option value="licenseurl:http*publicdomain*">Public Domain</option>
+              <option value="licenseurl:http*by*">CC Attribution</option>
+              <option value="licenseurl:http*by-sa*">CC BY-SA</option>
+              <option value="licenseurl:http*by-nd*">CC BY-ND</option>
+              <option value="licenseurl:http*by-nc*">CC BY-NC</option>
+              <option value="licenseurl:http*by-nc-sa*">CC BY-NC-SA</option>
+              <option value="licenseurl:http*by-nc-nd*">CC BY-NC-ND</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Output</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Return fields (fl[])</label>
+            <input type="text" id="archive-fields" placeholder="e.g., identifier,title,creator">
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="archive-sort">
+              <option value="">Default</option>
+              <option value="downloads desc">Downloads (desc)</option>
+              <option value="downloads asc">Downloads (asc)</option>
+              <option value="date desc">Date (desc)</option>
+              <option value="date asc">Date (asc)</option>
+              <option value="addeddate desc">Added date (desc)</option>
+              <option value="addeddate asc">Added date (asc)</option>
+              <option value="titleSorter asc">Title (A-Z)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Rows per page</label>
+            <input type="number" id="archive-rows" min="1" max="1000" placeholder="e.g., 100">
+          </div>
+          <div class="form-group">
+            <label>Page</label>
+            <input type="number" id="archive-page" min="1" placeholder="e.g., 1">
+          </div>
+          <div class="form-group">
+            <label>Output format</label>
+            <select id="archive-output">
+              <option value="html">HTML</option>
+              <option value="json">JSON</option>
+              <option value="xml">XML</option>
+              <option value="csv">CSV</option>
+              <option value="rss">RSS</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="archive-total-only"> Return total count only</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchArchive()">Search Internet Archive</button>
+      </div>
+    </form>

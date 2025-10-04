@@ -1,0 +1,132 @@
+<form id="pubmed" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Main keywords</label>
+            <input type="text" id="pubmed-keywords" placeholder="e.g., asthma management">
+            <small>PubMed automatically expands terms with relevant MeSH headings.</small>
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="pubmed-phrase" placeholder='e.g., "precision medicine"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="pubmed-any" placeholder="e.g., asthma COPD allergy">
+            <small>Words are combined with OR.</small>
+          </div>
+          <div class="form-group">
+            <label>Exclude words</label>
+            <input type="text" id="pubmed-exclude" placeholder="e.g., pediatric veterinary">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Field Tags &amp; Identifiers</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Authors [au]</label>
+            <textarea id="pubmed-authors" placeholder="One name per line, e.g., Brody HJ"></textarea>
+            <small>Use last name and initials; names are matched with the author field.</small>
+          </div>
+          <div class="form-group">
+            <label>Title words [ti]</label>
+            <textarea id="pubmed-title" placeholder="Key title words"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Journal [jour]</label>
+            <input type="text" id="pubmed-journal" placeholder="e.g., The Lancet">
+          </div>
+          <div class="form-group">
+            <label>PMID list</label>
+            <textarea id="pubmed-pmids" placeholder="Optional: paste PMIDs"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Dates &amp; Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Start year</label>
+            <input type="number" id="pubmed-year-from" min="1800" max="2100" placeholder="e.g., 2018">
+          </div>
+          <div class="form-group">
+            <label>End year</label>
+            <input type="number" id="pubmed-year-to" min="1800" max="2100" placeholder="e.g., 2024">
+          </div>
+          <div class="form-group">
+            <label>Quick date limit</label>
+            <select id="pubmed-date-preset">
+              <option value="">Any time</option>
+              <option value="datesearch.y_1">Last 1 year</option>
+              <option value="datesearch.y_5">Last 5 years</option>
+              <option value="datesearch.y_10">Last 10 years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <select id="pubmed-size">
+              <option value="">Default (10)</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="pubmed-sort">
+              <option value="">Best match</option>
+              <option value="pubdate">Most recent</option>
+              <option value="jour">Journal</option>
+              <option value="author">First author</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Article types</label>
+            <div class="inline-options">
+              <label><input type="checkbox" value="pubt.review" name="pubmed-pubtype"> Review</label>
+              <label><input type="checkbox" value="pubt.clinicaltrial" name="pubmed-pubtype"> Clinical trial</label>
+              <label><input type="checkbox" value="pubt.meta-analysis" name="pubmed-pubtype"> Meta-analysis</label>
+              <label><input type="checkbox" value="pubt.systematicreview" name="pubmed-pubtype"> Systematic review</label>
+              <label><input type="checkbox" value="pubt.randomizedcontrolledtrial" name="pubmed-pubtype"> Randomized controlled trial</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Text availability</label>
+            <div class="inline-options">
+              <label><input type="radio" name="pubmed-text" value="" checked> Any</label>
+              <label><input type="radio" name="pubmed-text" value="simsearch3.ffrft"> Free full text</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Output options</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>View format</label>
+            <select id="pubmed-format">
+              <option value="">Summary</option>
+              <option value="abstract">Abstract</option>
+              <option value="pubmed">PubMed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Page number</label>
+            <input type="number" id="pubmed-page" min="1" placeholder="Optional page">
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchPubMed()">Search PubMed</button>
+      </div>
+    </form>

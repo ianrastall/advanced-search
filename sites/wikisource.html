@@ -1,0 +1,73 @@
+<form id="wikisource" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="wikisource-all" placeholder="e.g., natural history">
+            <small>Wildcards (*) and boolean operators are supported.</small>
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="wikisource-exact" placeholder='e.g., "Rights of Man"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="wikisource-any" placeholder="e.g., pamphlet manifesto treatise">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="wikisource-none" placeholder="e.g., poetry fiction">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Prefix Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Works by author (author:)</label>
+            <input type="text" id="wikisource-author" placeholder="e.g., Charles Dickens">
+            <small>Use commas to target multiple authors.</small>
+          </div>
+          <div class="form-group">
+            <label>Title contains words (intitle:)</label>
+            <input type="text" id="wikisource-intitle" placeholder="e.g., rights, liberty">
+            <small>Comma separated values become individual intitle filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Title prefix (prefix:)</label>
+            <input type="text" id="wikisource-prefix" placeholder="e.g., Portal:Science">
+            <small>Spaces are converted to underscores automatically.</small>
+          </div>
+          <div class="form-group">
+            <label>All namespaces terms (all:)</label>
+            <input type="text" id="wikisource-all-namespaces" placeholder="e.g., incunabula">
+            <small>Comma separated terms search across every namespace.</small>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Namespaces</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="wikisource-namespace" value="0" id="wikisource-ns-main" checked> Main (Works)</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="102" id="wikisource-ns-author" checked> Author</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="100" id="wikisource-ns-portal" checked> Portal</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="104" id="wikisource-ns-page"> Page</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="106" id="wikisource-ns-index"> Index</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="4" id="wikisource-ns-project"> Wikisource project</label>
+              <label><input type="checkbox" name="wikisource-namespace" value="14" id="wikisource-ns-category"> Category</label>
+            </div>
+            <small>Main, Author, and Portal mirror the default Wikisource search scope.</small>
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); document.getElementById('wikisource-ns-main').checked = true; document.getElementById('wikisource-ns-author').checked = true; document.getElementById('wikisource-ns-portal').checked = true;">Reset</button>
+        <button type="button" onclick="searchWikisource()">Search Wikisource</button>
+      </div>
+    </form>

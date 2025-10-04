@@ -1,0 +1,138 @@
+<form id="google-news" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="news-q-all" placeholder="e.g., renewable energy">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="news-q-exact" placeholder='e.g., "solar power supply chain"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="news-q-any" placeholder="e.g., wind geothermal hydro">
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="news-q-none" placeholder="e.g., -advertorial">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Content Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Title contains</label>
+            <input type="text" id="news-intitle" placeholder="e.g., breakthrough">
+          </div>
+          <div class="form-group">
+            <label>URL contains</label>
+            <input type="text" id="news-inurl" placeholder="e.g., /analysis/">
+          </div>
+          <div class="form-group">
+            <label>Site / domain</label>
+            <input type="text" id="news-site" placeholder="e.g., reuters.com">
+          </div>
+          <div class="form-group">
+            <label>Location filter</label>
+            <input type="text" id="news-location" placeholder="e.g., London">
+            <small>Matches Google's GeoID resolver.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Edition & Language</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Edition preset</label>
+            <select id="news-edition">
+              <option value="">Default edition</option>
+              <option value="en-US|US|US:en">United States (English)</option>
+              <option value="en-GB|GB|GB:en">United Kingdom</option>
+              <option value="en-CA|CA|CA:en">Canada</option>
+              <option value="en-AU|AU|AU:en">Australia</option>
+              <option value="en-IN|IN|IN:en">India</option>
+              <option value="fr-FR|FR|FR:fr">France (French)</option>
+              <option value="de-DE|DE|DE:de">Germany (Deutsch)</option>
+              <option value="ja-JP|JP|JP:ja">Japan (Japanese)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Interface language (hl)</label>
+            <input type="text" id="news-language" placeholder="e.g., en, fr">
+          </div>
+          <div class="form-group">
+            <label>Country code (gl)</label>
+            <input type="text" id="news-country" placeholder="e.g., US, GB">
+          </div>
+          <div class="form-group">
+            <label>CEID override</label>
+            <input type="text" id="news-ceid" placeholder="e.g., US:en">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Time & Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Time / sort preset</label>
+            <select id="news-time-sort">
+              <option value="">Relevance (default)</option>
+              <option value="sbd:1">Sort by date (newest)</option>
+              <option value="qdr:h">Past hour</option>
+              <option value="qdr:d">Past 24 hours</option>
+              <option value="qdr:w">Past week</option>
+              <option value="qdr:m">Past month</option>
+              <option value="qdr:y">Past year</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="news-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="news-date-end">
+          </div>
+          <div class="form-group">
+            <label>Results per page (num)</label>
+            <input type="number" id="news-num" min="10" max="100" step="10" placeholder="10-100">
+          </div>
+          <div class="form-group">
+            <label>SafeSearch</label>
+            <select id="news-safe">
+              <option value="">Default</option>
+              <option value="active">Active</option>
+              <option value="off">Off</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Topic vertical</label>
+            <select id="news-topic">
+              <option value="">All topics</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFZxYUdjU0FtVnVHZ0pWVXlnQVAB">Top stories</option>
+              <option value="CAAqKggKIiRDQkFTRlFvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB">World</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB">Business</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0Y1RjU0FtVnVHZ0pWVXlnQVAB">Technology</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNREpxYW5RU0FtVnVHZ0pWVXlnQVAB">Sports</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0YkRjU0FtVnVHZ0pWVXlnQVAB">Entertainment</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp0Y0hJU0FtVnVHZ0pWVXlnQVAB">Health</option>
+              <option value="CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB">Science</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" id="news-hide-duplicates"> Hide duplicate stories</label>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchGoogleNews()">Search Google News</button>
+      </div>
+    </form>

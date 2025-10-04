@@ -1,0 +1,132 @@
+<form id="wikipedia" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" name="all" id="wikipedia-all" placeholder="e.g., renewable energy policy">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" name="exact" id="wikipedia-exact" placeholder="e.g., \"Green New Deal\"">
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" name="any" id="wikipedia-any" placeholder="e.g., mitigation adaptation resilience">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" name="none" id="wikipedia-none" placeholder="e.g., fiction movie">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Title &amp; Content Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Words in page title (intitle:)</label>
+            <input type="text" name="intitle" id="wikipedia-intitle" placeholder="e.g., climate, emissions">
+            <small>Separate with commas or new lines for multiple intitle filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Words in article text (insource:)</label>
+            <input type="text" name="insource" id="wikipedia-insource" placeholder="e.g., Paris Agreement">
+            <small>Each term becomes its own insource filter.</small>
+          </div>
+          <div class="form-group">
+            <label>Regex pattern (insource:/.../)</label>
+            <input type="text" name="regex" id="wikipedia-insource-regex" placeholder="e.g., climate.{0,20}policy">
+            <small>Enter the pattern without the surrounding slashes.</small>
+          </div>
+          <div class="form-group">
+            <label>Page prefix (prefix:)</label>
+            <input type="text" name="prefix" id="wikipedia-prefix" placeholder="e.g., Help:">
+          </div>
+          <div class="form-group">
+            <label>Pages similar to (morelike:)</label>
+            <input type="text" name="morelike" id="wikipedia-morelike" placeholder="e.g., Climate change">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Page Relationships</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Must be in categories (incategory:)</label>
+            <input type="text" name="incategory" id="wikipedia-incategory" placeholder="e.g., Sustainability, Environmental law">
+            <small>Use commas or new lines for multiple categories.</small>
+          </div>
+          <div class="form-group">
+            <label>Include subcategories (deepcat:)</label>
+            <input type="text" name="deepcat" id="wikipedia-deepcat" placeholder="e.g., Climate change solutions">
+          </div>
+          <div class="form-group">
+            <label>Require templates (hastemplate:)</label>
+            <input type="text" name="hastemplate" id="wikipedia-hastemplate" placeholder="e.g., Infobox scientist">
+          </div>
+          <div class="form-group">
+            <label>Pages linking to (linksto:)</label>
+            <input type="text" name="linksto" id="wikipedia-linksto" placeholder="e.g., Paris Agreement">
+          </div>
+          <div class="form-group">
+            <label>Pages linked from (linkfrom:)</label>
+            <input type="text" name="linkfrom" id="wikipedia-linkfrom" placeholder="e.g., Portal:Climate change">
+          </div>
+          <div class="form-group">
+            <label>File type (filetype:)</label>
+            <input type="text" name="filetype" id="wikipedia-filetype" placeholder="e.g., pdf, svg, ogg">
+            <small>Use with File namespace searches.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Namespaces &amp; Options</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="wikipedia-namespace" value="0" id="wikipedia-ns-main" checked> Main (Articles)</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="1" id="wikipedia-ns-talk"> Talk</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="2" id="wikipedia-ns-user"> User</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="4" id="wikipedia-ns-wikipedia"> Wikipedia</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="6" id="wikipedia-ns-file"> File</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="8" id="wikipedia-ns-mediawiki"> MediaWiki</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="10" id="wikipedia-ns-template"> Template</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="12" id="wikipedia-ns-help"> Help</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="14" id="wikipedia-ns-category"> Category</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="100" id="wikipedia-ns-portal"> Portal</label>
+              <label><input type="checkbox" name="wikipedia-namespace" value="118" id="wikipedia-ns-draft"> Draft</label>
+            </div>
+            <small>Leave only Main checked to search encyclopedia articles.</small>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="wikipedia-sort">
+              <option value="">Relevance (default)</option>
+              <option value="last_edit_desc">Most recently edited</option>
+              <option value="last_edit_asc">Least recently edited</option>
+              <option value="create_timestamp_desc">Most recently created</option>
+              <option value="create_timestamp_asc">Oldest pages</option>
+              <option value="incoming_links_desc">Most incoming links</option>
+              <option value="incoming_links_asc">Fewest incoming links</option>
+              <option value="random">Random order</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Result limit</label>
+            <input type="number" name="limit" id="wikipedia-limit" min="1" max="500" placeholder="Default: 20">
+            <small>Set how many results Wikipedia should return (max 500).</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); document.getElementById('wikipedia-ns-main').checked = true;">Reset</button>
+        <button type="button" onclick="searchWikipedia()">Search Wikipedia</button>
+      </div>
+    </form>

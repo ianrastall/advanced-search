@@ -1,0 +1,103 @@
+<form id="google-scholar" class="search-form" target="_blank" action="https://scholar.google.com/scholar" method="get" autocomplete="off">
+      <input type="hidden" name="hl" value="en">
+      <input type="hidden" name="tbs" id="scholar-tbs">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Keywords / operators</label>
+            <input type="text" name="q" id="scholar-q" placeholder='e.g., "graph neural network"'>
+          </div>
+          <div class="form-group">
+            <label>Author</label>
+            <input type="text" name="as_sauthors" id="scholar-author" placeholder='e.g., "LeCun Y"'>
+          </div>
+          <div class="form-group">
+            <label>Journal / publication</label>
+            <input type="text" name="as_publication" id="scholar-publication" placeholder="e.g., Nature">
+          </div>
+          <div class="form-group">
+            <label>Search scope</label>
+            <select name="as_occt" id="scholar-scope">
+              <option value="any">Anywhere in article</option>
+              <option value="title">In the title</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Dates & Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>From year</label>
+            <input type="number" name="as_ylo" id="scholar-year-low" min="1900" max="2100" placeholder="e.g., 2018">
+          </div>
+          <div class="form-group">
+            <label>To year</label>
+            <input type="number" name="as_yhi" id="scholar-year-high" min="1900" max="2100" placeholder="e.g., 2024">
+          </div>
+          <div class="form-group">
+            <label>Custom start date</label>
+            <input type="date" id="scholar-date-start">
+          </div>
+          <div class="form-group">
+            <label>Custom end date</label>
+            <input type="date" id="scholar-date-end">
+          </div>
+          <div class="form-group">
+            <label>Sort by</label>
+            <select name="scisbd" id="scholar-sort">
+              <option value="">Relevance</option>
+              <option value="1">Newest first</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <input type="number" name="num" id="scholar-num" min="10" max="20" step="10" placeholder="10 or 20">
+          </div>
+          <div class="form-group">
+            <label>Start index</label>
+            <input type="number" name="start" id="scholar-start" min="0" step="10" placeholder="0, 10, 20...">
+          </div>
+        </div>
+        <div class="inline-options">
+          <label><input type="checkbox" name="as_vis" value="1"> Exclude patents</label>
+          <label><input type="checkbox" name="as_sdt" value="1"> Exclude citations</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Language & Output</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Language restriction (lr)</label>
+            <select name="lr" id="scholar-language">
+              <option value="">Any</option>
+              <option value="lang_en">English</option>
+              <option value="lang_de">Deutsch</option>
+              <option value="lang_es">Spanish</option>
+              <option value="lang_fr">French</option>
+              <option value="lang_ja">Japanese</option>
+              <option value="lang_pt">Portuguese</option>
+              <option value="lang_ru">Russian</option>
+              <option value="lang_zh-CN">Chinese (Simplified)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Output format</label>
+            <select name="output" id="scholar-output">
+              <option value="">HTML</option>
+              <option value="feed">RSS</option>
+              <option value="ris">RIS</option>
+              <option value="cit">Citations text</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); resetScholar();">Reset</button>
+        <button type="submit">Search Google Scholar</button>
+      </div>
+    </form>
