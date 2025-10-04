@@ -254,12 +254,19 @@
         </select>
       </div>
       <div class="select-group">
-        <label for="providerSelectMisc">Miscellaneous Searches</label>
-        <select id="providerSelectMisc" class="provider-select">
-          <option value="">Choose a misc search...</option>
+        <label for="providerSelectMiscAM">Miscellaneous A-M</label>
+        <select id="providerSelectMiscAM" class="provider-select">
+          <option value="">Choose an A-M search...</option>
+          <option value="archive">Internet Archive</option>
           <option value="github">GitHub</option>
           <option value="mdn">MDN Web Docs</option>
-          <option value="archive">Internet Archive</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label for="providerSelectMiscNZ">Miscellaneous N-Z</label>
+        <select id="providerSelectMiscNZ" class="provider-select">
+          <option value="">Choose an N-Z search...</option>
+          <option value="pubmed">PubMed</option>
           <option value="reddit">Reddit</option>
           <option value="stackoverflow">Stack Overflow</option>
           <option value="youtube">YouTube</option>
@@ -1839,6 +1846,140 @@
       </div>
     </form>
 
+    <!-- PubMed -->
+    <form id="pubmed" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Main keywords</label>
+            <input type="text" id="pubmed-keywords" placeholder="e.g., asthma management">
+            <small>PubMed automatically expands terms with relevant MeSH headings.</small>
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="pubmed-phrase" placeholder='e.g., "precision medicine"'>
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="pubmed-any" placeholder="e.g., asthma COPD allergy">
+            <small>Words are combined with OR.</small>
+          </div>
+          <div class="form-group">
+            <label>Exclude words</label>
+            <input type="text" id="pubmed-exclude" placeholder="e.g., pediatric veterinary">
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Field Tags &amp; Identifiers</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Authors [au]</label>
+            <textarea id="pubmed-authors" placeholder="One name per line, e.g., Brody HJ"></textarea>
+            <small>Use last name and initials; names are matched with the author field.</small>
+          </div>
+          <div class="form-group">
+            <label>Title words [ti]</label>
+            <textarea id="pubmed-title" placeholder="Key title words"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Journal [jour]</label>
+            <input type="text" id="pubmed-journal" placeholder="e.g., The Lancet">
+          </div>
+          <div class="form-group">
+            <label>PMID list</label>
+            <textarea id="pubmed-pmids" placeholder="Optional: paste PMIDs"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Dates &amp; Sorting</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Start year</label>
+            <input type="number" id="pubmed-year-from" min="1800" max="2100" placeholder="e.g., 2018">
+          </div>
+          <div class="form-group">
+            <label>End year</label>
+            <input type="number" id="pubmed-year-to" min="1800" max="2100" placeholder="e.g., 2024">
+          </div>
+          <div class="form-group">
+            <label>Quick date limit</label>
+            <select id="pubmed-date-preset">
+              <option value="">Any time</option>
+              <option value="datesearch.y_1">Last 1 year</option>
+              <option value="datesearch.y_5">Last 5 years</option>
+              <option value="datesearch.y_10">Last 10 years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Results per page</label>
+            <select id="pubmed-size">
+              <option value="">Default (10)</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="pubmed-sort">
+              <option value="">Best match</option>
+              <option value="pubdate">Most recent</option>
+              <option value="jour">Journal</option>
+              <option value="author">First author</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Article types</label>
+            <div class="inline-options">
+              <label><input type="checkbox" value="pubt.review" name="pubmed-pubtype"> Review</label>
+              <label><input type="checkbox" value="pubt.clinicaltrial" name="pubmed-pubtype"> Clinical trial</label>
+              <label><input type="checkbox" value="pubt.meta-analysis" name="pubmed-pubtype"> Meta-analysis</label>
+              <label><input type="checkbox" value="pubt.systematicreview" name="pubmed-pubtype"> Systematic review</label>
+              <label><input type="checkbox" value="pubt.randomizedcontrolledtrial" name="pubmed-pubtype"> Randomized controlled trial</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Text availability</label>
+            <div class="inline-options">
+              <label><input type="radio" name="pubmed-text" value="" checked> Any</label>
+              <label><input type="radio" name="pubmed-text" value="simsearch3.ffrft"> Free full text</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Output options</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>View format</label>
+            <select id="pubmed-format">
+              <option value="">Summary</option>
+              <option value="abstract">Abstract</option>
+              <option value="pubmed">PubMed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Page number</label>
+            <input type="number" id="pubmed-page" min="1" placeholder="Optional page">
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchPubMed()">Search PubMed</button>
+      </div>
+    </form>
+
     <!-- Internet Archive -->
     <form id="archive" class="search-form" target="_blank" autocomplete="off">
       <div class="form-section">
@@ -2858,6 +2999,103 @@
 
       const queryString = params.toString();
       const targetUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+      window.open(targetUrl, '_blank');
+    }
+
+    function searchPubMed() {
+      const params = new URLSearchParams();
+      const queryParts = [];
+
+      const keywords = document.getElementById('pubmed-keywords').value.trim();
+      if (keywords) queryParts.push(keywords);
+
+      const phrase = document.getElementById('pubmed-phrase').value.trim();
+      if (phrase) queryParts.push(`"${phrase}"`);
+
+      const anyWords = document.getElementById('pubmed-any').value.trim();
+      if (anyWords) {
+        const tokens = anyWords.split(/\s+/).filter(Boolean);
+        if (tokens.length) {
+          queryParts.push(`(${tokens.join(' OR ')})`);
+        }
+      }
+
+      const excludeWords = document.getElementById('pubmed-exclude').value.trim();
+      if (excludeWords) {
+        excludeWords.split(/\s+/).filter(Boolean).forEach(word => {
+          queryParts.push(`NOT ${word}`);
+        });
+      }
+
+      const authors = tokenizeList(document.getElementById('pubmed-authors').value);
+      if (authors.length) {
+        const authorParts = authors.map(name => `${wrapForQuery(name)}[au]`);
+        queryParts.push(`(${authorParts.join(' OR ')})`);
+      }
+
+      const titleWords = tokenizeList(document.getElementById('pubmed-title').value);
+      if (titleWords.length) {
+        const titleParts = titleWords.map(word => `${wrapForQuery(word)}[ti]`);
+        queryParts.push(`(${titleParts.join(' AND ')})`);
+      }
+
+      const journal = document.getElementById('pubmed-journal').value.trim();
+      if (journal) {
+        queryParts.push(`${wrapForQuery(journal)}[jour]`);
+      }
+
+      const pmids = tokenizeList(document.getElementById('pubmed-pmids').value);
+      if (pmids.length) {
+        const pmidParts = pmids.map(id => `${id}[pmid]`);
+        queryParts.push(`(${pmidParts.join(' OR ')})`);
+      }
+
+      if (!queryParts.length) {
+        alert('Please enter keywords or field terms for the PubMed search.');
+        return;
+      }
+
+      const term = queryParts.join(' AND ').trim();
+      params.set('term', term);
+
+      const articleTypes = Array.from(document.querySelectorAll('input[name="pubmed-pubtype"]:checked')).map(node => node.value);
+      articleTypes.forEach(code => params.append('filter', code));
+
+      const textAvailability = document.querySelector('input[name="pubmed-text"]:checked')?.value || '';
+      if (textAvailability) {
+        params.append('filter', textAvailability);
+      }
+
+      const preset = document.getElementById('pubmed-date-preset').value;
+      const yearFrom = document.getElementById('pubmed-year-from').value.trim();
+      const yearTo = document.getElementById('pubmed-year-to').value.trim();
+      const hasCustomRange = Boolean(yearFrom || yearTo);
+
+      if (hasCustomRange) {
+        params.append('filter', 'dates');
+        if (yearFrom) {
+          params.set('mindate', `${yearFrom}/01/01`);
+        }
+        if (yearTo) {
+          params.set('maxdate', `${yearTo}/12/31`);
+        }
+      } else if (preset) {
+        params.append('filter', preset);
+      }
+
+      const size = document.getElementById('pubmed-size').value;
+      if (size) params.set('size', size);
+
+      const sort = document.getElementById('pubmed-sort').value;
+      if (sort) params.set('sort', sort);
+
+      const page = document.getElementById('pubmed-page').value.trim();
+      if (page) params.set('page', page);
+
+      const format = document.getElementById('pubmed-format').value;
+      if (format) params.set('format', format);
+
+      const targetUrl = `https://pubmed.ncbi.nlm.nih.gov/?${params.toString()}`;
       window.open(targetUrl, '_blank');
     }
 
