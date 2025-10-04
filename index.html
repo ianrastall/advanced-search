@@ -2000,8 +2000,7 @@
 
     function tokenizeList(value) {
       if (!value) return [];
-      return value.split(/[
-,;]+/).map(part => part.trim()).filter(Boolean);
+      return value.split(/[,;]+/).map(part => part.trim()).filter(Boolean);
     }
 
     function wrapForQuery(term) {
