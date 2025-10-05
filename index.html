@@ -253,6 +253,7 @@
         <select id="providerSelectGoogle" class="provider-select">
           <option value="">Choose a Google search...</option>
           <option value="google-books">Google Books</option>
+          <option value="google-patents">Google Patents</option>
           <option value="google-images">Google Images</option>
           <option value="google-news">Google News</option>
           <option value="google-scholar">Google Scholar</option>
@@ -297,6 +298,8 @@
     <div class="site-include" data-site="google-web" data-src="sites/google-web.html"></div>
     <!-- Google Books -->
     <div class="site-include" data-site="google-books" data-src="sites/google-books.html"></div>
+    <!-- Google Patents -->
+    <div class="site-include" data-site="google-patents" data-src="sites/google-patents.html"></div>
     <!-- Google Images -->
     <div class="site-include" data-site="google-images" data-src="sites/google-images.html"></div>
     <!-- Google News -->
@@ -444,6 +447,23 @@
       return `${parts[1]}/${parts[2]}/${parts[0]}`;
     }
 
+    function formatDateForPatents(value) {
+      if (!value) return '';
+      return value.replace(/-/g, '');
+    }
+
+    function appendPatentDateRange(params, field, startId, endId) {
+      const startInput = document.getElementById(startId);
+      const endInput = document.getElementById(endId);
+      let start = startInput && startInput.value ? formatDateForPatents(startInput.value) : '';
+      let end = endInput && endInput.value ? formatDateForPatents(endInput.value) : '';
+      if (start && end && start > end) {
+        [start, end] = [end, start];
+      }
+      if (start) params.append('after', `${field}:${start}`);
+      if (end) params.append('before', `${field}:${end}`);
+    }
+
     function resetGoogleWeb() {
       document.getElementById('google-web-tbs').value = '';
     }
@@ -463,6 +483,116 @@
       }
     }
 
+    function searchGooglePatents() {
+      const params = new URLSearchParams();
+      const queryParts = [];
+
+      const allWords = document.getElementById('patents-all')?.value.trim();
+      if (allWords) queryParts.push(allWords);
+
+      const exactPhrase = document.getElementById('patents-exact')?.value.trim();
+      if (exactPhrase) queryParts.push(`"${exactPhrase}"`);
+
+      const anyWordsRaw = document.getElementById('patents-any')?.value.trim();
+      if (anyWordsRaw) {
+        const anyWords = anyWordsRaw.split(/\s+/).filter(Boolean).join(' OR ');
+        if (anyWords) queryParts.push(`(${anyWords})`);
+      }
+
+      const noneWordsRaw = document.getElementById('patents-none')?.value.trim();
+      if (noneWordsRaw) {
+        const noneWords = noneWordsRaw.split(/\s+/).filter(Boolean).map(word => `-${word}`).join(' ');
+        if (noneWords) queryParts.push(noneWords);
+      }
+
+      const addFieldQuery = (id, field) => {
+        const value = document.getElementById(id)?.value.trim();
+        if (value) queryParts.push(`${field}:${wrapForQuery(value)}`);
+      };
+
+      addFieldQuery('patents-title', 'title');
+      addFieldQuery('patents-abstract', 'abstract');
+      addFieldQuery('patents-claims', 'claims');
+      addFieldQuery('patents-description', 'description');
+
+      const inventorValues = tokenizeList(document.getElementById('patents-inventor')?.value);
+      inventorValues.forEach(value => queryParts.push(`inventor:${wrapForQuery(value)}`));
+
+      const assigneeValues = tokenizeList(document.getElementById('patents-assignee')?.value);
+      assigneeValues.forEach(value => queryParts.push(`assignee:${wrapForQuery(value)}`));
+
+      const originalAssigneeValues = tokenizeList(document.getElementById('patents-original-assignee')?.value);
+      originalAssigneeValues.forEach(value => queryParts.push(`original_assignee:${wrapForQuery(value)}`));
+
+      const documentNumber = document.getElementById('patents-number')?.value.trim();
+      if (documentNumber) {
+        const wrappedNumber = wrapForQuery(documentNumber);
+        queryParts.push(`(publication:${wrappedNumber} OR application:${wrappedNumber})`);
+      }
+
+      const classificationFields = [
+        { id: 'patents-cpc', field: 'cpc' },
+        { id: 'patents-ipc', field: 'ipc' },
+        { id: 'patents-uspc', field: 'uspc' },
+        { id: 'patents-loc', field: 'loc' },
+      ];
+
+      classificationFields.forEach(({ id, field }) => {
+        const values = tokenizeList(document.getElementById(id)?.value);
+        values.forEach(value => queryParts.push(`${field}:${wrapForQuery(value)}`));
+      });
+
+      appendPatentDateRange(params, 'priority', 'patents-priority-start', 'patents-priority-end');
+      appendPatentDateRange(params, 'filing', 'patents-filing-start', 'patents-filing-end');
+      appendPatentDateRange(params, 'publication', 'patents-publication-start', 'patents-publication-end');
+      appendPatentDateRange(params, 'grant', 'patents-grant-start', 'patents-grant-end');
+
+      const patentType = document.querySelector('input[name="patents-type"]:checked')?.value;
+      if (patentType) params.set('type', patentType);
+
+      const languageValue = document.getElementById('patents-language')?.value;
+      if (languageValue) {
+        params.set('hl', languageValue);
+        const languageMap = {
+          en: 'ENGLISH',
+          es: 'SPANISH',
+          fr: 'FRENCH',
+          de: 'GERMAN',
+          ja: 'JAPANESE',
+          'zh-CN': 'CHINESE',
+          ko: 'KOREAN',
+          ru: 'RUSSIAN',
+        };
+        const mappedLanguage = languageMap[languageValue];
+        if (mappedLanguage) params.set('language', mappedLanguage);
+      }
+
+      const countryValueRaw = document.getElementById('patents-country')?.value.trim();
+      if (countryValueRaw) {
+        params.set('country', countryValueRaw.toUpperCase());
+      }
+
+      const sortValue = document.getElementById('patents-sort')?.value;
+      if (sortValue) params.set('sort', sortValue);
+
+      const resultsPerPage = document.getElementById('patents-results')?.value;
+      if (resultsPerPage) params.set('num', resultsPerPage);
+
+      const queryString = queryParts.join(' ').trim();
+      if (queryString) params.set('q', queryString);
+
+      const hasDateFilters = params.getAll('after').length > 0 || params.getAll('before').length > 0;
+      const hasOtherFilters = params.has('country') || params.has('type') || params.has('language') || params.has('sort');
+
+      if (!queryString && !hasDateFilters && !hasOtherFilters) {
+        alert('Please enter search terms or filters for Google Patents.');
+        return;
+      }
+
+      const targetUrl = params.toString() ? `https://patents.google.com/?${params.toString()}` : 'https://patents.google.com/';
+      window.open(targetUrl, '_blank');
+      resetFormAfterSubmit('google-patents');
+    }
     function searchGoogleBooks() {
       const params = new URLSearchParams();
       
@@ -1787,3 +1917,4 @@
   </script>
 </body>
 </html>
+

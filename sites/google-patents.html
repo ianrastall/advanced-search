@@ -1,0 +1,175 @@
+<form id="google-patents" class="search-form" target="_blank" autocomplete="off">
+  <div class="form-section">
+    <h3>Search Terms</h3>
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label for="patents-all">All of the words</label>
+        <input type="text" id="patents-all" placeholder="Enter search terms">
+      </div>
+      <div class="form-group">
+        <label for="patents-exact">Exact phrase</label>
+        <input type="text" id="patents-exact" placeholder="e.g., quantum computing">
+      </div>
+      <div class="form-group">
+        <label for="patents-any">Any of the words</label>
+        <input type="text" id="patents-any" placeholder="Separate words with spaces">
+      </div>
+      <div class="form-group">
+        <label for="patents-none">Without the words</label>
+        <input type="text" id="patents-none" placeholder="Words to exclude">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Patent Fields</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="patents-title">Title contains</label>
+        <input type="text" id="patents-title" placeholder="Words in the title">
+      </div>
+      <div class="form-group">
+        <label for="patents-abstract">Abstract contains</label>
+        <input type="text" id="patents-abstract" placeholder="Words in the abstract">
+      </div>
+      <div class="form-group">
+        <label for="patents-claims">Claims contain</label>
+        <input type="text" id="patents-claims" placeholder="Words in the claims">
+      </div>
+      <div class="form-group">
+        <label for="patents-description">Description contains</label>
+        <input type="text" id="patents-description" placeholder="Words in the description">
+      </div>
+      <div class="form-group">
+        <label for="patents-inventor">Inventor</label>
+        <input type="text" id="patents-inventor" placeholder="e.g., &quot;Ada Lovelace&quot;">
+      </div>
+      <div class="form-group">
+        <label for="patents-assignee">Assignee / Applicant</label>
+        <input type="text" id="patents-assignee" placeholder="e.g., Alphabet Inc">
+      </div>
+      <div class="form-group">
+        <label for="patents-original-assignee">Original assignee</label>
+        <input type="text" id="patents-original-assignee" placeholder="e.g., Bell Labs">
+      </div>
+      <div class="form-group">
+        <label for="patents-number">Publication or application number</label>
+        <input type="text" id="patents-number" placeholder="e.g., US2016021234A1">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Classifications &amp; Codes</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="patents-cpc">CPC classification</label>
+        <input type="text" id="patents-cpc" placeholder="e.g., G06F17/30">
+      </div>
+      <div class="form-group">
+        <label for="patents-ipc">IPC classification</label>
+        <input type="text" id="patents-ipc" placeholder="e.g., H04L9/32">
+      </div>
+      <div class="form-group">
+        <label for="patents-uspc">USPC classification</label>
+        <input type="text" id="patents-uspc" placeholder="e.g., 705/1">
+      </div>
+      <div class="form-group">
+        <label for="patents-loc">LOC classification</label>
+        <input type="text" id="patents-loc" placeholder="e.g., 13-01">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Date Ranges</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Priority dates</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="date" id="patents-priority-start" aria-label="Priority date start">
+          <span>to</span>
+          <input type="date" id="patents-priority-end" aria-label="Priority date end">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Filing dates</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="date" id="patents-filing-start" aria-label="Filing date start">
+          <span>to</span>
+          <input type="date" id="patents-filing-end" aria-label="Filing date end">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Publication dates</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="date" id="patents-publication-start" aria-label="Publication date start">
+          <span>to</span>
+          <input type="date" id="patents-publication-end" aria-label="Publication date end">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Grant dates</label>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="date" id="patents-grant-start" aria-label="Grant date start">
+          <span>to</span>
+          <input type="date" id="patents-grant-end" aria-label="Grant date end">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Search Options</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Document type</label>
+        <div class="inline-options">
+          <label><input type="radio" name="patents-type" value="" checked> All documents</label>
+          <label><input type="radio" name="patents-type" value="PATENT"> Granted patents</label>
+          <label><input type="radio" name="patents-type" value="APPLICATION"> Patent applications</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="patents-language">Interface language</label>
+        <select id="patents-language">
+          <option value="">Default (auto)</option>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="ja">Japanese</option>
+          <option value="zh-CN">Chinese (Simplified)</option>
+          <option value="ko">Korean</option>
+          <option value="ru">Russian</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="patents-country">Search jurisdiction</label>
+        <input type="text" id="patents-country" placeholder="Country code (e.g., US, EP)">
+        <small>Use two-letter country code or regional code like EP.</small>
+      </div>
+      <div class="form-group">
+        <label for="patents-sort">Sort by</label>
+        <select id="patents-sort">
+          <option value="">Relevance</option>
+          <option value="new">Newest</option>
+          <option value="old">Oldest</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="patents-results">Results per page</label>
+        <select id="patents-results">
+          <option value="20" selected>20 results</option>
+          <option value="50">50 results</option>
+          <option value="100">100 results</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button type="button" onclick="this.form.reset();">Reset</button>
+    <button type="button" onclick="searchGooglePatents()">Search Google Patents</button>
+  </div>
+</form>
