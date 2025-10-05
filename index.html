@@ -257,6 +257,7 @@
           <option value="google-images">Google Images</option>
           <option value="google-news">Google News</option>
           <option value="google-scholar">Google Scholar</option>
+          <option value="google-datasets">Google Dataset Search</option>
           <option value="google-web" selected>Google Web Search</option>
         </select>
       </div>
@@ -307,6 +308,8 @@
     <div class="site-include" data-site="google-news" data-src="sites/google-news.html"></div>
     <!-- Google Scholar -->
     <div class="site-include" data-site="google-scholar" data-src="sites/google-scholar.html"></div>
+    <!-- Google Dataset Search -->
+    <div class="site-include" data-site="google-datasets" data-src="sites/google-datasets.html"></div>
     <!-- GitHub -->
     <div class="site-include" data-site="github" data-src="sites/github.html"></div>
     <!-- Reddit -->
@@ -473,6 +476,11 @@
 
     function resetGoogleImages() {
       document.getElementById('google-images-tbs').value = '';
+    }
+
+    function resetGoogleDatasets() {
+      const hiddenQuery = document.getElementById('google-datasets-query');
+      if (hiddenQuery) hiddenQuery.value = '';
     }
 
     function resetScholar() {
@@ -1910,6 +1918,65 @@
         });
       }
 
+      const googleDatasetsForm = document.getElementById('google-datasets');
+      if (googleDatasetsForm) {
+        googleDatasetsForm.addEventListener('submit', (event) => {
+          const hiddenQueryInput = document.getElementById('google-datasets-query');
+          if (!hiddenQueryInput) {
+            return;
+          }
+
+          const getValue = (id) => {
+            const field = document.getElementById(id);
+            return field ? field.value.trim() : '';
+          };
+
+          const docId = getValue('google-datasets-docid');
+          const manualOverride = getValue('google-datasets-manual');
+          let finalQuery = manualOverride;
+
+          if (!finalQuery) {
+            const parts = [];
+            const allKeywords = getValue('google-datasets-all');
+            if (allKeywords) parts.push(allKeywords);
+
+            const exactPhrase = getValue('google-datasets-exact');
+            if (exactPhrase) parts.push(JSON.stringify(exactPhrase));
+
+            const anyWords = getValue('google-datasets-any');
+            if (anyWords) {
+              const tokens = anyWords.split(/\s+/).filter(Boolean);
+              if (tokens.length) {
+                parts.push('(' + tokens.join(' OR ') + ')');
+              }
+            }
+
+            const excludedWords = getValue('google-datasets-none');
+            if (excludedWords) {
+              const tokens = excludedWords.split(/\s+/).filter(Boolean);
+              if (tokens.length) {
+                parts.push(tokens.map(word => '-' + word).join(' '));
+              }
+            }
+
+            finalQuery = parts.join(' ').trim();
+          }
+
+          hiddenQueryInput.value = finalQuery;
+
+          if (!finalQuery && !docId) {
+            event.preventDefault();
+            alert('Please enter keywords or provide a dataset docid.');
+            return;
+          }
+
+          resetFormAfterSubmit('google-datasets', (form) => {
+            const hidden = form.querySelector('#google-datasets-query');
+            if (hidden) hidden.value = '';
+          });
+        });
+      }
+
       const scholarForm = document.getElementById('google-scholar');
       if (scholarForm) {
         scholarForm.addEventListener('submit', () => {
@@ -2016,4 +2083,3 @@
   </script>
 </body>
 </html>
-
