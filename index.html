@@ -268,6 +268,7 @@
           <option value="wikibooks">Wikibooks</option>
           <option value="wikisource">Wikisource</option>
           <option value="wikipedia">Wikipedia</option>
+          <option value="wikivoyage">Wikivoyage</option>
         </select>
       </div>
       <div class="select-group">
@@ -317,6 +318,9 @@
     <!-- Wikipedia -->
 
     <div class="site-include" data-site="wikipedia" data-src="sites/wikipedia.html"></div>
+    <!-- Wikivoyage -->
+    <div class="site-include" data-site="wikivoyage" data-src="sites/wikivoyage.html"></div>
+
     <!-- Wikimedia Commons -->
     <div class="site-include" data-site="wikimedia-commons" data-src="sites/wikimedia-commons.html"></div>
 
@@ -408,7 +412,6 @@
           }
         }, 0);
       }
-
 
       providerSelects.forEach(select => {
         select.addEventListener('change', (event) => {
@@ -1079,7 +1082,6 @@
       resetFormAfterSubmit('stackoverflow');
     }
 
-
     function tokenizeList(value) {
       if (!value) return [];
       return value.split(/(?:\r?\n|[,;])+/).map(part => part.trim()).filter(Boolean);
@@ -1199,8 +1201,107 @@
       resetFormAfterSubmit('wikipedia');
     }
 
+    function searchWikivoyage() {
+      const queryParts = [];
+      const allWords = document.getElementById('wikivoyage-all').value.trim();
+      if (allWords) queryParts.push(allWords);
 
+      const exactPhrase = document.getElementById('wikivoyage-exact').value.trim();
+      if (exactPhrase) queryParts.push(`"${exactPhrase}"`);
 
+      const anyWords = document.getElementById('wikivoyage-any').value.trim();
+      if (anyWords) {
+        const tokens = anyWords.split(/\s+/).filter(Boolean);
+        if (tokens.length) {
+          queryParts.push(`(${tokens.join(' OR ')})`);
+        }
+      }
+
+      const noneWords = document.getElementById('wikivoyage-none').value.trim();
+      if (noneWords) {
+        noneWords.split(/\s+/).filter(Boolean).forEach(word => {
+          const wrapped = /\s/.test(word) ? `"${word}"` : word;
+          queryParts.push(`-${wrapped}`);
+        });
+      }
+
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikivoyage-intitle').value), 'intitle');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikivoyage-insource').value), 'insource');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikivoyage-incategory').value), 'incategory');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikivoyage-deepcat').value), 'deepcat');
+      appendColonFilters(queryParts, tokenizeList(document.getElementById('wikivoyage-hastemplate').value), 'hastemplate');
+
+      const prefix = document.getElementById('wikivoyage-prefix').value.trim();
+      if (prefix) {
+        queryParts.push(`prefix:${prefix.replace(/\s+/g, '_')}`);
+      }
+
+      const subpage = document.getElementById('wikivoyage-subpageof').value.trim();
+      if (subpage) {
+        queryParts.push(`subpageof:${subpage.replace(/\s+/g, '_')}`);
+      }
+
+      const languageCode = document.getElementById('wikivoyage-language').value.trim();
+      if (languageCode) {
+        queryParts.push(`inlanguage:${languageCode.toLowerCase()}`);
+      }
+
+      const fileType = document.getElementById('wikivoyage-filetype').value;
+      if (fileType) {
+        queryParts.push(`filetype:${fileType}`);
+      }
+
+      const widthFilter = buildRangeQuery(
+        document.getElementById('wikivoyage-filew-min').value.trim(),
+        document.getElementById('wikivoyage-filew-max').value.trim(),
+        'filew'
+      );
+      if (widthFilter) queryParts.push(widthFilter);
+
+      const heightFilter = buildRangeQuery(
+        document.getElementById('wikivoyage-fileh-min').value.trim(),
+        document.getElementById('wikivoyage-fileh-max').value.trim(),
+        'fileh'
+      );
+      if (heightFilter) queryParts.push(heightFilter);
+
+      const query = queryParts.join(' ').trim();
+      if (!query) {
+        alert('Please enter keywords or filters for the Wikivoyage search.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set('title', 'Special:Search');
+      params.set('profile', 'advanced');
+      params.set('fulltext', '1');
+      params.set('search', query);
+
+      const namespaceBoxes = Array.from(document.querySelectorAll('#wikivoyage input[name="wikivoyage-namespace"]:checked'));
+      if (namespaceBoxes.length) {
+        namespaceBoxes.forEach(box => params.set(`ns${box.value}`, '1'));
+      } else {
+        params.set('ns0', '1');
+      }
+
+      const sort = document.getElementById('wikivoyage-sort').value;
+      if (sort) {
+        params.set('sort', sort);
+      }
+
+      const limit = document.getElementById('wikivoyage-limit').value.trim();
+      if (limit) {
+        params.set('limit', limit);
+      }
+
+      window.open(`https://en.wikivoyage.org/w/index.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('wikivoyage', form => {
+        const mainNamespace = form.querySelector('#wikivoyage-ns-main');
+        if (mainNamespace) {
+          mainNamespace.checked = true;
+        }
+      });
+    }
 
     function searchWikibooks() {
       const queryParts = [];
@@ -1626,7 +1727,6 @@
       resetFormAfterSubmit('pypi');
     }
 
-
     function searchCensus() {
       const baseUrl = 'https://data.census.gov/search/';
       const params = new URLSearchParams();
@@ -1761,7 +1861,6 @@
       window.open(targetUrl, '_blank');
       resetFormAfterSubmit('pubmed');
     }
-
 
     function initializeForms() {
       const googleWebForm = document.getElementById('google-web');

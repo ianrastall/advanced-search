@@ -1,0 +1,149 @@
+<form id="wikivoyage" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>All these words</label>
+            <input type="text" id="wikivoyage-all" placeholder="e.g., family travel Italy">
+          </div>
+          <div class="form-group">
+            <label>Exact phrase</label>
+            <input type="text" id="wikivoyage-exact" placeholder="e.g., \"local cuisine\"">
+          </div>
+          <div class="form-group">
+            <label>Any of these words</label>
+            <input type="text" id="wikivoyage-any" placeholder="e.g., hiking beaches nightlife">
+            <small>Separated words become an OR group.</small>
+          </div>
+          <div class="form-group">
+            <label>None of these words</label>
+            <input type="text" id="wikivoyage-none" placeholder="e.g., backpacking winter">
+            <small>Each word is excluded with a minus filter.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Destination Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Page title contains (intitle:)</label>
+            <input type="text" id="wikivoyage-intitle" placeholder="e.g., itinerary, guide">
+            <small>Use commas or new lines for multiple title filters.</small>
+          </div>
+          <div class="form-group">
+            <label>Text contains (insource:)</label>
+            <input type="text" id="wikivoyage-insource" placeholder="e.g., UNESCO">
+            <small>Each entry becomes its own insource filter.</small>
+          </div>
+          <div class="form-group">
+            <label>Must be in categories (incategory:)</label>
+            <textarea id="wikivoyage-incategory" rows="3" placeholder="e.g., Cities in Japan, UNESCO World Heritage Sites"></textarea>
+            <small>Separate categories with commas or new lines.</small>
+          </div>
+          <div class="form-group">
+            <label>Include subcategories (deepcat:)</label>
+            <textarea id="wikivoyage-deepcat" rows="3" placeholder="e.g., Hiking trails"></textarea>
+            <small>Searches matching subcategories up to five levels deep.</small>
+          </div>
+          <div class="form-group">
+            <label>Require templates (hastemplate:)</label>
+            <input type="text" id="wikivoyage-hastemplate" placeholder="e.g., Do listing, See listing">
+          </div>
+          <div class="form-group">
+            <label>Subpages of (subpageof:)</label>
+            <input type="text" id="wikivoyage-subpageof" placeholder="e.g., Europe/Rail">
+            <small>Parent page name without namespace prefix.</small>
+          </div>
+          <div class="form-group">
+            <label>Page prefix (prefix:)</label>
+            <input type="text" id="wikivoyage-prefix" placeholder="e.g., Phrasebook:">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Language & Media</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Language code (inlanguage:)</label>
+            <input type="text" id="wikivoyage-language" placeholder="e.g., es">
+            <small>Use a two-letter or locale code such as es or pt-br.</small>
+          </div>
+          <div class="form-group">
+            <label>File type (filetype:)</label>
+            <select id="wikivoyage-filetype">
+              <option value="">Any type</option>
+              <option value="bitmap">Bitmap</option>
+              <option value="drawing">Drawing</option>
+              <option value="audio">Audio</option>
+              <option value="video">Video</option>
+              <option value="multimedia">Multimedia</option>
+              <option value="office">Office</option>
+              <option value="text">Text</option>
+              <option value="executable">Executable</option>
+              <option value="archive">Archive</option>
+              <option value="3d">3D</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Minimum image width (px)</label>
+            <input type="number" id="wikivoyage-filew-min" min="0" placeholder="e.g., 1024">
+          </div>
+          <div class="form-group">
+            <label>Maximum image width (px)</label>
+            <input type="number" id="wikivoyage-filew-max" min="0" placeholder="e.g., 4096">
+          </div>
+          <div class="form-group">
+            <label>Minimum image height (px)</label>
+            <input type="number" id="wikivoyage-fileh-min" min="0" placeholder="e.g., 768">
+          </div>
+          <div class="form-group">
+            <label>Maximum image height (px)</label>
+            <input type="number" id="wikivoyage-fileh-max" min="0" placeholder="e.g., 2160">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Namespaces & Options</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select namespaces</label>
+            <div class="inline-options">
+              <label><input type="checkbox" name="wikivoyage-namespace" value="0" id="wikivoyage-ns-main" checked> Main (Destinations)</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="1"> Talk</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="2"> User</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="4"> Wikivoyage project</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="6"> File</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="10"> Template</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="12"> Help</label>
+              <label><input type="checkbox" name="wikivoyage-namespace" value="14"> Category</label>
+            </div>
+            <small>Leave Main selected to focus on travel article content.</small>
+          </div>
+          <div class="form-group">
+            <label>Sort order</label>
+            <select id="wikivoyage-sort">
+              <option value="">Relevance (default)</option>
+              <option value="last_edit_desc">Most recently edited</option>
+              <option value="last_edit_asc">Least recently edited</option>
+              <option value="create_timestamp_desc">Most recently created</option>
+              <option value="create_timestamp_asc">Oldest pages</option>
+              <option value="incoming_links_desc">Most incoming links</option>
+              <option value="incoming_links_asc">Fewest incoming links</option>
+              <option value="random">Random order</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Result limit</label>
+            <input type="number" id="wikivoyage-limit" min="1" max="500" placeholder="Default: 20">
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset(); document.getElementById('wikivoyage-ns-main').checked = true;">Reset</button>
+        <button type="button" onclick="searchWikivoyage()">Search Wikivoyage</button>
+      </div>
+    </form>
