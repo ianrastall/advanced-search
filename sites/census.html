@@ -1,0 +1,61 @@
+<form id="census" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Search text (q=)</label>
+            <input type="text" id="census-q" placeholder="e.g., median income">
+            <small>Matches datasets, table titles, and descriptions.</small>
+          </div>
+          <div class="form-group">
+            <label>Table ID (table=)</label>
+            <input type="text" id="census-table" placeholder="e.g., ACSST5Y2023.S1901">
+          </div>
+          <div class="form-group">
+            <label>Survey / dataset (d=)</label>
+            <input type="text" id="census-dataset" placeholder="e.g., ACSST5Y2023">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Geography (g=)</label>
+            <input type="text" id="census-geography" placeholder="e.g., 0400000US06 for California">
+            <small>Use geography codes such as state, county, or tract IDs.</small>
+          </div>
+          <div class="form-group">
+            <label>Year (y=)</label>
+            <input type="text" id="census-year" placeholder="e.g., 2023">
+          </div>
+          <div class="form-group">
+            <label>NAICS code (naics=)</label>
+            <input type="text" id="census-naics" placeholder="e.g., 541330">
+          </div>
+        </div>
+        <small>Not all parameters are documented. Use the form below to add any additional query keys the site supports.</small>
+      </div>
+
+      <div class="form-section">
+        <h3>Additional query parameters</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Custom parameters</label>
+            <textarea id="census-extra" placeholder="Enter key=value pairs separated by new lines or &amp;"></textarea>
+            <small>Examples: <code>topic=income</code>, <code>ps=ACS</code>. These are appended exactly to the query string.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Notes</h3>
+        <p>The advanced search experience on data.census.gov is primarily UI-driven. The URL parameters used here mirror those observed when sharing an advanced-search link, but not every combination is officially documented. After opening the search, you can continue refining results directly on data.census.gov.</p>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchCensus()">Search Census.gov</button>
+      </div>
+    </form>

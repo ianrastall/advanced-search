@@ -242,6 +242,11 @@
 </head>
 <body>
   <div class="container">
+    <header>
+      <h1>Advanced Search Hub</h1>
+      <p class="tagline">Unified interface for advanced search across multiple platforms</p>
+    </header>
+
     <div class="provider-selector">
       <div class="select-group">
         <label for="providerSelectGoogle">Google Searches</label>
@@ -279,6 +284,7 @@
           <option value="">Choose an N-Z search...</option>
           <option value="pubmed">PubMed</option>
           <option value="pypi">PyPI</option>
+          <option value="census">Census.gov Advanced</option>
           <option value="reddit">Reddit</option>
           <option value="stackoverflow">Stack Overflow</option>
           <option value="youtube">YouTube</option>
@@ -322,6 +328,9 @@
 
     <!-- PyPI -->
     <div class="site-include" data-site="pypi" data-src="sites/pypi.html"></div>
+
+    <!-- Census.gov -->
+    <div class="site-include" data-site="census" data-src="sites/census.html"></div>
 
     <!-- PubMed -->
     <div class="site-include" data-site="pubmed" data-src="sites/pubmed.html"></div>
@@ -382,6 +391,18 @@
           fallback.classList.add('active');
         }
       }
+
+      function resetFormAfterSubmit(formId, callback) {
+        const form = document.getElementById(formId);
+        if (!form) return;
+        setTimeout(() => {
+          form.reset();
+          if (typeof callback === 'function') {
+            callback(form);
+          }
+        }, 0);
+      }
+
 
       providerSelects.forEach(select => {
         select.addEventListener('change', (event) => {
@@ -525,6 +546,7 @@
 
       const urlParams = params.toString();
       window.open(urlParams ? `${baseUrl}?${urlParams}` : baseUrl, '_blank');
+      resetFormAfterSubmit('google-news');
     }
     function buildGitHubDateRange(afterValue, beforeValue, key) {
       const after = afterValue ? afterValue : '';
@@ -664,6 +686,7 @@
       }
 
       window.open(`https://github.com/search?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('github');
     }
 
     function searchReddit() {
@@ -730,6 +753,7 @@
       }
 
       window.open(`${baseUrl}?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('reddit');
     }
 
     function searchYouTube() {
@@ -770,6 +794,7 @@
       params.set('search_query', query);
 
       window.open(`https://www.youtube.com/results?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('youtube');
     }
 
     function searchStackOverflow() {
@@ -828,6 +853,7 @@
       }
 
       window.open(`https://stackoverflow.com/search?q=${encodeURIComponent(query)}`, '_blank');
+      resetFormAfterSubmit('stackoverflow');
     }
 
 
@@ -947,6 +973,7 @@
       }
 
       window.open(`https://en.wikipedia.org/w/index.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('wikipedia');
     }
 
 
@@ -1018,6 +1045,7 @@
       }
 
       window.open(`https://en.wikibooks.org/w/index.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('wikibooks');
     }
 
     function searchWikisource() {
@@ -1073,6 +1101,7 @@
       }
 
       window.open(`https://en.wikisource.org/w/index.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('wikisource');
     }
 
     function searchCommons() {
@@ -1167,6 +1196,7 @@
       }
 
       window.open(`https://commons.wikimedia.org/w/index.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('wikimedia-commons');
     }
 
     function searchMDN() {
@@ -1247,6 +1277,7 @@
       const queryString = params.toString();
       const targetUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
       window.open(targetUrl, '_blank');
+      resetFormAfterSubmit('mdn');
     }
 
     function searchIMDb() {
@@ -1332,6 +1363,7 @@
 
       const targetUrl = `https://www.imdb.com/search/title/?${params.toString()}`;
       window.open(targetUrl, '_blank');
+      resetFormAfterSubmit('imdb');
     }
 
     function searchPyPI() {
@@ -1368,8 +1400,46 @@
       if (sort) params.set('sort', sort);
 
       window.open(`https://pypi.org/search/?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('pypi');
     }
 
+
+    function searchCensus() {
+      const baseUrl = 'https://data.census.gov/search/';
+      const params = new URLSearchParams();
+
+      const query = document.getElementById('census-q').value.trim();
+      if (query) params.set('q', query);
+
+      const table = document.getElementById('census-table').value.trim();
+      if (table) params.set('table', table);
+
+      const dataset = document.getElementById('census-dataset').value.trim();
+      if (dataset) params.set('d', dataset);
+
+      const geography = document.getElementById('census-geography').value.trim();
+      if (geography) params.set('g', geography);
+
+      const year = document.getElementById('census-year').value.trim();
+      if (year) params.set('y', year);
+
+      const naics = document.getElementById('census-naics').value.trim();
+      if (naics) params.set('naics', naics);
+
+      const extra = document.getElementById('census-extra').value;
+      if (extra) {
+        extra.split(/\n|\r\n|&/).map(line => line.trim()).filter(Boolean).forEach(pair => {
+          const [key, ...rest] = pair.split('=');
+          if (!key) return;
+          const value = rest.join('=');
+          params.append(key.trim(), value.trim());
+        });
+      }
+
+      const target = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+      window.open(target, '_blank');
+      resetFormAfterSubmit('census');
+    }
 
     function searchPubMed() {
       const params = new URLSearchParams();
@@ -1466,6 +1536,7 @@
 
       const targetUrl = `https://pubmed.ncbi.nlm.nih.gov/?${params.toString()}`;
       window.open(targetUrl, '_blank');
+      resetFormAfterSubmit('pubmed');
     }
 
 
@@ -1490,6 +1561,7 @@
             tbsParts.push('li:1');
           }
           document.getElementById('google-web-tbs').value = tbsParts.join(',');
+          resetFormAfterSubmit('google-web');
         });
       }
 
@@ -1512,6 +1584,7 @@
             tbsParts.push(cdrSegments.join(','));
           }
           document.getElementById('google-images-tbs').value = tbsParts.join(',');
+          resetFormAfterSubmit('google-images');
         });
       }
 
@@ -1528,6 +1601,7 @@
             tbsParts.push(cdrSegments.join(','));
           }
           document.getElementById('scholar-tbs').value = tbsParts.join(',');
+          resetFormAfterSubmit('google-scholar');
         });
       }
     }
@@ -1597,6 +1671,9 @@
         if (rows) htmlParams.set('rows', rows);
         if (page) htmlParams.set('page', page);
         window.open(`https://archive.org/search.php?${htmlParams.toString()}`, '_blank');
+        resetFormAfterSubmit('archive', form => {
+          form.querySelector('#archive-output').value = 'json';
+        });
         return;
       }
 
@@ -1610,6 +1687,9 @@
       if (totalOnly) params.set('total_only', 'true');
 
       window.open(`https://archive.org/advancedsearch.php?${params.toString()}`, '_blank');
+      resetFormAfterSubmit('archive', form => {
+        form.querySelector('#archive-output').value = 'json';
+      });
     }
   </script>
 </body>
