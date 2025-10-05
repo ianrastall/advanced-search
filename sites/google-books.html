@@ -1,0 +1,211 @@
+<form id="google-books" class="search-form" target="_blank" autocomplete="off">
+  <div class="form-section">
+    <h3>Search Terms</h3>
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label for="books-q">All of the words</label>
+        <input type="text" id="books-q" name="as_q" placeholder="Enter search terms">
+      </div>
+      <div class="form-group">
+        <label for="books-exact">Exact phrase</label>
+        <input type="text" id="books-exact" name="as_epq" placeholder="Enter exact phrase">
+      </div>
+      <div class="form-group">
+        <label for="books-any">At least one of the words</label>
+        <input type="text" id="books-any" name="as_oq" placeholder="Enter words separated by spaces">
+      </div>
+      <div class="form-group">
+        <label for="books-without">Without the words</label>
+        <input type="text" id="books-without" name="as_eq" placeholder="Enter words to exclude">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Search Scope</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Availability</label>
+        <div class="inline-options">
+          <label><input type="radio" name="as_brr" value="0" checked> All books</label>
+          <label><input type="radio" name="as_brr" value="3"> Limited preview and full view</label>
+          <label><input type="radio" name="as_brr" value="1"> Full view only</label>
+          <label><input type="radio" name="as_brr" value="5"> Google eBooks only</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Content Type</label>
+        <div class="inline-options">
+          <label><input type="radio" name="as_pt" value="ALLTYPES" checked> All content</label>
+          <label><input type="radio" name="as_pt" value="BOOKS"> Books</label>
+          <label><input type="radio" name="as_pt" value="MAGAZINES"> Magazines</label>
+          <label><input type="radio" name="as_pt" value="NEWSPAPERS_SANTORINI"> Newspapers</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Book Details</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="books-title">Title</label>
+        <input type="text" id="books-title" name="as_vt" placeholder="e.g., Books and Culture">
+        <small>Return books with this title</small>
+      </div>
+      <div class="form-group">
+        <label for="books-author">Author</label>
+        <input type="text" id="books-author" name="as_auth" placeholder="e.g., Hamilton Mabie">
+        <small>Use quotes for exact author names: "Hamilton Wright Mabie"</small>
+      </div>
+      <div class="form-group">
+        <label for="books-publisher">Publisher</label>
+        <input type="text" id="books-publisher" name="as_pub" placeholder="e.g., O'Reilly">
+        <small>Return books published by this publisher</small>
+      </div>
+      <div class="form-group">
+        <label for="books-subject">Subject</label>
+        <input type="text" id="books-subject" name="as_sub" placeholder="e.g., Medieval History">
+        <small>Use quotes for exact subjects: "Medieval History"</small>
+      </div>
+      <div class="form-group">
+        <label for="books-language">Language</label>
+        <select id="books-language" name="lr">
+          <option value="">Any language</option>
+          <option value="lang_en">English</option>
+          <option value="lang_es">Spanish</option>
+          <option value="lang_fr">French</option>
+          <option value="lang_de">German</option>
+          <option value="lang_it">Italian</option>
+          <option value="lang_pt">Portuguese</option>
+          <option value="lang_ru">Russian</option>
+          <option value="lang_ja">Japanese</option>
+          <option value="lang_zh-CN">Chinese (Simplified)</option>
+          <option value="lang_zh-TW">Chinese (Traditional)</option>
+          <option value="lang_ar">Arabic</option>
+          <option value="lang_hi">Hindi</option>
+          <option value="lang_ko">Korean</option>
+          <option value="lang_nl">Dutch</option>
+          <option value="lang_sv">Swedish</option>
+          <option value="lang_da">Danish</option>
+          <option value="lang_no">Norwegian</option>
+          <option value="lang_fi">Finnish</option>
+          <option value="lang_pl">Polish</option>
+          <option value="lang_cs">Czech</option>
+          <option value="lang_hu">Hungarian</option>
+          <option value="lang_tr">Turkish</option>
+          <option value="lang_th">Thai</option>
+          <option value="lang_vi">Vietnamese</option>
+          <option value="lang_bg">Bulgarian</option>
+          <option value="lang_hr">Croatian</option>
+          <option value="lang_et">Estonian</option>
+          <option value="lang_lv">Latvian</option>
+          <option value="lang_lt">Lithuanian</option>
+          <option value="lang_ro">Romanian</option>
+          <option value="lang_sk">Slovak</option>
+          <option value="lang_sl">Slovenian</option>
+          <option value="lang_sr">Serbian</option>
+          <option value="lang_uk">Ukrainian</option>
+          <option value="lang_be">Belarusian</option>
+          <option value="lang_ca">Catalan</option>
+          <option value="lang_el">Greek</option>
+          <option value="lang_iw">Hebrew</option>
+          <option value="lang_fa">Persian</option>
+          <option value="lang_af">Afrikaans</option>
+          <option value="lang_hy">Armenian</option>
+          <option value="lang_eo">Esperanto</option>
+          <option value="lang_tl">Filipino</option>
+          <option value="lang_id">Indonesian</option>
+          <option value="lang_is">Icelandic</option>
+          <option value="lang_sw">Swahili</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="books-results">Results per page</label>
+        <select id="books-results" name="num">
+          <option value="10" selected>10 results</option>
+          <option value="20">20 results</option>
+          <option value="30">30 results</option>
+          <option value="50">50 results</option>
+          <option value="100">100 results</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Publication Date</h3>
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <div class="inline-options">
+          <label><input type="radio" name="as_drrb_is" value="q" checked> Published anytime</label>
+          <label><input type="radio" name="as_drrb_is" value="b"> Published between specific dates</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="books-start-month">Start date</label>
+        <div style="display: flex; gap: 8px;">
+          <select id="books-start-month" name="as_minm_is" onchange="daterangeIs(1)">
+            <option value="0">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          <input type="text" id="books-start-year" name="as_miny_is" placeholder="Year" maxlength="4" style="width: 80px;" onchange="daterangeIs(1)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="books-end-month">End date</label>
+        <div style="display: flex; gap: 8px;">
+          <select id="books-end-month" name="as_maxm_is" onchange="daterangeIs(1)">
+            <option value="0">Month</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          <input type="text" id="books-end-year" name="as_maxy_is" placeholder="Year" maxlength="4" style="width: 80px;" onchange="daterangeIs(1)">
+        </div>
+        <small>e.g., 1999 and 2000, or Jan 1999 and Dec 2000</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Identifiers</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="books-isbn">ISBN</label>
+        <input type="text" id="books-isbn" name="as_isbn" placeholder="e.g., 0060930314" maxlength="14">
+        <small>Return books with this ISBN</small>
+      </div>
+      <div class="form-group">
+        <label for="books-issn">ISSN</label>
+        <input type="text" id="books-issn" name="as_issn" placeholder="e.g., 0161-7370" maxlength="9">
+        <small>Return serials with this ISSN</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button type="button" onclick="this.form.reset();">Reset</button>
+    <button type="button" onclick="searchGoogleBooks()">Search Google Books</button>
+  </div>
+</form>

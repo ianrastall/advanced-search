@@ -252,6 +252,7 @@
         <label for="providerSelectGoogle">Google Searches</label>
         <select id="providerSelectGoogle" class="provider-select">
           <option value="">Choose a Google search...</option>
+          <option value="google-books">Google Books</option>
           <option value="google-images">Google Images</option>
           <option value="google-news">Google News</option>
           <option value="google-scholar">Google Scholar</option>
@@ -284,7 +285,7 @@
           <option value="">Choose an N-Z search...</option>
           <option value="pubmed">PubMed</option>
           <option value="pypi">PyPI</option>
-          <option value="census">Census.gov Advanced</option>
+          <option value="census">Census.gov</option>
           <option value="reddit">Reddit</option>
           <option value="stackoverflow">Stack Overflow</option>
           <option value="youtube">YouTube</option>
@@ -294,6 +295,8 @@
 
     <!-- Google Web Search -->
     <div class="site-include" data-site="google-web" data-src="sites/google-web.html"></div>
+    <!-- Google Books -->
+    <div class="site-include" data-site="google-books" data-src="sites/google-books.html"></div>
     <!-- Google Images -->
     <div class="site-include" data-site="google-images" data-src="sites/google-images.html"></div>
     <!-- Google News -->
@@ -451,6 +454,96 @@
 
     function resetScholar() {
       document.getElementById('scholar-tbs').value = '';
+    }
+
+    function daterangeIs(i) {
+      const radios = document.querySelectorAll('input[name="as_drrb_is"]');
+      if (radios[i]) {
+        radios[i].checked = true;
+      }
+    }
+
+    function searchGoogleBooks() {
+      const params = new URLSearchParams();
+      
+      // Basic search terms
+      const allWords = document.getElementById('books-q').value.trim();
+      if (allWords) params.set('as_q', allWords);
+      
+      const exactPhrase = document.getElementById('books-exact').value.trim();
+      if (exactPhrase) params.set('as_epq', exactPhrase);
+      
+      const anyWords = document.getElementById('books-any').value.trim();
+      if (anyWords) params.set('as_oq', anyWords);
+      
+      const withoutWords = document.getElementById('books-without').value.trim();
+      if (withoutWords) params.set('as_eq', withoutWords);
+      
+      // Search scope
+      const availability = document.querySelector('input[name="as_brr"]:checked')?.value;
+      if (availability) params.set('as_brr', availability);
+      
+      const contentType = document.querySelector('input[name="as_pt"]:checked')?.value;
+      if (contentType) params.set('as_pt', contentType);
+      
+      // Book details
+      const title = document.getElementById('books-title').value.trim();
+      if (title) params.set('as_vt', title);
+      
+      const author = document.getElementById('books-author').value.trim();
+      if (author) params.set('as_auth', author);
+      
+      const publisher = document.getElementById('books-publisher').value.trim();
+      if (publisher) params.set('as_pub', publisher);
+      
+      const subject = document.getElementById('books-subject').value.trim();
+      if (subject) params.set('as_sub', subject);
+      
+      const language = document.getElementById('books-language').value;
+      if (language) params.set('lr', language);
+      
+      const resultsPerPage = document.getElementById('books-results').value;
+      if (resultsPerPage) params.set('num', resultsPerPage);
+      
+      // Publication date
+      const dateRange = document.querySelector('input[name="as_drrb_is"]:checked')?.value;
+      if (dateRange) params.set('as_drrb_is', dateRange);
+      
+      if (dateRange === 'b') {
+        const startMonth = document.getElementById('books-start-month').value;
+        if (startMonth && startMonth !== '0') params.set('as_minm_is', startMonth);
+        
+        const startYear = document.getElementById('books-start-year').value.trim();
+        if (startYear) params.set('as_miny_is', startYear);
+        
+        const endMonth = document.getElementById('books-end-month').value;
+        if (endMonth && endMonth !== '0') params.set('as_maxm_is', endMonth);
+        
+        const endYear = document.getElementById('books-end-year').value.trim();
+        if (endYear) params.set('as_maxy_is', endYear);
+      }
+      
+      // Identifiers
+      const isbn = document.getElementById('books-isbn').value.trim();
+      if (isbn) params.set('as_isbn', isbn);
+      
+      const issn = document.getElementById('books-issn').value.trim();
+      if (issn) params.set('as_issn', issn);
+      
+      // Add the required hidden parameter
+      params.set('bm', '1');
+      
+      // Check if we have any search criteria
+      if (!params.has('as_q') && !params.has('as_epq') && !params.has('as_oq') && 
+          !params.has('as_vt') && !params.has('as_auth') && !params.has('as_pub') && 
+          !params.has('as_sub') && !params.has('as_isbn') && !params.has('as_issn')) {
+        alert('Please enter search terms or criteria for Google Books.');
+        return;
+      }
+      
+      const targetUrl = `https://books.google.com/books?${params.toString()}`;
+      window.open(targetUrl, '_blank');
+      resetFormAfterSubmit('google-books');
     }
 
     function searchGoogleNews() {
