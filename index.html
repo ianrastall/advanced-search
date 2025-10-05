@@ -278,6 +278,7 @@
         <select id="providerSelectMiscNZ" class="provider-select">
           <option value="">Choose an N-Z search...</option>
           <option value="pubmed">PubMed</option>
+          <option value="pypi">PyPI</option>
           <option value="reddit">Reddit</option>
           <option value="stackoverflow">Stack Overflow</option>
           <option value="youtube">YouTube</option>
@@ -318,6 +319,9 @@
 
     <!-- IMDb -->
     <div class="site-include" data-site="imdb" data-src="sites/imdb.html"></div>
+
+    <!-- PyPI -->
+    <div class="site-include" data-site="pypi" data-src="sites/pypi.html"></div>
 
     <!-- PubMed -->
     <div class="site-include" data-site="pubmed" data-src="sites/pubmed.html"></div>
@@ -1329,6 +1333,43 @@
       const targetUrl = `https://www.imdb.com/search/title/?${params.toString()}`;
       window.open(targetUrl, '_blank');
     }
+
+    function searchPyPI() {
+      const params = new URLSearchParams();
+      const query = document.getElementById('pypi-q').value.trim();
+      params.set('q', query || '');
+
+      const classifiers = tokenizeList(document.getElementById('pypi-classifiers').value);
+      classifiers.forEach(value => params.append('c', value));
+
+      const pythonVersion = document.getElementById('pypi-python-version').value.trim();
+      if (pythonVersion) params.set('o', pythonVersion);
+
+      const implementation = document.getElementById('pypi-implementation').value.trim();
+      if (implementation) params.set('i', implementation);
+
+      const status = document.getElementById('pypi-status').value.trim();
+      if (status) params.set('ps', status);
+
+      const appendList = (inputId, key) => {
+        tokenizeList(document.getElementById(inputId).value).forEach(value => params.append(key, value));
+      };
+
+      appendList('pypi-audience', 'pf');
+      appendList('pypi-topic', 'topic');
+      appendList('pypi-framework', 'f');
+      appendList('pypi-license', 'l');
+      appendList('pypi-language', 'pl');
+      appendList('pypi-os', 'os');
+      appendList('pypi-environment', 'e');
+      appendList('pypi-natural-language', 'nl');
+
+      const sort = document.getElementById('pypi-sort').value;
+      if (sort) params.set('sort', sort);
+
+      window.open(`https://pypi.org/search/?${params.toString()}`, '_blank');
+    }
+
 
     function searchPubMed() {
       const params = new URLSearchParams();

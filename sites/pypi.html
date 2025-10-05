@@ -1,0 +1,106 @@
+<form id="pypi" class="search-form" target="_blank" autocomplete="off">
+      <div class="form-section">
+        <h3>Search Terms</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Search text</label>
+            <input type="text" id="pypi-q" placeholder="e.g., data science">
+            <small>Matches project name, summary, description, keywords, and author fields.</small>
+          </div>
+          <div class="form-group full-width">
+            <label>Trove classifiers (c=)</label>
+            <textarea id="pypi-classifiers" placeholder="One classifier per line"></textarea>
+            <small>Use official classifier strings, e.g., <code>Framework :: Django</code>.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Filters</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Python version (o=)</label>
+            <input type="text" id="pypi-python-version" list="pypi-python-version-options" placeholder="e.g., 3.12">
+            <datalist id="pypi-python-version-options">
+              <option value="3.13"></option>
+              <option value="3.12"></option>
+              <option value="3.11"></option>
+              <option value="3.10"></option>
+              <option value="3.x only"></option>
+              <option value="2 only"></option>
+              <option value="source"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label>Implementation (i=)</label>
+            <input type="text" id="pypi-implementation" list="pypi-implementation-options" placeholder="e.g., CPython">
+            <datalist id="pypi-implementation-options">
+              <option value="CPython"></option>
+              <option value="PyPy"></option>
+              <option value="Jython"></option>
+              <option value="IronPython"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label>Development status (ps=)</label>
+            <input type="text" id="pypi-status" list="pypi-status-options" placeholder="e.g., Stable">
+            <datalist id="pypi-status-options">
+              <option value="Planning"></option>
+              <option value="Pre-Alpha"></option>
+              <option value="Alpha"></option>
+              <option value="Beta"></option>
+              <option value="Stable"></option>
+              <option value="Mature"></option>
+              <option value="Inactive"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label>Intended audience (pf=)</label>
+            <input type="text" id="pypi-audience" placeholder="e.g., Developers">
+          </div>
+          <div class="form-group">
+            <label>Topic (topic=)</label>
+            <input type="text" id="pypi-topic" placeholder="e.g., Scientific/Engineering">
+          </div>
+          <div class="form-group">
+            <label>Framework (f=)</label>
+            <input type="text" id="pypi-framework" placeholder="e.g., Django">
+          </div>
+          <div class="form-group">
+            <label>License (l=)</label>
+            <input type="text" id="pypi-license" placeholder="e.g., MIT">
+          </div>
+          <div class="form-group">
+            <label>Programming language (pl=)</label>
+            <input type="text" id="pypi-language" placeholder="e.g., Python">
+          </div>
+          <div class="form-group">
+            <label>Operating system (os=)</label>
+            <input type="text" id="pypi-os" placeholder="e.g., OS Independent">
+          </div>
+          <div class="form-group">
+            <label>Environment (e=)</label>
+            <input type="text" id="pypi-environment" placeholder="e.g., Console">
+          </div>
+          <div class="form-group">
+            <label>Natural language (nl=)</label>
+            <input type="text" id="pypi-natural-language" placeholder="e.g., English">
+          </div>
+          <div class="form-group">
+            <label>Sort order (sort=)</label>
+            <select id="pypi-sort">
+              <option value="">Relevance (default)</option>
+              <option value="-created">Last uploaded (newest first)</option>
+              <option value="created">Oldest first</option>
+              <option value="-zscore">Trending</option>
+            </select>
+          </div>
+        </div>
+        <small>For filters that support multiple values, enter them separated by commas or new lines.</small>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="this.form.reset();">Reset</button>
+        <button type="button" onclick="searchPyPI()">Search PyPI</button>
+      </div>
+    </form>
