@@ -256,6 +256,7 @@
           <option value="google-patents">Google Patents</option>
           <option value="google-images">Google Images</option>
           <option value="google-news">Google News</option>
+          <option value="google-shopping">Google Shopping</option>
           <option value="google-scholar">Google Scholar</option>
           <option value="google-datasets">Google Dataset Search</option>
           <option value="google-web" selected>Google Web Search</option>
@@ -276,9 +277,10 @@
         <label for="providerSelectMiscAM">Miscellaneous A-M</label>
         <select id="providerSelectMiscAM" class="provider-select">
           <option value="">Choose an A-M search...</option>
-          <option value="archive">Internet Archive</option>
+          <option value="census">Census.gov</option>
           <option value="github">GitHub</option>
           <option value="imdb">IMDb</option>
+          <option value="archive">Internet Archive</option>
           <option value="mdn">MDN Web Docs</option>
         </select>
       </div>
@@ -288,7 +290,6 @@
           <option value="">Choose an N-Z search...</option>
           <option value="pubmed">PubMed</option>
           <option value="pypi">PyPI</option>
-          <option value="census">Census.gov</option>
           <option value="reddit">Reddit</option>
           <option value="stackoverflow">Stack Overflow</option>
           <option value="youtube">YouTube</option>
@@ -306,10 +307,15 @@
     <div class="site-include" data-site="google-images" data-src="sites/google-images.html"></div>
     <!-- Google News -->
     <div class="site-include" data-site="google-news" data-src="sites/google-news.html"></div>
+    <!-- Google Shopping -->
+    <div class="site-include" data-site="google-shopping" data-src="sites/google-shopping.html"></div>
     <!-- Google Scholar -->
     <div class="site-include" data-site="google-scholar" data-src="sites/google-scholar.html"></div>
     <!-- Google Dataset Search -->
     <div class="site-include" data-site="google-datasets" data-src="sites/google-datasets.html"></div>
+    <!-- Census.gov -->
+    <div class="site-include" data-site="census" data-src="sites/census.html"></div>
+
     <!-- GitHub -->
     <div class="site-include" data-site="github" data-src="sites/github.html"></div>
     <!-- Reddit -->
@@ -341,9 +347,6 @@
 
     <!-- PyPI -->
     <div class="site-include" data-site="pypi" data-src="sites/pypi.html"></div>
-
-    <!-- Census.gov -->
-    <div class="site-include" data-site="census" data-src="sites/census.html"></div>
 
     <!-- PubMed -->
     <div class="site-include" data-site="pubmed" data-src="sites/pubmed.html"></div>
@@ -456,6 +459,22 @@
     function formatDateForPatents(value) {
       if (!value) return '';
       return value.replace(/-/g, '');
+    }
+
+    function parseShoppingPrice(value) {
+      if (value === undefined || value === null) return '';
+      const numeric = Number(value);
+      if (!Number.isFinite(numeric) || numeric < 0) {
+        return '';
+      }
+      return numeric.toString();
+    }
+
+    function formatShoppingFilter(key, raw) {
+      if (!raw) return '';
+      const trimmed = raw.trim().replace(/["']/g, '');
+      if (!trimmed) return '';
+      return /\s/.test(trimmed) ? `${key}:"${trimmed}"` : `${key}:${trimmed}`;
     }
 
     function appendPatentDateRange(params, field, startId, endId) {
@@ -1915,6 +1934,108 @@
           }
           document.getElementById('google-images-tbs').value = tbsParts.join(',');
           resetFormAfterSubmit('google-images');
+        });
+      }
+
+      const googleShoppingForm = document.getElementById('google-shopping');
+      if (googleShoppingForm) {
+        googleShoppingForm.addEventListener('submit', (event) => {
+          const queryField = document.getElementById('google-shopping-query');
+          const getValue = (id) => {
+            const field = document.getElementById(id);
+            return field ? field.value.trim() : '';
+          };
+
+          const manualQuery = getValue('shopping-manual');
+          let finalQuery = manualQuery;
+
+          if (!finalQuery) {
+            const segments = [];
+            const allWords = getValue('shopping-all');
+            if (allWords) segments.push(allWords);
+
+            const exact = getValue('shopping-exact');
+            if (exact) segments.push(`"${exact}"`);
+
+            const anyWords = getValue('shopping-any');
+            if (anyWords) {
+              const tokens = anyWords.split(/\s+/).filter(Boolean);
+              if (tokens.length) segments.push('(' + tokens.join(' OR ') + ')');
+            }
+
+            const noneWords = getValue('shopping-none');
+            if (noneWords) {
+              const tokens = noneWords.split(/\s+/).filter(Boolean);
+              if (tokens.length) {
+                segments.push(tokens.map(word => '-' + word).join(' '));
+              }
+            }
+
+            finalQuery = segments.join(' ').trim();
+          }
+
+          if (!finalQuery) {
+            event.preventDefault();
+            alert('Please enter keywords or supply a manual query for Google Shopping.');
+            return;
+          }
+
+          if (queryField) {
+            queryField.value = finalQuery;
+          }
+
+          const tbsParts = [];
+
+          const minPriceRaw = document.getElementById('shopping-price-min')?.value;
+          const maxPriceRaw = document.getElementById('shopping-price-max')?.value;
+          let minPrice = parseShoppingPrice(minPriceRaw);
+          let maxPrice = parseShoppingPrice(maxPriceRaw);
+          if (minPrice && maxPrice && Number(minPrice) > Number(maxPrice)) {
+            [minPrice, maxPrice] = [maxPrice, minPrice];
+          }
+          if (minPrice || maxPrice) {
+            tbsParts.push(`price:${minPrice || ''},${maxPrice || ''}`);
+          }
+
+          const condition = document.getElementById('shopping-condition')?.value;
+          if (condition) tbsParts.push(condition);
+
+          if (document.getElementById('shopping-free-shipping')?.checked) {
+            tbsParts.push('shipping:1');
+          }
+
+          if (document.getElementById('shopping-buy-on-google')?.checked) {
+            tbsParts.push('merchant_type:1');
+          }
+
+          const brandFilter = formatShoppingFilter('p_brand', getValue('shopping-brand'));
+          if (brandFilter) tbsParts.push(brandFilter);
+
+          const sellerFilter = formatShoppingFilter('p_seller', getValue('shopping-seller'));
+          if (sellerFilter) tbsParts.push(sellerFilter);
+
+          const rating = document.getElementById('shopping-rating')?.value;
+          if (rating) tbsParts.push(`avg_rating:${rating}`);
+
+          const availability = document.getElementById('shopping-availability')?.value;
+          if (availability) tbsParts.push(availability);
+
+          const extraFilters = getValue('shopping-extra-tbs');
+          if (extraFilters) {
+            extraFilters.split(',').map(token => token.trim()).filter(Boolean).forEach(token => tbsParts.push(token));
+          }
+
+          const tbsField = document.getElementById('google-shopping-tbs');
+          if (tbsField) {
+            tbsField.value = tbsParts.join(',');
+          }
+
+          resetFormAfterSubmit('google-shopping', (form) => {
+            const hiddenQuery = form.querySelector('#google-shopping-query');
+            if (hiddenQuery) hiddenQuery.value = '';
+            const hiddenTbs = form.querySelector('#google-shopping-tbs');
+            if (hiddenTbs) hiddenTbs.value = '';
+          });
         });
       }
 

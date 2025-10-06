@@ -1,0 +1,129 @@
+<form id="google-shopping" class="search-form" target="_blank" action="https://www.google.com/search" method="get" autocomplete="off">
+  <input type="hidden" name="tbm" value="shop">
+  <input type="hidden" name="tbs" id="google-shopping-tbs">
+  <input type="hidden" name="q" id="google-shopping-query">
+
+  <div class="form-section">
+    <h3>Search Terms</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>All these words</label>
+        <input type="text" id="shopping-all" placeholder="e.g., electric bike commuter">
+      </div>
+      <div class="form-group">
+        <label>Exact phrase</label>
+        <input type="text" id="shopping-exact" placeholder='e.g., "folding ebike"'>
+      </div>
+      <div class="form-group">
+        <label>Any of these words</label>
+        <input type="text" id="shopping-any" placeholder="e.g., torque cadence mid-drive">
+      </div>
+      <div class="form-group">
+        <label>None of these words</label>
+        <input type="text" id="shopping-none" placeholder="e.g., -kids -toy">
+      </div>
+    </div>
+    <div class="form-group full-width">
+      <label>Manual query override</label>
+      <input type="text" id="shopping-manual" placeholder="Paste a fully custom Shopping query">
+      <small>Overrides the builders above when provided.</small>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Shopping Filters</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Price minimum</label>
+        <input type="number" id="shopping-price-min" min="0" step="1" placeholder="e.g., 100">
+      </div>
+      <div class="form-group">
+        <label>Price maximum</label>
+        <input type="number" id="shopping-price-max" min="0" step="1" placeholder="e.g., 1500">
+      </div>
+      <div class="form-group">
+        <label>Condition</label>
+        <select id="shopping-condition">
+          <option value="">Any condition</option>
+          <option value="mr:1">New only</option>
+          <option value="mr:2">Used / refurbished</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Minimum rating</label>
+        <select id="shopping-rating">
+          <option value="">Any rating</option>
+          <option value="3">3.0 * and up</option>
+          <option value="3.5">3.5 * and up</option>
+          <option value="4">4.0 * and up</option>
+          <option value="4.5">4.5 * and up</option>
+          <option value="5">5.0 * only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Brand filter</label>
+        <input type="text" id="shopping-brand" placeholder="Exact brand name">
+        <small>Must match Google's catalog naming.</small>
+      </div>
+      <div class="form-group">
+        <label>Seller / store filter</label>
+        <input type="text" id="shopping-seller" placeholder="e.g., Best Buy">
+      </div>
+      <div class="form-group">
+        <label>Availability</label>
+        <select id="shopping-availability">
+          <option value="">All products</option>
+          <option value="_avail:1">In stock only</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Additional tbs tokens</label>
+        <input type="text" id="shopping-extra-tbs" placeholder="Comma separated, e.g., merchant_type:1">
+      </div>
+    </div>
+    <div class="inline-options">
+      <label><input type="checkbox" id="shopping-free-shipping"> Free shipping only</label>
+      <label><input type="checkbox" id="shopping-buy-on-google"> Buy on Google eligible</label>
+      <label><input type="checkbox" name="psb" value="1" id="shopping-priced"> Require price information (psb=1)</label>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h3>Localization & Options</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Country (gl)</label>
+        <input type="text" name="gl" id="shopping-gl" maxlength="5" placeholder="e.g., US">
+      </div>
+      <div class="form-group">
+        <label>Interface language (hl)</label>
+        <input type="text" name="hl" id="shopping-hl" maxlength="5" placeholder="e.g., en">
+      </div>
+      <div class="form-group">
+        <label>Result language (lr)</label>
+        <select name="lr" id="shopping-lr">
+          <option value="">All languages</option>
+          <option value="lang_en">English</option>
+          <option value="lang_es">Spanish</option>
+          <option value="lang_fr">French</option>
+          <option value="lang_de">German</option>
+          <option value="lang_it">Italian</option>
+          <option value="lang_ja">Japanese</option>
+          <option value="lang_ko">Korean</option>
+          <option value="lang_pt">Portuguese</option>
+          <option value="lang_zh-CN">Chinese (Simplified)</option>
+          <option value="lang_zh-TW">Chinese (Traditional)</option>
+        </select>
+      </div>
+    </div>
+    <div class="inline-options">
+      <label><input type="checkbox" name="pws" value="0" id="shopping-pws"> Disable personalization (pws=0)</label>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button type="button" onclick="this.form.reset();">Reset</button>
+    <button type="submit">Search Google Shopping</button>
+  </div>
+</form>
+
