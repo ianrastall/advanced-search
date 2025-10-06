@@ -389,24 +389,41 @@
           return;
         }
 
-        const options = Array.from(select.options);
+        const allOptions = Array.from(select.options);
+        const selectedValues = new Set(allOptions.filter(option => option.selected).map(option => option.value));
         const stickyOptions = [];
+        const sortableOptions = allOptions.slice();
 
-        while (options.length && shouldKeepOptionAtTop(options[0])) {
-          stickyOptions.push(options.shift());
+        while (sortableOptions.length && shouldKeepOptionAtTop(sortableOptions[0])) {
+          stickyOptions.push(sortableOptions.shift());
         }
 
-        const sortedOptions = options.sort((a, b) =>
+        const sortedOptions = sortableOptions.sort((a, b) =>
           a.text.trim().localeCompare(b.text.trim(), undefined, { sensitivity: 'base' })
         );
 
         const fragment = document.createDocumentFragment();
-        stickyOptions.concat(sortedOptions).forEach(option => {
+        const orderedOptions = stickyOptions.concat(sortedOptions);
+
+        orderedOptions.forEach(option => {
+          option.selected = selectedValues.has(option.value);
           fragment.appendChild(option);
         });
 
         select.innerHTML = '';
         select.appendChild(fragment);
+
+        if (!select.multiple) {
+          const hasSelection = Array.from(select.options).some(option => option.selected);
+          if (!hasSelection) {
+            const fallback =
+              orderedOptions.find(option => option.value === '') ||
+              orderedOptions[0];
+            if (fallback) {
+              fallback.selected = true;
+            }
+          }
+        }
       }
 
       function alphabetizeDropdowns(root = document) {
