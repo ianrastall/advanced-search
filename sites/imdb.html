@@ -27,7 +27,7 @@
           <div class="form-group full-width">
             <label>Title types</label>
             <div class="inline-options">
-              <label><input type="checkbox" name="imdb-title-type" value="feature" checked> Feature film</label>
+              <label><input type="checkbox" name="imdb-title-type" value="feature"> Feature film</label>
               <label><input type="checkbox" name="imdb-title-type" value="tv_series"> TV series</label>
               <label><input type="checkbox" name="imdb-title-type" value="tv_movie"> TV movie</label>
               <label><input type="checkbox" name="imdb-title-type" value="tv_episode"> TV episode</label>
@@ -127,7 +127,8 @@
           <div class="form-group">
             <label>Sort order</label>
             <select id="imdb-sort">
-              <option value="moviemeter,asc" selected>Popularity</option>
+              <option value="" selected>Default (Popularity)</option>
+              <option value="moviemeter,asc">Popularity</option>
               <option value="alpha,asc">Alphabetical</option>
               <option value="release_date,desc">Newest releases</option>
               <option value="user_rating,desc">Top user rating</option>
@@ -138,9 +139,10 @@
           <div class="form-group">
             <label>Results per page</label>
             <select id="imdb-count">
-              <option value="50" selected>50</option>
+              <option value="" selected>Default (50)</option>
               <option value="10">10</option>
               <option value="25">25</option>
+              <option value="50">50</option>
               <option value="100">100</option>
               <option value="250">250</option>
             </select>

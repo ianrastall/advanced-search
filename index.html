@@ -732,10 +732,10 @@
       
       // Search scope
       const availability = document.querySelector('input[name="as_brr"]:checked')?.value;
-      if (availability) params.set('as_brr', availability);
+      if (availability && availability !== '0') params.set('as_brr', availability);
       
       const contentType = document.querySelector('input[name="as_pt"]:checked')?.value;
-      if (contentType) params.set('as_pt', contentType);
+      if (contentType && contentType !== 'ALLTYPES') params.set('as_pt', contentType);
       
       // Book details
       const title = document.getElementById('books-title').value.trim();
@@ -758,7 +758,7 @@
       
       // Publication date
       const dateRange = document.querySelector('input[name="as_drrb_is"]:checked')?.value;
-      if (dateRange) params.set('as_drrb_is', dateRange);
+      if (dateRange && dateRange !== 'q') params.set('as_drrb_is', dateRange);
       
       if (dateRange === 'b') {
         const startMonth = document.getElementById('books-start-month').value;
@@ -1980,7 +1980,105 @@
       resetFormAfterSubmit('pubmed');
     }
 
+    function pruneDefaultFormValues(form) {
+      if (!form || form.tagName !== 'FORM') {
+        return;
+      }
+      const toRestore = [];
+      const scheduleRestore = (element) => {
+        const wasDisabled = element.disabled;
+        toRestore.push(() => {
+          element.disabled = wasDisabled;
+        });
+        element.disabled = true;
+      };
+
+      form.querySelectorAll('select[name]').forEach(select => {
+        if (!select || select.disabled || select.multiple) {
+          return;
+        }
+        if (!select.name) {
+          return;
+        }
+        const defaultValue = typeof select.defaultValue === 'string' ? select.defaultValue : '';
+        if (select.value === defaultValue) {
+          scheduleRestore(select);
+        }
+      });
+
+      const radioGroups = new Map();
+      form.querySelectorAll('input[type="radio"][name]').forEach(radio => {
+        if (!radio || radio.disabled) {
+          return;
+        }
+        const name = radio.name;
+        if (!name) {
+          return;
+        }
+        if (!radioGroups.has(name)) {
+          radioGroups.set(name, []);
+        }
+        radioGroups.get(name).push(radio);
+      });
+
+      radioGroups.forEach(radios => {
+        const checked = radios.find(radio => radio.checked);
+        if (checked && checked.defaultChecked) {
+          scheduleRestore(checked);
+        }
+      });
+
+      const checkboxGroups = new Map();
+      form.querySelectorAll('input[type="checkbox"][name]').forEach(checkbox => {
+        if (!checkbox || checkbox.disabled) {
+          return;
+        }
+        const name = checkbox.name;
+        if (!name) {
+          return;
+        }
+        if (!checkboxGroups.has(name)) {
+          checkboxGroups.set(name, []);
+        }
+        checkboxGroups.get(name).push(checkbox);
+      });
+
+      checkboxGroups.forEach(group => {
+        const defaults = group.filter(box => box.defaultChecked);
+        if (!defaults.length) {
+          return;
+        }
+        const current = group.filter(box => box.checked);
+        if (defaults.length !== current.length) {
+          return;
+        }
+        const unchanged = defaults.every(box => current.includes(box));
+        if (unchanged) {
+          defaults.forEach(box => scheduleRestore(box));
+        }
+      });
+
+      if (toRestore.length) {
+        setTimeout(() => {
+          toRestore.forEach(restore => restore());
+        }, 0);
+      }
+    }
+
+    function attachDefaultPruner(form) {
+      if (!form || form.tagName !== 'FORM') {
+        return;
+      }
+      if (form.dataset.defaultPrunerAttached === 'true') {
+        return;
+      }
+      form.addEventListener('submit', () => pruneDefaultFormValues(form), true);
+      form.dataset.defaultPrunerAttached = 'true';
+    }
+
     function initializeForms() {
+      document.querySelectorAll('.search-form').forEach(attachDefaultPruner);
+
       const googleWebForm = document.getElementById('google-web');
       if (googleWebForm) {
         googleWebForm.addEventListener('submit', () => {
@@ -2262,7 +2360,8 @@
       const sortValue = document.getElementById('archive-sort').value;
       const rows = document.getElementById('archive-rows').value.trim();
       const page = document.getElementById('archive-page').value.trim();
-      const outputFormat = document.getElementById('archive-output').value || 'json';
+      const outputSelect = document.getElementById('archive-output');
+      const outputFormat = outputSelect ? outputSelect.value : '';
       const totalOnly = document.getElementById('archive-total-only').checked;
 
       if (outputFormat === 'html') {
@@ -2273,7 +2372,7 @@
         if (page) htmlParams.set('page', page);
         window.open(`https://archive.org/search.php?${htmlParams.toString()}`, '_blank');
         resetFormAfterSubmit('archive', form => {
-          form.querySelector('#archive-output').value = 'json';
+          form.querySelector('#archive-output').value = '';
         });
         return;
       }
@@ -2284,7 +2383,7 @@
       if (sortValue) params.append('sort[]', sortValue);
       if (rows) params.set('rows', rows);
       if (page) params.set('page', page);
-      params.set('output', outputFormat);
+      if (outputFormat) params.set('output', outputFormat);
       if (totalOnly) params.set('total_only', 'true');
 
       window.open(`https://archive.org/advancedsearch.php?${params.toString()}`, '_blank');
