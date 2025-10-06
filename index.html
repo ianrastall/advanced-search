@@ -358,6 +358,62 @@
       const providerSelects = Array.from(document.querySelectorAll('.provider-select'));
       const siteIncludeContainers = Array.from(document.querySelectorAll('.site-include'));
       const basePath = new URL('./', window.location.href);
+      const keepOrderedSelectIds = new Set([
+        'books-results',
+        'books-start-month',
+        'books-end-month',
+        'patents-results',
+        'imdb-count',
+        'pubmed-size'
+      ]);
+
+      function shouldKeepOptionAtTop(option) {
+        if (!option) {
+          return false;
+        }
+        if (option.dataset.sticky === 'true') {
+          return true;
+        }
+        const value = option.value;
+        if (option.disabled || value === '') {
+          return true;
+        }
+        if (value === '0' && option.text.trim().toLowerCase() === 'month') {
+          return true;
+        }
+        return false;
+      }
+
+      function alphabetizeSelectOptions(select) {
+        if (!select || select.options.length <= 1 || keepOrderedSelectIds.has(select.id)) {
+          return;
+        }
+
+        const options = Array.from(select.options);
+        const stickyOptions = [];
+
+        while (options.length && shouldKeepOptionAtTop(options[0])) {
+          stickyOptions.push(options.shift());
+        }
+
+        const sortedOptions = options.sort((a, b) =>
+          a.text.trim().localeCompare(b.text.trim(), undefined, { sensitivity: 'base' })
+        );
+
+        const fragment = document.createDocumentFragment();
+        stickyOptions.concat(sortedOptions).forEach(option => {
+          fragment.appendChild(option);
+        });
+
+        select.innerHTML = '';
+        select.appendChild(fragment);
+      }
+
+      function alphabetizeDropdowns(root = document) {
+        root.querySelectorAll('select').forEach(alphabetizeSelectOptions);
+      }
+
+      alphabetizeDropdowns(document);
 
       if (typeof fetch !== 'function') {
         siteIncludeContainers.forEach(container => {
@@ -382,6 +438,7 @@
             })
             .then(html => {
               container.innerHTML = html;
+              alphabetizeDropdowns(container);
             })
             .catch(error => {
               console.error(error);
@@ -419,6 +476,22 @@
         }, 0);
       }
 
+
+      function ensureFormResetHandlers() {
+        document.querySelectorAll('.search-form').forEach(form => {
+          if (!form || form.tagName !== 'FORM') {
+            return;
+          }
+          if (!form.id || form.dataset.resetHookAttached === 'true') {
+            return;
+          }
+          form.addEventListener('submit', () => resetFormAfterSubmit(form.id));
+          form.dataset.resetHookAttached = 'true';
+        });
+      }
+
+      ensureFormResetHandlers();
+
       providerSelects.forEach(select => {
         select.addEventListener('change', (event) => {
           const value = event.target.value;
@@ -436,6 +509,7 @@
 
       loadSiteIncludes().then(() => {
         initializeForms();
+        ensureFormResetHandlers();
         let defaultValue = 'google-web';
         const defaultSelect = document.getElementById('providerSelectGoogle');
         if (defaultSelect) {
