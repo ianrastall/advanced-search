@@ -2058,6 +2058,32 @@
         }
       });
 
+      const textLikeSelectors = [
+        'input[type="text"]',
+        'input[type="search"]',
+        'input[type="url"]',
+        'input[type="email"]',
+        'input[type="tel"]',
+        'input[type="number"]',
+        'input[type="date"]',
+        'input[type="time"]',
+        'input[type="datetime-local"]',
+        'input[type="month"]',
+        'input[type="week"]',
+        'textarea'
+      ];
+      textLikeSelectors.forEach(selector => {
+        form.querySelectorAll(`${selector}[name]`).forEach(field => {
+          if (!field || field.disabled) {
+            return;
+          }
+          const rawValue = typeof field.value === 'string' ? field.value : '';
+          if (!rawValue.trim()) {
+            scheduleRestore(field);
+          }
+        });
+      });
+
       if (toRestore.length) {
         setTimeout(() => {
           toRestore.forEach(restore => restore());
