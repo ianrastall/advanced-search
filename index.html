@@ -366,6 +366,7 @@
         'imdb-count',
         'pubmed-size'
       ]);
+      let pendingProviderSelection = null;
 
       function shouldKeepOptionAtTop(option) {
         if (!option) {
@@ -515,6 +516,7 @@
           if (!value) {
             return;
           }
+          pendingProviderSelection = value;
           providerSelects.forEach(other => {
             if (other !== event.target) {
               other.value = '';
@@ -531,14 +533,16 @@
         if (typeof requestAnimationFrame === 'function') {
           requestAnimationFrame(resetAllSearchForms);
         }
-        let defaultValue = 'google-web';
+        let defaultValue = pendingProviderSelection || 'google-web';
         const defaultSelect = document.getElementById('providerSelectGoogle');
-        if (defaultSelect) {
+        if (!pendingProviderSelection && defaultSelect) {
           if (defaultSelect.value) {
             defaultValue = defaultSelect.value;
           } else {
             defaultSelect.value = defaultValue;
           }
+        } else if (pendingProviderSelection === 'google-web' && defaultSelect) {
+          defaultSelect.value = 'google-web';
         }
         activateForm(defaultValue);
       });
