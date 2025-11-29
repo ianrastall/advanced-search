@@ -845,7 +845,7 @@
 
       const params = new URLSearchParams();
       const queryString = queryParts.join(' ').trim();
-      if (queryString) params.set('for', queryString);
+      if (queryString) params.set('q', queryString);
 
       const tbsParts = [];
       const timeSort = document.getElementById('news-time-sort').value;
@@ -891,7 +891,7 @@
       const safe = document.getElementById('news-safe').value;
       if (safe) params.set('safe', safe);
 
-      if (!params.has('for') && !params.has('tbs') && !topic) {
+      if (!params.has('q') && !params.has('tbs') && !topic) {
         alert('Please enter search terms or choose a topic for Google News.');
         return;
       }
