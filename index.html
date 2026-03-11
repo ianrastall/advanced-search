@@ -31,7 +31,7 @@
       color: var(--text-primary);
       line-height: 1.6;
       padding: 20px;
-	  font-size: 120%;
+      font-size: 120%;
     }
 
     .container {
@@ -297,61 +297,37 @@
       </div>
     </div>
 
-    <!-- Google Web Search -->
     <div class="site-include" data-site="google-web" data-src="sites/google-web.html"></div>
-    <!-- Google Books -->
     <div class="site-include" data-site="google-books" data-src="sites/google-books.html"></div>
-    <!-- Google Patents -->
     <div class="site-include" data-site="google-patents" data-src="sites/google-patents.html"></div>
-    <!-- Google Images -->
     <div class="site-include" data-site="google-images" data-src="sites/google-images.html"></div>
-    <!-- Google News -->
     <div class="site-include" data-site="google-news" data-src="sites/google-news.html"></div>
-    <!-- Google Shopping -->
     <div class="site-include" data-site="google-shopping" data-src="sites/google-shopping.html"></div>
-    <!-- Google Scholar -->
     <div class="site-include" data-site="google-scholar" data-src="sites/google-scholar.html"></div>
-    <!-- Google Dataset Search -->
     <div class="site-include" data-site="google-datasets" data-src="sites/google-datasets.html"></div>
-    <!-- Census.gov -->
     <div class="site-include" data-site="census" data-src="sites/census.html"></div>
 
-    <!-- GitHub -->
     <div class="site-include" data-site="github" data-src="sites/github.html"></div>
-    <!-- Reddit -->
     <div class="site-include" data-site="reddit" data-src="sites/reddit.html"></div>
-    <!-- YouTube -->
     <div class="site-include" data-site="youtube" data-src="sites/youtube.html"></div>
-    <!-- Stack Overflow -->
     <div class="site-include" data-site="stackoverflow" data-src="sites/stackoverflow.html"></div>
-    <!-- Wikipedia -->
-
     <div class="site-include" data-site="wikipedia" data-src="sites/wikipedia.html"></div>
-    <!-- Wikivoyage -->
     <div class="site-include" data-site="wikivoyage" data-src="sites/wikivoyage.html"></div>
 
-    <!-- Wikimedia Commons -->
     <div class="site-include" data-site="wikimedia-commons" data-src="sites/wikimedia-commons.html"></div>
 
-    <!-- Wikibooks -->
     <div class="site-include" data-site="wikibooks" data-src="sites/wikibooks.html"></div>
 
-    <!-- Wikisource -->
     <div class="site-include" data-site="wikisource" data-src="sites/wikisource.html"></div>
 
-    <!-- MDN Web Docs -->
     <div class="site-include" data-site="mdn" data-src="sites/mdn.html"></div>
 
-    <!-- IMDb -->
     <div class="site-include" data-site="imdb" data-src="sites/imdb.html"></div>
 
-    <!-- PyPI -->
     <div class="site-include" data-site="pypi" data-src="sites/pypi.html"></div>
 
-    <!-- PubMed -->
     <div class="site-include" data-site="pubmed" data-src="sites/pubmed.html"></div>
 
-    <!-- Internet Archive -->
     <div class="site-include" data-site="archive" data-src="sites/archive.html"></div>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -637,7 +613,7 @@
       const addFieldQuery = (id, field) => {
         const value = document.getElementById(id)?.value.trim();
         if (value) queryParts.push(`${field}:${wrapForQuery(value)}`);
-      };
+      }
 
       addFieldQuery('patents-title', 'title');
       addFieldQuery('patents-abstract', 'abstract');
@@ -2141,21 +2117,41 @@
       if (googleImagesForm) {
         googleImagesForm.addEventListener('submit', () => {
           const tbsParts = [];
-          const license = document.getElementById('google-images-license').value;
-          if (license) tbsParts.push(license);
-          const fileType = document.getElementById('google-images-filetype').value;
-          if (fileType) tbsParts.push(fileType);
-          const time = document.getElementById('google-images-time').value;
-          if (time) tbsParts.push(time);
-          const start = formatDateForGoogle(document.getElementById('google-images-date-start').value);
-          const end = formatDateForGoogle(document.getElementById('google-images-date-end').value);
+          
+          const isz = document.getElementById('google-images-isz');
+          if (isz && isz.value) tbsParts.push(`isz:${isz.value}`);
+          
+          const iar = document.getElementById('google-images-iar');
+          if (iar && iar.value) tbsParts.push(`iar:${iar.value}`);
+          
+          const ic = document.getElementById('google-images-ic');
+          if (ic && ic.value) tbsParts.push(`ic:${ic.value}`);
+          
+          const itp = document.getElementById('google-images-itp');
+          if (itp && itp.value) tbsParts.push(`itp:${itp.value}`);
+
+          const license = document.getElementById('google-images-license');
+          if (license && license.value) tbsParts.push(license.value);
+
+          const time = document.getElementById('google-images-time');
+          if (time && time.value) tbsParts.push(time.value);
+
+          const startInput = document.getElementById('google-images-date-start');
+          const start = startInput ? formatDateForGoogle(startInput.value) : '';
+          
+          const endInput = document.getElementById('google-images-date-end');
+          const end = endInput ? formatDateForGoogle(endInput.value) : '';
+
           if (start || end) {
             const cdrSegments = ['cdr:1'];
             if (start) cdrSegments.push(`cd_min:${start}`);
             if (end) cdrSegments.push(`cd_max:${end}`);
             tbsParts.push(cdrSegments.join(','));
           }
-          document.getElementById('google-images-tbs').value = tbsParts.join(',');
+          
+          const tbsField = document.getElementById('google-images-tbs');
+          if (tbsField) tbsField.value = tbsParts.join(',');
+          
           resetFormAfterSubmit('google-images');
         });
       }

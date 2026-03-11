@@ -1,107 +1,142 @@
-<form id="google-images-form" class="search-form">
-  <h3>Google Advanced Image Search</h3>
+<form id="google-images" class="search-form" action="https://www.google.com/search" target="_blank" method="GET">
+  <input type="hidden" name="tbm" value="isch">
+  <input type="hidden" name="tbs" id="google-images-tbs">
   
-  <div class="form-group">
-    <label for="gi_as_q">Find images with... all these words:</label>
-    <input type="text" id="gi_as_q" name="as_q" placeholder="e.g. terriers">
+  <div class="form-section">
+    <h3>Google Advanced Image Search</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="gi_q">Find images with... all these words:</label>
+        <input type="text" id="gi_q" name="as_q" placeholder="e.g. terriers">
+      </div>
+      <div class="form-group">
+        <label for="gi_epq">This exact word or phrase:</label>
+        <input type="text" id="gi_epq" name="as_epq" placeholder="e.g. boston terrier">
+      </div>
+      <div class="form-group">
+        <label for="gi_oq">Any of these words:</label>
+        <input type="text" id="gi_oq" name="as_oq" placeholder="e.g. miniature OR standard">
+      </div>
+      <div class="form-group">
+        <label for="gi_eq">None of these words:</label>
+        <input type="text" id="gi_eq" name="as_eq" placeholder="e.g. pitbull">
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="gi_as_epq">This exact word or phrase:</label>
-    <input type="text" id="gi_as_epq" name="as_epq" placeholder="e.g. boston terrier">
+  <div class="form-section">
+    <h3>Image Attributes</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="google-images-isz">Image size (Megapixels):</label>
+        <select id="google-images-isz">
+          <option value="">Any size</option>
+          <option value="l">Large</option>
+          <option value="m">Medium</option>
+          <option value="i">Icon</option>
+          <option value="lt,islt:2mp">Larger than 2 MP</option>
+          <option value="lt,islt:4mp">Larger than 4 MP</option>
+          <option value="lt,islt:6mp">Larger than 6 MP</option>
+          <option value="lt,islt:8mp">Larger than 8 MP</option>
+          <option value="lt,islt:10mp">Larger than 10 MP</option>
+          <option value="lt,islt:12mp">Larger than 12 MP</option>
+          <option value="lt,islt:15mp">Larger than 15 MP</option>
+          <option value="lt,islt:20mp">Larger than 20 MP</option>
+          <option value="lt,islt:40mp">Larger than 40 MP</option>
+          <option value="lt,islt:70mp">Larger than 70 MP</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="google-images-iar">Aspect ratio:</label>
+        <select id="google-images-iar">
+          <option value="">Any aspect ratio</option>
+          <option value="t">Tall</option>
+          <option value="s">Square</option>
+          <option value="w">Wide</option>
+          <option value="xw">Panoramic</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="google-images-ic">Colors in image:</label>
+        <select id="google-images-ic">
+          <option value="">Any color</option>
+          <option value="color">Full color</option>
+          <option value="gray">Black & white</option>
+          <option value="trans">Transparent</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="google-images-itp">Type of image:</label>
+        <select id="google-images-itp">
+          <option value="">Any type</option>
+          <option value="face">Face</option>
+          <option value="photo">Photo</option>
+          <option value="clipart">Clip art</option>
+          <option value="lineart">Line drawing</option>
+          <option value="animated">Animated</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="gi_filetype">File type:</label>
+        <select id="gi_filetype" name="as_filetype">
+          <option value="">Any format</option>
+          <option value="jpg">JPG files (.jpg)</option>
+          <option value="gif">GIF files (.gif)</option>
+          <option value="png">PNG files (.png)</option>
+          <option value="bmp">BMP files (.bmp)</option>
+          <option value="svg">SVG files (.svg)</option>
+          <option value="webp">WEBP files (.webp)</option>
+          <option value="ico">ICO files (.ico)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="gi_sitesearch">Site or domain:</label>
+        <input type="text" id="gi_sitesearch" name="as_sitesearch" placeholder="e.g. wikipedia.org">
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="gi_as_oq">Any of these words:</label>
-    <input type="text" id="gi_as_oq" name="as_oq" placeholder="e.g. miniature OR standard">
+  <div class="form-section">
+    <h3>Other Options</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="google-images-license">Usage rights:</label>
+        <select id="google-images-license">
+          <option value="">All</option>
+          <option value="sur:cl">Creative Commons licenses</option>
+          <option value="sur:ol">Commercial & other licenses</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="google-images-time">Time:</label>
+        <select id="google-images-time">
+          <option value="">Any time</option>
+          <option value="qdr:d">Past 24 hours</option>
+          <option value="qdr:w">Past week</option>
+          <option value="qdr:m">Past month</option>
+          <option value="qdr:y">Past year</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="google-images-date-start">Date from:</label>
+        <input type="date" id="google-images-date-start">
+      </div>
+      <div class="form-group">
+        <label for="google-images-date-end">Date to:</label>
+        <input type="date" id="google-images-date-end">
+      </div>
+      <div class="form-group">
+        <label for="gi_safe">SafeSearch:</label>
+        <select id="gi_safe" name="safe">
+          <option value="images">Show explicit results</option>
+          <option value="active">Hide explicit results</option>
+        </select>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label for="gi_as_eq">None of these words:</label>
-    <input type="text" id="gi_as_eq" name="as_eq" placeholder="e.g. pitbull">
+  <div class="button-group">
+    <button type="submit">Search Images</button>
+    <button type="reset">Clear Form</button>
   </div>
-
-  <hr>
-
-  <div class="form-group">
-    <label for="gi_tbs_isz">Image size:</label>
-    <select id="gi_tbs_isz" name="tbs_isz">
-      <option value="">Any size</option>
-      <option value="l">Large</option>
-      <option value="m">Medium</option>
-      <option value="i">Icon</option>
-      <option value="lt,islt:2mp">Larger than 2 MP</option>
-      <option value="lt,islt:4mp">Larger than 4 MP</option>
-      <option value="lt,islt:6mp">Larger than 6 MP</option>
-      <option value="lt,islt:8mp">Larger than 8 MP</option>
-      <option value="lt,islt:10mp">Larger than 10 MP</option>
-      <option value="lt,islt:12mp">Larger than 12 MP</option>
-      <option value="lt,islt:15mp">Larger than 15 MP</option>
-      <option value="lt,islt:20mp">Larger than 20 MP</option>
-      <option value="lt,islt:40mp">Larger than 40 MP</option>
-      <option value="lt,islt:70mp">Larger than 70 MP</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="gi_tbs_iar">Aspect ratio:</label>
-    <select id="gi_tbs_iar" name="tbs_iar">
-      <option value="">Any aspect ratio</option>
-      <option value="t">Tall</option>
-      <option value="s">Square</option>
-      <option value="w">Wide</option>
-      <option value="xw">Panoramic</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="gi_tbs_ic">Colors in image:</label>
-    <select id="gi_tbs_ic" name="tbs_ic">
-      <option value="">Any color</option>
-      <option value="color">Full color</option>
-      <option value="gray">Black & white</option>
-      <option value="trans">Transparent</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="gi_tbs_itp">Type of image:</label>
-    <select id="gi_tbs_itp" name="tbs_itp">
-      <option value="">Any type</option>
-      <option value="face">Face</option>
-      <option value="photo">Photo</option>
-      <option value="clipart">Clip art</option>
-      <option value="lineart">Line drawing</option>
-      <option value="animated">Animated</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="gi_as_filetype">File type:</label>
-    <select id="gi_as_filetype" name="as_filetype">
-      <option value="">Any format</option>
-      <option value="jpg">JPG files (.jpg)</option>
-      <option value="gif">GIF files (.gif)</option>
-      <option value="png">PNG files (.png)</option>
-      <option value="bmp">BMP files (.bmp)</option>
-      <option value="svg">SVG files (.svg)</option>
-      <option value="webp">WEBP files (.webp)</option>
-      <option value="ico">ICO files (.ico)</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="gi_as_sitesearch">Site or domain:</label>
-    <input type="text" id="gi_as_sitesearch" name="as_sitesearch" placeholder="e.g. wikipedia.org">
-  </div>
-
-  <div class="form-group">
-    <label for="gi_safe">SafeSearch:</label>
-    <select id="gi_safe" name="safe">
-      <option value="images">Show explicit results</option>
-      <option value="active">Hide explicit results</option>
-    </select>
-  </div>
-
-  <button type="submit">Search Images</button>
 </form>
